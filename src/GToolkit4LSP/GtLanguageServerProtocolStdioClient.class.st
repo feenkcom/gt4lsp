@@ -10,10 +10,105 @@ Class {
 		'externalProcess',
 		'messageHandler',
 		'nextId',
-		'handlers'
+		'handlers',
+		'capabilities',
+		'defaultLanguageType',
+		'fileVersions'
 	],
 	#category : #'GToolkit4LSP-Client'
 }
+
+{ #category : #completion }
+GtLanguageServerProtocolStdioClient >> completeFile: aFileName at: anIndex do: aBlock [
+	| params file |
+	file := fileVersions at: aFileName asFileReference.
+	params := GtLSPTextDocumentPositionParamsStructure create.
+	params
+		textDocument: file uri;
+		position: (file endPositionFor: anIndex).
+	params data at: 'textDocument'.
+	self
+		sendMessage: 'textDocument/completion'
+		with: params
+		do: aBlock
+]
+
+{ #category : #completion }
+GtLanguageServerProtocolStdioClient >> completionsAt: anIndex do: aBlock [
+	
+]
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> defaultLanguageType [
+	^ defaultLanguageType
+]
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> defaultLanguageType: anObject [
+	defaultLanguageType := anObject
+]
+
+{ #category : #'document synchronization' }
+GtLanguageServerProtocolStdioClient >> didChange: aFilename from: from to: to with: aString [
+	| params fn file changes |
+	fn := aFilename asFileReference.
+	file := fileVersions at: fn.
+	params := GtLSPDidChangeTextDocumentParamsStructure create.
+	params textDocument version: file nextVersion.
+	params textDocument data at: 'uri' put: file uri.
+	changes := {Dictionary new
+				at: 'text' put: aString;
+				at: 'range'
+					put: (GtLSPRangeStructure create
+							start: (file startPositionFor: from);
+							end: (file endPositionFor: to);
+							yourself) asDictionary}.
+	params contentChanges: changes.
+	self sendNotification: 'textDocument/didChange' with: params
+]
+
+{ #category : #'document synchronization' }
+GtLanguageServerProtocolStdioClient >> didClose: aFilename [
+	| params fn file |
+	fn := aFilename asFileReference.
+	file := fileVersions at: fn.
+	fileVersions removeKey: fn.
+	params := GtLSPDidCloseTextDocumentParamsStructure create.
+	params textDocument: file uri.
+	self sendNotification: 'textDocument/didOpen' with: params
+]
+
+{ #category : #'document synchronization' }
+GtLanguageServerProtocolStdioClient >> didOpen: aFilename [
+	| contents |
+	contents := aFilename asFileReference contents.
+	self didOpen: aFilename withContents: contents
+]
+
+{ #category : #'document synchronization' }
+GtLanguageServerProtocolStdioClient >> didOpen: aFilename type: aString withContents: contents [
+	| params fn file |
+	fn := aFilename asFileReference.
+	params := GtLSPDidOpenTextDocumentParamsStructure create.
+	file := GtLSPFile new.
+	file filename: fn.
+	file contents: contents.
+	fileVersions at: fn put: file.
+	params textDocument
+		uri: file uri;
+		languageId: aString;
+		text: contents;
+		version: file version.
+	self sendNotification: 'textDocument/didOpen' with: params
+]
+
+{ #category : #'document synchronization' }
+GtLanguageServerProtocolStdioClient >> didOpen: aFilename withContents: contents [
+	self
+		didOpen: aFilename
+		type: self defaultLanguageType
+		withContents: contents
+]
 
 { #category : #accessing }
 GtLanguageServerProtocolStdioClient >> getNextId [
@@ -28,7 +123,42 @@ GtLanguageServerProtocolStdioClient >> initialize [
 	super initialize.
 	mutex := Monitor new.
 	nextId := 1.
-	handlers := Dictionary new
+	handlers := Dictionary new.
+	defaultLanguageType := ''.
+	fileVersions := Dictionary new
+]
+
+{ #category : #lifecycle }
+GtLanguageServerProtocolStdioClient >> initialize: params [
+	self
+		sendMessage: 'initialize'
+		with: params
+		whenResult: GtLSPInitializeResultStructure
+		do: [ :each | 
+			capabilities := each capabilities.
+			self
+				sendNotification: 'initialized'
+				with: GtLSPInitializedParamsStructure create ]
+]
+
+{ #category : #lifecycle }
+GtLanguageServerProtocolStdioClient >> initializeIn: directories [
+	| params |
+	params := self initializeParameters.
+	params data
+		at: 'workspaceFolders'
+		put: (directories asArray
+				collect: [ :each | 
+					GtLSPWorkspaceFolderStructure new
+						name: each asFileReference basename;
+						uri: each asFileReference asUrl printString;
+						asDictionary ]).
+	self initialize: params
+]
+
+{ #category : #lifecycle }
+GtLanguageServerProtocolStdioClient >> initializeParameters [
+	^ GtLSP_InitializeParamsStructure create
 ]
 
 { #category : #running }
@@ -100,6 +230,23 @@ GtLanguageServerProtocolStdioClient >> receiveHeadersFrom: aStream into: aDictio
 	^ true
 ]
 
+{ #category : #completion }
+GtLanguageServerProtocolStdioClient >> requestCompleteFile: aFileName at: anIndex do: aBlock [
+	| params file |
+	file := fileVersions at: aFileName asFileReference.
+	params := GtLSPCompletionParamsStructure new
+			data: (GtLSPTextDocumentPositionParamsStructure create
+					textDocument: file uri;
+					position: (file endPositionFor: anIndex)) asDictionary.
+	params
+		context: (GtLSPCompletionContextStructure create
+				triggerKind: (GtLSPCompletionTriggerKindEnum enum: 'Invoked') value).
+	self
+		sendMessage: 'textDocument/completion'
+		with: params
+		do: aBlock
+]
+
 { #category : #accessing }
 GtLanguageServerProtocolStdioClient >> send: aString with: aStructure id: id [
 	| string data jsonData dict |
@@ -116,10 +263,28 @@ GtLanguageServerProtocolStdioClient >> send: aString with: aStructure id: id [
 	mutex critical: [ stdin nextPutAll: string ]
 ]
 
+{ #category : #lifecycle }
+GtLanguageServerProtocolStdioClient >> sendInitialize [
+	self initialize: self initializeParameters
+]
+
 { #category : #accessing }
 GtLanguageServerProtocolStdioClient >> sendMessage: aString with: aStructure [
 	| id |
 	id := self getNextId.
+	self
+		send: aString
+		with: aStructure
+		id: id
+]
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> sendMessage: aString with: aStructure do: aBlock [
+	| id |
+	id := self getNextId.
+	handlers
+		at: id
+		put: [ :data | aBlock cull: (data at: 'result' ifAbsent: [ Dictionary new ]) ].
 	self
 		send: aString
 		with: aStructure
@@ -154,6 +319,15 @@ GtLanguageServerProtocolStdioClient >> sendNotification: aString with: aStructur
 	string := 'Content-Length: ' , jsonData utf8Encoded size printString
 			, String crlf , String crlf , jsonData.
 	mutex critical: [ stdin nextPutAll: string ]
+]
+
+{ #category : #lifecycle }
+GtLanguageServerProtocolStdioClient >> shutdown [
+	self
+		sendMessage: 'shutdown'
+		with: nil
+		whenResult: GtLSPStructure
+		do: [ :each | self sendNotification: 'exit' with: nil ]
 ]
 
 { #category : #running }
