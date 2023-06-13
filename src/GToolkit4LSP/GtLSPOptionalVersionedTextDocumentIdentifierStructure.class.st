@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #accessing }
+GtLSPOptionalVersionedTextDocumentIdentifierStructure >> uri [
+	"The text document's uri."
+
+	^ data at: 'uri'
+]
+
+{ #category : #accessing }
+GtLSPOptionalVersionedTextDocumentIdentifierStructure >> uri: anObject [
+	data at: 'uri' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
 GtLSPOptionalVersionedTextDocumentIdentifierStructure >> version [
 	"The version number of this document. If a versioned text document identifier
 is sent from the server to the client and the file is not open in the editor

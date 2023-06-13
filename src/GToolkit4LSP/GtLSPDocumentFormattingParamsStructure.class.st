@@ -33,3 +33,15 @@ GtLSPDocumentFormattingParamsStructure >> textDocument [
 GtLSPDocumentFormattingParamsStructure >> textDocument: anObject [
 	data at: 'textDocument' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPDocumentFormattingParamsStructure >> workDoneToken [
+	"An optional token that a server can use to report work done progress."
+
+	^ data at: 'workDoneToken'
+]
+
+{ #category : #accessing }
+GtLSPDocumentFormattingParamsStructure >> workDoneToken: anObject [
+	data at: 'workDoneToken' put:  (self objectFor: anObject)
+]

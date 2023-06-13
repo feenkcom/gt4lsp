@@ -69,3 +69,13 @@ an identifier (for example `.` in JavaScript) list them in `triggerCharacters`."
 GtLSPCompletionOptionsStructure >> triggerCharacters: anObject [
 	data at: 'triggerCharacters' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPCompletionOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPCompletionOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]

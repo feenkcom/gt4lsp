@@ -15,3 +15,13 @@ GtLSPCodeLensOptionsStructure >> resolveProvider [
 GtLSPCodeLensOptionsStructure >> resolveProvider: anObject [
 	data at: 'resolveProvider' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPCodeLensOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPCodeLensOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]

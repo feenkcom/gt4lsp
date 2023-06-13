@@ -94,6 +94,7 @@ GtLSPStructure class >> compileNewClasses [
 		do: [ :each | self defineStructure: each ];
 		do: [ :each | self compileAccessors: each ];
 		do: [ :each | self compileCreateMethod: each ].
+	self copyDownMethodsIn: (values at: 'structures').
 	self
 		compileMethodMapForRequests: (values at: 'requests')
 		andNotifications: (values at: 'notifications')
@@ -110,6 +111,46 @@ GtLSPStructure class >> converterForType: aDictionary variable: varName [
 		, (refType
 				ifNil: [ '' ]
 				ifNotNil: [ ') ifNotNil: [ :obj | ' , refType name asString , ' new data: obj ]' ])
+]
+
+{ #category : #'code generation' }
+GtLSPStructure class >> copyDownMethodsFor: aString in: structures processed: processed [
+	| block class definition |
+	class := Smalltalk
+			at: ('GtLSP' , aString , 'Structure') asSymbol
+			ifAbsent: [  ].
+	class ifNil: [ ^ nil ].
+	definition := structures
+			detect: [ :each | (each at: 'name') = aString ]
+			ifNone: [  ].
+	definition ifNil: [ ^ nil ].
+	block := [ :dict | 
+		(dict at: 'kind') = 'reference'
+			ifTrue: [ (processed
+					at: (dict at: 'name')
+					ifAbsentPut: [ self
+							copyDownMethodsFor: (dict at: 'name')
+							in: structures
+							processed: processed ])
+					ifNotNil: [ :cls | 
+						cls selectors
+							do: [ :sel | 
+								sel = #create
+									ifTrue: [ self mergeCreateFrom: cls into: class ]
+									ifFalse: [ class compile: (cls sourceCodeAt: sel) classified: #accessing ] ] ] ] ].
+	(definition at: 'extends' ifAbsent: [ #() ]) do: block.
+	(definition at: 'mixins' ifAbsent: [ #() ]) do: block.
+	^ class
+]
+
+{ #category : #'code generation' }
+GtLSPStructure class >> copyDownMethodsIn: structures [
+	structures
+		do: [ :each | 
+			self
+				copyDownMethodsFor: (each at: 'name')
+				in: structures
+				processed: Dictionary new ]
 ]
 
 { #category : #'instance creation' }
@@ -254,6 +295,30 @@ GtLSPStructure class >> initializerForType: aDictionary [
 	className := ('GtLSP' , structureName , 'Structure') asSymbol.
 	^ (Smalltalk at: className ifAbsent: [  ])
 		ifNotNil: [ :cls | ^ cls name asString , ' create  asDictionary' ]
+]
+
+{ #category : #'code generation' }
+GtLSPStructure class >> mergeCreateFrom: cls into: class [
+	| clsStatements classStatements allStatements |
+	clsStatements := (cls >> #create) ast body statements collect: #formattedCode.
+	classStatements := (class includesSelector: #create)
+			ifTrue: [ (class >> #create) ast body statements collect: #formattedCode ]
+			ifFalse: [ #() ].
+	allStatements := (OrderedCollection withAll: clsStatements)
+			addAll: classStatements;
+			yourself.
+	class
+		compile: (String
+				streamContents: [ :stream | 
+					stream
+						<< 'create';
+						cr.
+					allStatements
+						do: [ :each | stream << '	' << (each copyReplaceAll: String cr with: String cr , '	') ]
+						separatedBy: [ stream
+								<< '.';
+								cr ] ])
+		classified: #initialization
 ]
 
 { #category : #'code generation' }

@@ -18,3 +18,13 @@ information for a workspace symbol.
 GtLSPWorkspaceSymbolOptionsStructure >> resolveProvider: anObject [
 	data at: 'resolveProvider' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPWorkspaceSymbolOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPWorkspaceSymbolOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]

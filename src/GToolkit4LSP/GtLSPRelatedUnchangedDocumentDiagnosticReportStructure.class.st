@@ -5,6 +5,21 @@ Class {
 }
 
 { #category : #accessing }
+GtLSPRelatedUnchangedDocumentDiagnosticReportStructure >> kind [
+	"A document diagnostic report indicating
+no changes to the last result. A server can
+only return `unchanged` if result ids are
+provided."
+
+	^ data at: 'kind'
+]
+
+{ #category : #accessing }
+GtLSPRelatedUnchangedDocumentDiagnosticReportStructure >> kind: anObject [
+	data at: 'kind' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
 GtLSPRelatedUnchangedDocumentDiagnosticReportStructure >> relatedDocuments [
 	"Diagnostics of related documents. This information is useful
 in programming languages where code in a file A can generate
@@ -20,4 +35,17 @@ a.cpp and result in errors in a header file b.hpp.
 { #category : #accessing }
 GtLSPRelatedUnchangedDocumentDiagnosticReportStructure >> relatedDocuments: anObject [
 	data at: 'relatedDocuments' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
+GtLSPRelatedUnchangedDocumentDiagnosticReportStructure >> resultId [
+	"A result id which will be sent on the next
+diagnostic request for the same document."
+
+	^ data at: 'resultId'
+]
+
+{ #category : #accessing }
+GtLSPRelatedUnchangedDocumentDiagnosticReportStructure >> resultId: anObject [
+	data at: 'resultId' put:  (self objectFor: anObject)
 ]

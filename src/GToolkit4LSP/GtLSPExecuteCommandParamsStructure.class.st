@@ -27,3 +27,15 @@ GtLSPExecuteCommandParamsStructure >> command [
 GtLSPExecuteCommandParamsStructure >> command: anObject [
 	data at: 'command' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPExecuteCommandParamsStructure >> workDoneToken [
+	"An optional token that a server can use to report work done progress."
+
+	^ data at: 'workDoneToken'
+]
+
+{ #category : #accessing }
+GtLSPExecuteCommandParamsStructure >> workDoneToken: anObject [
+	data at: 'workDoneToken' put:  (self objectFor: anObject)
+]

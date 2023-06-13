@@ -17,3 +17,13 @@ GtLSPRenameOptionsStructure >> prepareProvider [
 GtLSPRenameOptionsStructure >> prepareProvider: anObject [
 	data at: 'prepareProvider' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPRenameOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPRenameOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]

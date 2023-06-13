@@ -33,3 +33,13 @@ information for a code action.
 GtLSPCodeActionOptionsStructure >> resolveProvider: anObject [
 	data at: 'resolveProvider' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPCodeActionOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPCodeActionOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]

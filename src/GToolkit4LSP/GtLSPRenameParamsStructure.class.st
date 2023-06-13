@@ -47,3 +47,15 @@ GtLSPRenameParamsStructure >> textDocument [
 GtLSPRenameParamsStructure >> textDocument: anObject [
 	data at: 'textDocument' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPRenameParamsStructure >> workDoneToken [
+	"An optional token that a server can use to report work done progress."
+
+	^ data at: 'workDoneToken'
+]
+
+{ #category : #accessing }
+GtLSPRenameParamsStructure >> workDoneToken: anObject [
+	data at: 'workDoneToken' put:  (self objectFor: anObject)
+]

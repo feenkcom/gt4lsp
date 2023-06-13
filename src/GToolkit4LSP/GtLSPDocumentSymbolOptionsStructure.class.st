@@ -18,3 +18,13 @@ are shown for the same document.
 GtLSPDocumentSymbolOptionsStructure >> label: anObject [
 	data at: 'label' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPDocumentSymbolOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPDocumentSymbolOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]

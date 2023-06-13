@@ -5,8 +5,22 @@ Class {
 }
 
 { #category : #accessing }
+GtLSPCreateFileStructure >> annotationId [
+	"An optional annotation identifier describing the operation.
+
+@since 3.16.0"
+
+	^ data at: 'annotationId'
+]
+
+{ #category : #accessing }
+GtLSPCreateFileStructure >> annotationId: anObject [
+	data at: 'annotationId' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
 GtLSPCreateFileStructure >> kind [
-	"A create"
+	"The resource operation kind."
 
 	^ data at: 'kind'
 ]

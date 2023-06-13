@@ -16,3 +16,13 @@ information for an inlay hint item."
 GtLSPInlayHintOptionsStructure >> resolveProvider: anObject [
 	data at: 'resolveProvider' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPInlayHintOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPInlayHintOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]

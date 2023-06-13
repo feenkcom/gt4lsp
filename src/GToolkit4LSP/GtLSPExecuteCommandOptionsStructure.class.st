@@ -20,3 +20,13 @@ GtLSPExecuteCommandOptionsStructure >> commands: anObject [
 GtLSPExecuteCommandOptionsStructure >> create [
 	data at: 'commands' put: #()
 ]
+
+{ #category : #accessing }
+GtLSPExecuteCommandOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPExecuteCommandOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]

@@ -11,6 +11,19 @@ GtLSPSemanticTokensRangeParamsStructure >> create [
 ]
 
 { #category : #accessing }
+GtLSPSemanticTokensRangeParamsStructure >> partialResultToken [
+	"An optional token that a server can use to report partial results (e.g. streaming) to
+the client."
+
+	^ data at: 'partialResultToken'
+]
+
+{ #category : #accessing }
+GtLSPSemanticTokensRangeParamsStructure >> partialResultToken: anObject [
+	data at: 'partialResultToken' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
 GtLSPSemanticTokensRangeParamsStructure >> range [
 	"The range the semantic tokens are requested for."
 
@@ -32,4 +45,16 @@ GtLSPSemanticTokensRangeParamsStructure >> textDocument [
 { #category : #accessing }
 GtLSPSemanticTokensRangeParamsStructure >> textDocument: anObject [
 	data at: 'textDocument' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
+GtLSPSemanticTokensRangeParamsStructure >> workDoneToken [
+	"An optional token that a server can use to report work done progress."
+
+	^ data at: 'workDoneToken'
+]
+
+{ #category : #accessing }
+GtLSPSemanticTokensRangeParamsStructure >> workDoneToken: anObject [
+	data at: 'workDoneToken' put:  (self objectFor: anObject)
 ]

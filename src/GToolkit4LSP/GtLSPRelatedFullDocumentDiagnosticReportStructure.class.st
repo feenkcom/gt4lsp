@@ -4,6 +4,35 @@ Class {
 	#category : #'GToolkit4LSP-Structures'
 }
 
+{ #category : #initialization }
+GtLSPRelatedFullDocumentDiagnosticReportStructure >> create [
+	data at: 'items' put: #()
+]
+
+{ #category : #accessing }
+GtLSPRelatedFullDocumentDiagnosticReportStructure >> items [
+	"The actual items."
+
+	^ data at: 'items'
+]
+
+{ #category : #accessing }
+GtLSPRelatedFullDocumentDiagnosticReportStructure >> items: anObject [
+	data at: 'items' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
+GtLSPRelatedFullDocumentDiagnosticReportStructure >> kind [
+	"A full document diagnostic report."
+
+	^ data at: 'kind'
+]
+
+{ #category : #accessing }
+GtLSPRelatedFullDocumentDiagnosticReportStructure >> kind: anObject [
+	data at: 'kind' put:  (self objectFor: anObject)
+]
+
 { #category : #accessing }
 GtLSPRelatedFullDocumentDiagnosticReportStructure >> relatedDocuments [
 	"Diagnostics of related documents. This information is useful
@@ -20,4 +49,18 @@ a.cpp and result in errors in a header file b.hpp.
 { #category : #accessing }
 GtLSPRelatedFullDocumentDiagnosticReportStructure >> relatedDocuments: anObject [
 	data at: 'relatedDocuments' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
+GtLSPRelatedFullDocumentDiagnosticReportStructure >> resultId [
+	"An optional result id. If provided it will
+be sent on the next diagnostic request for the
+same document."
+
+	^ data at: 'resultId'
+]
+
+{ #category : #accessing }
+GtLSPRelatedFullDocumentDiagnosticReportStructure >> resultId: anObject [
+	data at: 'resultId' put:  (self objectFor: anObject)
 ]

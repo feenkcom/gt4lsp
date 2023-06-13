@@ -5,8 +5,22 @@ Class {
 }
 
 { #category : #accessing }
+GtLSPRenameFileStructure >> annotationId [
+	"An optional annotation identifier describing the operation.
+
+@since 3.16.0"
+
+	^ data at: 'annotationId'
+]
+
+{ #category : #accessing }
+GtLSPRenameFileStructure >> annotationId: anObject [
+	data at: 'annotationId' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
 GtLSPRenameFileStructure >> kind [
-	"A rename"
+	"The resource operation kind."
 
 	^ data at: 'kind'
 ]

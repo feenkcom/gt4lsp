@@ -33,6 +33,16 @@ GtLSPDiagnosticOptionsStructure >> interFileDependencies: anObject [
 ]
 
 { #category : #accessing }
+GtLSPDiagnosticOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPDiagnosticOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
 GtLSPDiagnosticOptionsStructure >> workspaceDiagnostics [
 	"The server provides support for workspace diagnostics as well."
 

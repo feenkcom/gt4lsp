@@ -22,6 +22,19 @@ GtLSPWorkspaceDiagnosticParamsStructure >> identifier: anObject [
 ]
 
 { #category : #accessing }
+GtLSPWorkspaceDiagnosticParamsStructure >> partialResultToken [
+	"An optional token that a server can use to report partial results (e.g. streaming) to
+the client."
+
+	^ data at: 'partialResultToken'
+]
+
+{ #category : #accessing }
+GtLSPWorkspaceDiagnosticParamsStructure >> partialResultToken: anObject [
+	data at: 'partialResultToken' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
 GtLSPWorkspaceDiagnosticParamsStructure >> previousResultIds [
 	"The currently known diagnostic reports with their
 previous result ids."
@@ -32,4 +45,16 @@ previous result ids."
 { #category : #accessing }
 GtLSPWorkspaceDiagnosticParamsStructure >> previousResultIds: anObject [
 	data at: 'previousResultIds' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
+GtLSPWorkspaceDiagnosticParamsStructure >> workDoneToken [
+	"An optional token that a server can use to report work done progress."
+
+	^ data at: 'workDoneToken'
+]
+
+{ #category : #accessing }
+GtLSPWorkspaceDiagnosticParamsStructure >> workDoneToken: anObject [
+	data at: 'workDoneToken' put:  (self objectFor: anObject)
 ]

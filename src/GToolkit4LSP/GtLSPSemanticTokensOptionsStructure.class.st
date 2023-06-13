@@ -45,3 +45,13 @@ of a document."
 GtLSPSemanticTokensOptionsStructure >> range: anObject [
 	data at: 'range' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPSemanticTokensOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPSemanticTokensOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]

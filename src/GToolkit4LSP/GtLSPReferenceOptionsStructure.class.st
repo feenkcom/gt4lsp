@@ -3,3 +3,13 @@ Class {
 	#superclass : #GtLSPStructure,
 	#category : #'GToolkit4LSP-Structures'
 }
+
+{ #category : #accessing }
+GtLSPReferenceOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPReferenceOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]

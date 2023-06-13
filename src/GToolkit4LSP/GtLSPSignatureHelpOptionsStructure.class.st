@@ -32,3 +32,13 @@ GtLSPSignatureHelpOptionsStructure >> triggerCharacters [
 GtLSPSignatureHelpOptionsStructure >> triggerCharacters: anObject [
 	data at: 'triggerCharacters' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPSignatureHelpOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPSignatureHelpOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]

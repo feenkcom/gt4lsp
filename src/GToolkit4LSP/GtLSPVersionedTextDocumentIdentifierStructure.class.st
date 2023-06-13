@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #accessing }
+GtLSPVersionedTextDocumentIdentifierStructure >> uri [
+	"The text document's uri."
+
+	^ data at: 'uri'
+]
+
+{ #category : #accessing }
+GtLSPVersionedTextDocumentIdentifierStructure >> uri: anObject [
+	data at: 'uri' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
 GtLSPVersionedTextDocumentIdentifierStructure >> version [
 	"The version number of this document."
 

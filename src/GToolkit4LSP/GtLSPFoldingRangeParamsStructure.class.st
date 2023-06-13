@@ -10,6 +10,19 @@ GtLSPFoldingRangeParamsStructure >> create [
 ]
 
 { #category : #accessing }
+GtLSPFoldingRangeParamsStructure >> partialResultToken [
+	"An optional token that a server can use to report partial results (e.g. streaming) to
+the client."
+
+	^ data at: 'partialResultToken'
+]
+
+{ #category : #accessing }
+GtLSPFoldingRangeParamsStructure >> partialResultToken: anObject [
+	data at: 'partialResultToken' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
 GtLSPFoldingRangeParamsStructure >> textDocument [
 	"The text document."
 
@@ -19,4 +32,16 @@ GtLSPFoldingRangeParamsStructure >> textDocument [
 { #category : #accessing }
 GtLSPFoldingRangeParamsStructure >> textDocument: anObject [
 	data at: 'textDocument' put:  (self objectFor: anObject)
+]
+
+{ #category : #accessing }
+GtLSPFoldingRangeParamsStructure >> workDoneToken [
+	"An optional token that a server can use to report work done progress."
+
+	^ data at: 'workDoneToken'
+]
+
+{ #category : #accessing }
+GtLSPFoldingRangeParamsStructure >> workDoneToken: anObject [
+	data at: 'workDoneToken' put:  (self objectFor: anObject)
 ]

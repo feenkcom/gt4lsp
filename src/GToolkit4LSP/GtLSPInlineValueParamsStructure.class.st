@@ -47,3 +47,15 @@ GtLSPInlineValueParamsStructure >> textDocument [
 GtLSPInlineValueParamsStructure >> textDocument: anObject [
 	data at: 'textDocument' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPInlineValueParamsStructure >> workDoneToken [
+	"An optional token that a server can use to report work done progress."
+
+	^ data at: 'workDoneToken'
+]
+
+{ #category : #accessing }
+GtLSPInlineValueParamsStructure >> workDoneToken: anObject [
+	data at: 'workDoneToken' put:  (self objectFor: anObject)
+]

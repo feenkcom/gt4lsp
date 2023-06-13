@@ -15,3 +15,13 @@ GtLSPDocumentLinkOptionsStructure >> resolveProvider [
 GtLSPDocumentLinkOptionsStructure >> resolveProvider: anObject [
 	data at: 'resolveProvider' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSPDocumentLinkOptionsStructure >> workDoneProgress [
+	^ data at: 'workDoneProgress'
+]
+
+{ #category : #accessing }
+GtLSPDocumentLinkOptionsStructure >> workDoneProgress: anObject [
+	data at: 'workDoneProgress' put:  (self objectFor: anObject)
+]

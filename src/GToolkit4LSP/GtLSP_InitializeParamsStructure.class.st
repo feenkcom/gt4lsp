@@ -124,3 +124,15 @@ GtLSP_InitializeParamsStructure >> trace [
 GtLSP_InitializeParamsStructure >> trace: anObject [
 	data at: 'trace' put:  (self objectFor: anObject)
 ]
+
+{ #category : #accessing }
+GtLSP_InitializeParamsStructure >> workDoneToken [
+	"An optional token that a server can use to report work done progress."
+
+	^ data at: 'workDoneToken'
+]
+
+{ #category : #accessing }
+GtLSP_InitializeParamsStructure >> workDoneToken: anObject [
+	data at: 'workDoneToken' put:  (self objectFor: anObject)
+]
