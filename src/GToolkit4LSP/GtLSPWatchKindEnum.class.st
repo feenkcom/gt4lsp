@@ -8,9 +8,9 @@ Class {
 GtLSPWatchKindEnum class >> initialize [
 	instances := Dictionary new.
 	#(
-		#('Create' 'Create' 'Interested in create events.')
-		#('Change' 'Change' 'Interested in change events')
-		#('Delete' 'Delete' 'Interested in delete events')
+		#('Create' 1 'Interested in create events.')
+		#('Change' 2 'Interested in change events')
+		#('Delete' 4 'Interested in delete events')
 	) 
 		do: [:each | 
 			instances at: each first put: (self new name: each first; value: each second; description: each third)]

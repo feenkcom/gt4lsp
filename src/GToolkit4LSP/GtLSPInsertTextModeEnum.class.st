@@ -8,12 +8,12 @@ Class {
 GtLSPInsertTextModeEnum class >> initialize [
 	instances := Dictionary new.
 	#(
-		#('asIs' 'asIs' 'The insertion or replace strings is taken as it is. If the
+		#('asIs' 1 'The insertion or replace strings is taken as it is. If the
 value is multi line the lines below the cursor will be
 inserted using the indentation defined in the string value.
 The client will not apply any kind of adjustments to the
 string.')
-		#('adjustIndentation' 'adjustIndentation' 'The editor adjusts leading whitespace of new lines so that
+		#('adjustIndentation' 2 'The editor adjusts leading whitespace of new lines so that
 they match the indentation up to the cursor of the line for
 which the item is accepted.
 

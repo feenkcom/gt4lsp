@@ -8,9 +8,9 @@ Class {
 GtLSPTraceValuesEnum class >> initialize [
 	instances := Dictionary new.
 	#(
-		#('Off' 'Off' 'Turn tracing off.')
-		#('Messages' 'Messages' 'Trace messages only.')
-		#('Verbose' 'Verbose' 'Verbose message tracing.')
+		#('Off' 'off' 'Turn tracing off.')
+		#('Messages' 'messages' 'Trace messages only.')
+		#('Verbose' 'verbose' 'Verbose message tracing.')
 	) 
 		do: [:each | 
 			instances at: each first put: (self new name: each first; value: each second; description: each third)]

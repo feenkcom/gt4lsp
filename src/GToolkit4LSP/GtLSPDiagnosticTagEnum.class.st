@@ -8,11 +8,11 @@ Class {
 GtLSPDiagnosticTagEnum class >> initialize [
 	instances := Dictionary new.
 	#(
-		#('Unnecessary' 'Unnecessary' 'Unused or unnecessary code.
+		#('Unnecessary' 1 'Unused or unnecessary code.
 
 Clients are allowed to render diagnostics with this tag faded out instead of having
 an error squiggle.')
-		#('Deprecated' 'Deprecated' 'Deprecated or obsolete code.
+		#('Deprecated' 2 'Deprecated or obsolete code.
 
 Clients are allowed to rendered diagnostics with this tag strike through.')
 	) 

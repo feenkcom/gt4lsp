@@ -8,9 +8,9 @@ Class {
 GtLSPDocumentDiagnosticReportKindEnum class >> initialize [
 	instances := Dictionary new.
 	#(
-		#('Full' 'Full' 'A diagnostic report with a full
+		#('Full' 'full' 'A diagnostic report with a full
 set of problems.')
-		#('Unchanged' 'Unchanged' 'A report indicating that the last
+		#('Unchanged' 'unchanged' 'A report indicating that the last
 returned report is still accurate.')
 	) 
 		do: [:each | 

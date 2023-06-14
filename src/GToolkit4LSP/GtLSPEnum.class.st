@@ -34,7 +34,7 @@ GtLSPEnum class >> compileEnum: aDictionary [
 					values
 						do: [ :each | 
 							(stream << '		#(' << (each at: 'name') printString << ' '
-								<< (each at: 'name') printString << ' '
+								<< (each at: 'value') printString << ' '
 								<< (each at: 'documentation' ifAbsent: [  ]) printString)
 								<< ')';
 								cr ].

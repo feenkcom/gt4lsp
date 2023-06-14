@@ -8,8 +8,8 @@ Class {
 GtLSPInsertTextFormatEnum class >> initialize [
 	instances := Dictionary new.
 	#(
-		#('PlainText' 'PlainText' 'The primary text to be inserted is treated as a plain string.')
-		#('Snippet' 'Snippet' 'The primary text to be inserted is treated as a snippet.
+		#('PlainText' 1 'The primary text to be inserted is treated as a plain string.')
+		#('Snippet' 2 'The primary text to be inserted is treated as a snippet.
 
 A snippet can define tab stops and placeholders with `$1`, `$2`
 and `${3:foo}`. `$0` defines the final tab stop, it defaults to

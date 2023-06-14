@@ -8,7 +8,7 @@ Class {
 GtLSPPrepareSupportDefaultBehaviorEnum class >> initialize [
 	instances := Dictionary new.
 	#(
-		#('Identifier' 'Identifier' 'The client''s default behavior is to select the identifier
+		#('Identifier' 1 'The client''s default behavior is to select the identifier
 according the to language''s syntax rule.')
 	) 
 		do: [:each | 

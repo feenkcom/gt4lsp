@@ -8,10 +8,10 @@ Class {
 GtLSPTextDocumentSyncKindEnum class >> initialize [
 	instances := Dictionary new.
 	#(
-		#('None' 'None' 'Documents should not be synced at all.')
-		#('Full' 'Full' 'Documents are synced by always sending the full content
+		#('None' 0 'Documents should not be synced at all.')
+		#('Full' 1 'Documents are synced by always sending the full content
 of the document.')
-		#('Incremental' 'Incremental' 'Documents are synced by sending the full content on open.
+		#('Incremental' 2 'Documents are synced by sending the full content on open.
 After that only incremental updates to the document are
 send.')
 	) 

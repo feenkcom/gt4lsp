@@ -8,9 +8,9 @@ Class {
 GtLSPFileChangeTypeEnum class >> initialize [
 	instances := Dictionary new.
 	#(
-		#('Created' 'Created' 'The file got created.')
-		#('Changed' 'Changed' 'The file got changed.')
-		#('Deleted' 'Deleted' 'The file got deleted.')
+		#('Created' 1 'The file got created.')
+		#('Changed' 2 'The file got changed.')
+		#('Deleted' 3 'The file got deleted.')
 	) 
 		do: [:each | 
 			instances at: each first put: (self new name: each first; value: each second; description: each third)]

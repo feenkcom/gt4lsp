@@ -8,8 +8,8 @@ Class {
 GtLSPCodeActionTriggerKindEnum class >> initialize [
 	instances := Dictionary new.
 	#(
-		#('Invoked' 'Invoked' 'Code actions were explicitly requested by the user or by an extension.')
-		#('Automatic' 'Automatic' 'Code actions were requested automatically.
+		#('Invoked' 1 'Code actions were explicitly requested by the user or by an extension.')
+		#('Automatic' 2 'Code actions were requested automatically.
 
 This typically happens when current selection in a file changes, but can
 also be triggered when file content changes.')

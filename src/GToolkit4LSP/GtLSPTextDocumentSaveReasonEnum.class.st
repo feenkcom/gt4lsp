@@ -8,10 +8,10 @@ Class {
 GtLSPTextDocumentSaveReasonEnum class >> initialize [
 	instances := Dictionary new.
 	#(
-		#('Manual' 'Manual' 'Manually triggered, e.g. by the user pressing save, by starting debugging,
+		#('Manual' 1 'Manually triggered, e.g. by the user pressing save, by starting debugging,
 or by an API call.')
-		#('AfterDelay' 'AfterDelay' 'Automatic after a delay.')
-		#('FocusOut' 'FocusOut' 'When the editor lost focus.')
+		#('AfterDelay' 2 'Automatic after a delay.')
+		#('FocusOut' 3 'When the editor lost focus.')
 	) 
 		do: [:each | 
 			instances at: each first put: (self new name: each first; value: each second; description: each third)]
