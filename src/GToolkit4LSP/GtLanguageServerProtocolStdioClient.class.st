@@ -10,10 +10,13 @@ Class {
 		'externalProcess',
 		'messageHandler',
 		'nextId',
-		'handlers',
 		'capabilities',
 		'defaultLanguageType',
-		'fileVersions'
+		'fileVersions',
+		'isInitialized',
+		'resultHandlers',
+		'methodHandlers',
+		'errorHandlers'
 	],
 	#category : #'GToolkit4LSP-Client'
 }
@@ -23,17 +26,14 @@ GtLanguageServerProtocolStdioClient >> completeFile: aFileName at: anIndex do: a
 	| params file |
 	file := fileVersions at: aFileName asFileReference.
 	params := GtLSPCompletionParamsStructure create
-			textDocument: file uri;
-			position: (file endPositionFor: anIndex).
+			position: (file startPositionFor: anIndex);
+			context: (GtLSPCompletionContextStructure create
+					triggerKind: (GtLSPCompletionTriggerKindEnum enum: 'Invoked') value).
+	params textDocument uri: file uri.
 	self
 		sendMessage: 'textDocument/completion'
 		with: params
 		do: aBlock
-]
-
-{ #category : #completion }
-GtLanguageServerProtocolStdioClient >> completionsAt: anIndex do: aBlock [
-	
 ]
 
 { #category : #accessing }
@@ -110,6 +110,39 @@ GtLanguageServerProtocolStdioClient >> didOpen: aFilename withContents: contents
 		withContents: contents
 ]
 
+{ #category : #folding }
+GtLanguageServerProtocolStdioClient >> documentSymbolsIn: aFileReference do: aBlock [
+	| params file |
+	file := fileVersions at: aFileReference asFileReference.
+	params := GtLSPDocumentSymbolParamsStructure create.
+	params textDocument uri: file uri.
+	self
+		sendMessage: 'textDocument/documentSymbol'
+		with: params
+		do: [ :array | 
+			aBlock
+				value: (array
+						ifNotNil: [ array
+								collect: [ :each | 
+									((each includesKey: 'location')
+										ifTrue: [ GtLSPSymbolInformationStructure ]
+										ifFalse: [ GtLSPDocumentSymbolStructure ]) new data: each ] ]) ]
+]
+
+{ #category : #folding }
+GtLanguageServerProtocolStdioClient >> foldingRangesIn: aFileReference do: aBlock [
+	| params file |
+	file := fileVersions at: aFileReference asFileReference.
+	params := GtLSPFoldingRangeParamsStructure create.
+	params textDocument uri: file uri.
+	self
+		sendMessage: 'textDocument/foldingRange'
+		with: params
+		do: [ :array | 
+			aBlock
+				value: (array collect: [ :each | GtLSPFoldingRangeStructure new data: each ]) ]
+]
+
 { #category : #accessing }
 GtLanguageServerProtocolStdioClient >> getNextId [
 	| id |
@@ -118,18 +151,32 @@ GtLanguageServerProtocolStdioClient >> getNextId [
 	^ id
 ]
 
+{ #category : #running }
+GtLanguageServerProtocolStdioClient >> handleUnknownError: aDictionary [ 
+]
+
+{ #category : #running }
+GtLanguageServerProtocolStdioClient >> handleUnknownMethod: aDictionary [ 
+]
+
+{ #category : #running }
+GtLanguageServerProtocolStdioClient >> handleUnknownResult: aDictionary [
+]
+
 { #category : #accessing }
 GtLanguageServerProtocolStdioClient >> initialize [
 	super initialize.
 	mutex := Monitor new.
 	nextId := 1.
-	handlers := Dictionary new.
+	resultHandlers := Dictionary new.
+	methodHandlers := Dictionary new.
+	errorHandlers := Dictionary new.
 	defaultLanguageType := ''.
-	fileVersions := Dictionary new
+	fileVersions := Dictionary new.
 ]
 
 { #category : #lifecycle }
-GtLanguageServerProtocolStdioClient >> initialize: params [
+GtLanguageServerProtocolStdioClient >> initialize: params do: aBlock [
 	self
 		sendMessage: 'initialize'
 		with: params
@@ -138,7 +185,8 @@ GtLanguageServerProtocolStdioClient >> initialize: params [
 			capabilities := each capabilities.
 			self
 				sendNotification: 'initialized'
-				with: GtLSPInitializedParamsStructure create ]
+				with: GtLSPInitializedParamsStructure create.
+			aBlock value ]
 ]
 
 { #category : #lifecycle }
@@ -152,12 +200,41 @@ GtLanguageServerProtocolStdioClient >> initializeIn: directories [
 						name: each asFileReference basename;
 						uri: each asFileReference asUrl printString;
 						asDictionary ]).
-	self initialize: params
+	self initialize: params do: [  ]
+]
+
+{ #category : #lifecycle }
+GtLanguageServerProtocolStdioClient >> initializeIn: directories do: aBlock [
+	| params |
+	params := self initializeParameters.
+	params
+		workspaceFolders: (directories asArray
+				collect: [ :each | 
+					GtLSPWorkspaceFolderStructure new
+						name: each asFileReference basename;
+						uri: each asFileReference asUrl printString;
+						asDictionary ]).
+	self initialize: params do: aBlock
 ]
 
 { #category : #lifecycle }
 GtLanguageServerProtocolStdioClient >> initializeParameters [
 	^ GtLSPInitializeParamsStructure create
+]
+
+{ #category : #running }
+GtLanguageServerProtocolStdioClient >> loadJsonFrom: aStream [
+	| jsonObjects headers |
+	jsonObjects := OrderedCollection new.
+	[ aStream atEnd ]
+		whileFalse: [ headers := Dictionary new.
+			self receiveHeadersFrom: aStream into: headers.
+			aStream atEnd
+				ifFalse: [ jsonObjects
+						add: (GtJson
+								forJsonString: (aStream next: (headers at: 'content-length') asNumber) utf8Decoded)
+								jsonObject ] ].
+	^ jsonObjects
 ]
 
 { #category : #running }
@@ -179,11 +256,27 @@ GtLanguageServerProtocolStdioClient >> nextLineIn: aStream [
 { #category : #running }
 GtLanguageServerProtocolStdioClient >> processMessage: aDictionary [
 	| id handler |
-	id := aDictionary at: 'id' ifAbsent: [ 0 ].
-	handler := handlers at: id ifAbsent: [  ].
-	handler
-		ifNotNil: [ handlers removeKey: id ifAbsent: [  ].
-			[ handler cull: aDictionary ] fork ]
+	(aDictionary includesKey: 'result')
+		ifTrue: [ id := aDictionary at: 'id' ifAbsent: [ 0 ].
+			handler := resultHandlers at: id ifAbsent: [  ].
+			resultHandlers removeKey: id ifAbsent: [  ].
+			errorHandlers removeKey: id ifAbsent: [  ].
+			^ handler
+				ifNil: [ self handleUnknownResult: aDictionary ]
+				ifNotNil: [ [ handler cull: aDictionary ] fork ] ].
+	(aDictionary includesKey: 'error')
+		ifTrue: [ id := aDictionary at: 'id' ifAbsent: [ 0 ].
+			handler := errorHandlers at: id ifAbsent: [  ].
+			resultHandlers removeKey: id ifAbsent: [  ].
+			errorHandlers removeKey: id ifAbsent: [  ].
+			^ handler
+				ifNil: [ self handleUnknownError: aDictionary ]
+				ifNotNil: [ [ handler cull: aDictionary ] fork ] ].
+	(aDictionary includesKey: 'method')
+		ifTrue: [ handler := methodHandlers at: (aDictionary at: 'method') ifAbsent: [  ].
+			^ handler
+				ifNil: [ self handleUnknownMethod: aDictionary ]
+				ifNotNil: [ [ handler cull: aDictionary ] fork ] ]
 ]
 
 { #category : #running }
@@ -231,21 +324,6 @@ GtLanguageServerProtocolStdioClient >> receiveHeadersFrom: aStream into: aDictio
 	^ true
 ]
 
-{ #category : #completion }
-GtLanguageServerProtocolStdioClient >> requestCompleteFile: aFileName at: anIndex do: aBlock [
-	| params file |
-	file := fileVersions at: aFileName asFileReference.
-	params := GtLSPCompletionParamsStructure create
-			textDocument: file uri;
-			position: (file endPositionFor: anIndex);
-			context: (GtLSPCompletionContextStructure create
-					triggerKind: (GtLSPCompletionTriggerKindEnum enum: 'Invoked') value).
-	self
-		sendMessage: 'textDocument/completion'
-		with: params
-		do: aBlock
-]
-
 { #category : #messages }
 GtLanguageServerProtocolStdioClient >> send: aString with: aStructure id: id [
 	| string data jsonData dict |
@@ -264,7 +342,7 @@ GtLanguageServerProtocolStdioClient >> send: aString with: aStructure id: id [
 
 { #category : #lifecycle }
 GtLanguageServerProtocolStdioClient >> sendInitialize [
-	self initialize: self initializeParameters
+	self initializeIn: '.' asFileReference
 ]
 
 { #category : #messages }
@@ -281,7 +359,7 @@ GtLanguageServerProtocolStdioClient >> sendMessage: aString with: aStructure [
 GtLanguageServerProtocolStdioClient >> sendMessage: aString with: aStructure do: aBlock [
 	| id |
 	id := self getNextId.
-	handlers
+	resultHandlers
 		at: id
 		put: [ :data | aBlock cull: (data at: 'result' ifAbsent: [ Dictionary new ]) ].
 	self
@@ -294,7 +372,7 @@ GtLanguageServerProtocolStdioClient >> sendMessage: aString with: aStructure do:
 GtLanguageServerProtocolStdioClient >> sendMessage: aString with: aStructure whenResult: aClass do: aBlock [
 	| id |
 	id := self getNextId.
-	handlers
+	resultHandlers
 		at: id
 		put: [ :data | aBlock cull: (aClass new data: (data at: 'result' ifAbsent: [ Dictionary new ])) ].
 	self
@@ -350,6 +428,36 @@ GtLanguageServerProtocolStdioClient >> start [
 ]
 
 { #category : #accessing }
+GtLanguageServerProtocolStdioClient >> stderr [
+	^ stderr
+]
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> stderr: anObject [
+	^ stderr := anObject
+]
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> stdin [
+	^ stdin
+]
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> stdin: anObject [
+	^ stdin := anObject
+]
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> stdout [
+	^ stdout
+]
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> stdout: anObject [
+	^ stdout := anObject
+]
+
+{ #category : #accessing }
 GtLanguageServerProtocolStdioClient >> terminate [
 	externalProcess
 		ifNotNil: [ externalProcess terminate.
@@ -366,5 +474,6 @@ GtLanguageServerProtocolStdioClient >> terminate [
 			stdout := nil ].
 	stdin
 		ifNotNil: [ stdin release.
-			stdin := nil ]
+			stdin := nil ].
+	resultHandlers := Dictionary new
 ]
