@@ -22,11 +22,11 @@ Class {
 }
 
 { #category : #completion }
-GtLanguageServerProtocolStdioClient >> completeFile: aFileName at: anIndex do: aBlock [
+GtLanguageServerProtocolStdioClient >> completeFile: aFileName at: aPosition do: aBlock [
 	| params file |
 	file := fileVersions at: aFileName asFileReference.
 	params := GtLSPCompletionParamsStructure create
-			position: (file startPositionFor: anIndex);
+			position: aPosition;
 			context: (GtLSPCompletionContextStructure create
 					triggerKind: (GtLSPCompletionTriggerKindEnum enum: 'Invoked') value).
 	params textDocument uri: file uri.
@@ -47,22 +47,14 @@ GtLanguageServerProtocolStdioClient >> defaultLanguageType: anObject [
 ]
 
 { #category : #'document synchronization' }
-GtLanguageServerProtocolStdioClient >> didChange: aFilename from: from to: to with: aString [
-	| params fn file changes |
+GtLanguageServerProtocolStdioClient >> didChange: aFilename with: changes [
+	| params fn file |
 	fn := aFilename asFileReference.
 	file := fileVersions at: fn.
 	params := GtLSPDidChangeTextDocumentParamsStructure create.
 	params textDocument
 		version: file nextVersion;
 		uri: file uri.
-	changes := {Dictionary new
-				at: 'text' put: aString;
-				at: 'range'
-					put: (GtLSPRangeStructure create
-							start: (file startPositionFor: from);
-							end: (file endPositionFor: to);
-							yourself) asDictionary;
-				yourself}.
 	params contentChanges: changes.
 	self sendNotification: 'textDocument/didChange' with: params
 ]
@@ -92,7 +84,6 @@ GtLanguageServerProtocolStdioClient >> didOpen: aFilename type: aString withCont
 	params := GtLSPDidOpenTextDocumentParamsStructure create.
 	file := GtLSPFile new.
 	file filename: fn.
-	file contents: contents.
 	fileVersions at: fn put: file.
 	params textDocument
 		uri: file uri;
