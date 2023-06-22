@@ -25,14 +25,16 @@ GtLSPModel class >> rustAnalyzer: aString [
 
 { #category : #'instance creation\t' }
 GtLSPModel class >> rustModelOn: aDirectory [
-	| client dir |
+	| client dir semaphore |
+	semaphore := Semaphore new.
 	dir := aDirectory asFileReference.
 	client := GtLanguageServerProtocolStdioClient new
 			program: self rustAnalyzer;
 			defaultLanguageType: 'rust';
 			start;
 			yourself.
-	client initializeIn: {dir} do: [  ].
+	client initializeIn: {dir} do: [ semaphore signal ].
+	semaphore wait.
 	^ GtLSPDirectoryModel new
 		filename: dir;
 		extensions: '*.rs';
