@@ -3,19 +3,14 @@ Class {
 	#superclass : #BrGlamorousCodeEditorAptitude,
 	#instVars : [
 		'lspClient',
-		'filename'
+		'lspFile'
 	],
 	#category : #'GToolkit4LSP-Aptitudes'
 }
 
 { #category : #accessing }
 GtLSPEditorAptitude >> filename [
-	^ filename
-]
-
-{ #category : #accessing }
-GtLSPEditorAptitude >> filename: anObject [
-	filename := anObject
+	^ lspFile filename
 ]
 
 { #category : #initialization }
@@ -34,7 +29,7 @@ GtLSPEditorAptitude >> initialize [
 					completion := GtLSPCompletionStrategy new.
 					completion
 						editorModel: widget editor;
-						lspFile: filename;
+						lspFile: lspFile;
 						lspClient: lspClient.
 					controller := GtCompletionController on: widget strategy: completion.
 					controller install ];
@@ -55,7 +50,26 @@ GtLSPEditorAptitude >> lspClient: anObject [
 	lspClient := anObject
 ]
 
+{ #category : #accessing }
+GtLSPEditorAptitude >> lspFile: aLSPFile [
+	lspFile ifNotNil: [ lspFile announcer unsubscribe: self ].
+	lspFile := aLSPFile.
+	lspFile
+		ifNotNil: [ lspFile announcer weak
+				when: GtLSPFileSourceChanged
+				send: #updateText:
+				to: self ]
+]
+
 { #category : #initialization }
 GtLSPEditorAptitude >> updateServerWith: anArray [
-	lspClient didChange: filename with: anArray
+	lspClient didChange: lspFile filename with: anArray
+]
+
+{ #category : #accessing }
+GtLSPEditorAptitude >> updateText: anAnnouncement [
+	widget
+		ifNotNil: [ widget
+				inUIProcessDo: [ widget editor text asString ~= lspFile source
+						ifTrue: [ widget editor text: lspFile source asRopedText ] ] ]
 ]

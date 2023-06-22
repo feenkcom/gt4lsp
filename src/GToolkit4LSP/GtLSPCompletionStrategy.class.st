@@ -3,8 +3,8 @@ Class {
 	#superclass : #GtCompletionStrategy,
 	#instVars : [
 		'lspClient',
-		'lspFile',
-		'editorModel'
+		'editorModel',
+		'lspFile'
 	],
 	#category : #'GToolkit4LSP-Completion'
 }
@@ -54,7 +54,7 @@ GtLSPCompletionStrategy >> completionResultFor: aText at: anInteger requested: a
 	(lspClient isNil or: [ lspFile isNil ]) ifTrue: [ ^ GtCompletionResult empty ].
 	stream := GtLSPCompletionStream new.
 	lspClient
-		completeFile: lspFile
+		completeFile: lspFile filename
 		at: (editorModel positionFor: anInteger)
 		do: [ :results | 
 			stream

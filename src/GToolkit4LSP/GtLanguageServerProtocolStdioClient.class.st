@@ -24,7 +24,9 @@ Class {
 { #category : #completion }
 GtLanguageServerProtocolStdioClient >> completeFile: aFileName at: aPosition do: aBlock [
 	| params file |
-	file := fileVersions at: aFileName asFileReference.
+	file := fileVersions
+			at: aFileName asFileReference
+			ifAbsent: [ ^ aBlock cull: nil ].
 	params := GtLSPCompletionParamsStructure create
 			position: aPosition;
 			context: (GtLSPCompletionContextStructure create
@@ -50,7 +52,7 @@ GtLanguageServerProtocolStdioClient >> defaultLanguageType: anObject [
 GtLanguageServerProtocolStdioClient >> didChange: aFilename with: changes [
 	| params fn file |
 	fn := aFilename asFileReference.
-	file := fileVersions at: fn.
+	file := fileVersions at: fn ifAbsent: [ ^ self ].
 	params := GtLSPDidChangeTextDocumentParamsStructure create.
 	params textDocument
 		version: file nextVersion;
@@ -63,7 +65,7 @@ GtLanguageServerProtocolStdioClient >> didChange: aFilename with: changes [
 GtLanguageServerProtocolStdioClient >> didClose: aFilename [
 	| params fn file |
 	fn := aFilename asFileReference.
-	file := fileVersions at: fn.
+	file := fileVersions at: fn ifAbsent: [ ^ self ].
 	fileVersions removeKey: fn.
 	params := GtLSPDidCloseTextDocumentParamsStructure create.
 	params textDocument uri: file uri.
@@ -101,10 +103,12 @@ GtLanguageServerProtocolStdioClient >> didOpen: aFilename withContents: contents
 		withContents: contents
 ]
 
-{ #category : #folding }
+{ #category : #symbols }
 GtLanguageServerProtocolStdioClient >> documentSymbolsIn: aFileReference do: aBlock [
 	| params file |
-	file := fileVersions at: aFileReference asFileReference.
+	file := fileVersions
+			at: aFileReference asFileReference
+			ifAbsent: [ ^ aBlock cull: nil ].
 	params := GtLSPDocumentSymbolParamsStructure create.
 	params textDocument uri: file uri.
 	self
@@ -123,7 +127,9 @@ GtLanguageServerProtocolStdioClient >> documentSymbolsIn: aFileReference do: aBl
 { #category : #folding }
 GtLanguageServerProtocolStdioClient >> foldingRangesIn: aFileReference do: aBlock [
 	| params file |
-	file := fileVersions at: aFileReference asFileReference.
+	file := fileVersions
+			at: aFileReference asFileReference
+			ifAbsent: [ ^ aBlock cull: #() ].
 	params := GtLSPFoldingRangeParamsStructure create.
 	params textDocument uri: file uri.
 	self
@@ -395,7 +401,14 @@ GtLanguageServerProtocolStdioClient >> shutdown [
 		sendMessage: 'shutdown'
 		with: nil
 		whenResult: GtLSPStructure
-		do: [ :each | self sendNotification: 'exit' with: nil ]
+		do: [ :each | 
+			| stderrString stdoutString |
+			self sendNotification: 'exit' with: nil.
+			stderrString := stderr pollString.
+			stdoutString := stdout pollString.
+			self terminate.
+			stderr := stderrString readStream.
+			stdout := stdoutString readStream ]
 ]
 
 { #category : #running }
