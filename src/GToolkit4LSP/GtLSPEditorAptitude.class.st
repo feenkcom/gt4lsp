@@ -24,8 +24,9 @@ GtLSPEditorAptitude >> initialize [
 					widget editor
 						when: GtLSPTextDocumentContentChange
 						do: [ :evt | self updateServerWith: evt events ].
-					self styler: RustParser gtStyler.
-					widget viewModel styler: styler.
+					styler
+						ifNotNil: [ widget editor styler: styler.
+							widget viewModel styler: styler ].
 					completion := GtLSPCompletionStrategy new.
 					completion
 						editorModel: widget editor;

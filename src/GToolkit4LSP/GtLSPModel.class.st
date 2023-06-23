@@ -38,7 +38,8 @@ GtLSPModel class >> rustModelOn: aDirectory [
 	^ GtLSPDirectoryModel new
 		filename: dir;
 		extensions: '*.rs';
-		lspClient: client
+		lspClient: client;
+		styler: RustParser gtStyler
 ]
 
 { #category : #comparing }

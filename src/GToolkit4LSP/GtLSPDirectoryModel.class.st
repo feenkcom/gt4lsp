@@ -6,7 +6,8 @@ Class {
 		'extensions',
 		'languageType',
 		'fileWatcher',
-		'files'
+		'files',
+		'styler'
 	],
 	#category : #'GToolkit4LSP-Model'
 }
@@ -123,6 +124,16 @@ GtLSPDirectoryModel >> startFileWatcher [
 GtLSPDirectoryModel >> stopFileWatcher [
 	fileWatcher ifNotNil: [ fileWatcher stopLoop ].
 	fileWatcher := nil
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel >> styler [
+	^ styler
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel >> styler: anObject [
+	styler := anObject
 ]
 
 { #category : #'file watcher' }

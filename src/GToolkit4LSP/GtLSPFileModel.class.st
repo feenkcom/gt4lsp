@@ -35,14 +35,14 @@ GtLSPFileModel >> directory: lspDirectory [
 
 { #category : #accessing }
 GtLSPFileModel >> editor [
-	| editor |
+	| editor aptitude |
 	self open.
 	editor := GtLSPEditor new.
-	editor
-		aptitude: (GtLSPEditorAptitude new
-				lspClient: self lspClient;
-				lspFile: self;
-				yourself).
+	aptitude := GtLSPEditorAptitude new.
+	aptitude lspClient: self lspClient.
+	aptitude lspFile: self.
+	self styler ifNotNil: [ :styler | aptitude styler: styler ].
+	editor aptitude: aptitude.
 	editor editor text: self source asRopedText.
 	^ editor
 ]
@@ -129,4 +129,9 @@ GtLSPFileModel >> source: aString [
 				lspFile: self;
 				oldSource: oldSource;
 				yourself)
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> styler [
+	^ directory styler
 ]
