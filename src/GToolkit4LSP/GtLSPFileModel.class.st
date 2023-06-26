@@ -5,7 +5,8 @@ Class {
 		'originalSource',
 		'source',
 		'isOpen',
-		'directory'
+		'directory',
+		'filename'
 	],
 	#category : #'GToolkit4LSP-Model'
 }
@@ -60,6 +61,21 @@ GtLSPFileModel >> fileUpdated [
 						with: {Dictionary new at: 'text' put: source} ] ]
 ]
 
+{ #category : #accessing }
+GtLSPFileModel >> filename [
+	^ filename
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> filename: anObject [
+	filename := anObject asFileReference
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> gtDisplayOn: stream [
+	stream << filename basename
+]
+
 { #category : #initialization }
 GtLSPFileModel >> initialize [
 	super initialize.
@@ -84,6 +100,11 @@ GtLSPFileModel >> lspClient [
 { #category : #accessing }
 GtLSPFileModel >> lspDirectory [
 	^ directory
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> lspFile [
+	^ self
 ]
 
 { #category : #actions }

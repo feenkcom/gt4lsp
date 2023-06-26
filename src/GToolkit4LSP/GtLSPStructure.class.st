@@ -356,6 +356,11 @@ GtLSPStructure >> asJson [
 ]
 
 { #category : #accessing }
+GtLSPStructure >> at: aString [
+	^ data at: aString
+]
+
+{ #category : #accessing }
 GtLSPStructure >> create [
 	
 ]
@@ -368,6 +373,26 @@ GtLSPStructure >> data [
 { #category : #accessing }
 GtLSPStructure >> data: anObject [
 	data := anObject
+]
+
+{ #category : #accessing }
+GtLSPStructure >> gtTreeFor: aView [
+	<gtView>
+	^ aView columnedTree
+		title: 'Data';
+		items: [ {{'self'.
+					self}} ];
+		children: [ :each | 
+			(each last isKindOf: GtLSPStructure)
+				ifTrue: [ (each last class selectors
+						select: [ :sel | sel isUnary and: [ sel ~= #create ] ])
+						collect: [ :sel | 
+							{sel.
+								each last perform: sel} ] ]
+				ifFalse: [ #() ] ];
+		column: 'Name' text: [ :each | each first ];
+		column: 'Value' text: [ :each | each last gtDisplayString ];
+		send: [ :each | each last ]
 ]
 
 { #category : #initialization }

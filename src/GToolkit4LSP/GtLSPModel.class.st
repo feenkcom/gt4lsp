@@ -4,7 +4,6 @@ Class {
 	#traits : 'TGtAnnouncer',
 	#classTraits : 'TGtAnnouncer classTrait',
 	#instVars : [
-		'filename',
 		'announcer'
 	],
 	#classVars : [
@@ -55,12 +54,7 @@ GtLSPModel >> announcer [
 
 { #category : #accessing }
 GtLSPModel >> filename [
-	^ filename
-]
-
-{ #category : #accessing }
-GtLSPModel >> filename: anObject [
-	filename := anObject asFileReference
+	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -80,6 +74,11 @@ GtLSPModel >> isLSPDirectory [
 	^ false
 ]
 
+{ #category : #testing }
+GtLSPModel >> isLSPReference [
+	^ false
+]
+
 { #category : #accessing }
 GtLSPModel >> lspClient [
 	^ self subclassResponsibility
@@ -88,4 +87,9 @@ GtLSPModel >> lspClient [
 { #category : #accessing }
 GtLSPModel >> lspDirectory [
 	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+GtLSPModel >> lspFile [
+	^ nil
 ]

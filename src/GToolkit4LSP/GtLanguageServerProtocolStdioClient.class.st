@@ -124,6 +124,25 @@ GtLanguageServerProtocolStdioClient >> documentSymbolsIn: aFileReference do: aBl
 										ifFalse: [ GtLSPDocumentSymbolStructure ]) new data: each ] ]) ]
 ]
 
+{ #category : #references }
+GtLanguageServerProtocolStdioClient >> findReferencesIn: aFilename at: aPosition do: aBlock [
+	| params file |
+	file := fileVersions
+			at: aFilename asFileReference
+			ifAbsent: [ ^ aBlock cull: nil ].
+	params := GtLSPReferenceParamsStructure create.
+	params textDocument uri: file uri.
+	params position: aPosition.
+	params context includeDeclaration: false.
+	self
+		sendMessage: 'textDocument/references'
+		with: params
+		do: [ :refs | 
+			aBlock
+				cull: (refs
+						ifNotNil: [ refs collect: [ :each | GtLSPLocationStructure new data: each ] ]) ]
+]
+
 { #category : #folding }
 GtLanguageServerProtocolStdioClient >> foldingRangesIn: aFileReference do: aBlock [
 	| params file |

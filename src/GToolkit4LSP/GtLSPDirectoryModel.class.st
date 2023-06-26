@@ -7,7 +7,8 @@ Class {
 		'languageType',
 		'fileWatcher',
 		'files',
-		'styler'
+		'styler',
+		'filename'
 	],
 	#category : #'GToolkit4LSP-Model'
 }
@@ -50,6 +51,16 @@ GtLSPDirectoryModel >> fileUpdated: aFileReference [
 									filename: aFileReference;
 									yourself).
 					self announce: (GtLSPFileAdded new lspFile: file) ] ]
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel >> filename [
+	^ filename
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel >> filename: anObject [
+	filename := anObject asFileReference
 ]
 
 { #category : #accessing }

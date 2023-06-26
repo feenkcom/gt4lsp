@@ -4,9 +4,8 @@ Class {
 	#instVars : [
 		'sidebarElement',
 		'contentElement',
-		'lspClient',
-		'lspFile',
-		'modified'
+		'modified',
+		'lspObject'
 	],
 	#category : #'GToolkit4LSP-View'
 }
@@ -78,7 +77,35 @@ GtLSPCoder >> createFilesTreeFor: obj [
 GtLSPCoder >> editorChangedTo: aString [
 	contentElement
 		childNamed: #editor
-		ifFound: [ :editor | lspFile source: aString asString ]
+		ifFound: [ :editor | self lspFile source: aString asString ]
+]
+
+{ #category : #updating }
+GtLSPCoder >> findReferencesIn: textEditor [
+	| index |
+	textEditor editor cursors do: [ :each | index := each position ].
+	index ifNil: [ ^ self ].
+	self lspClient
+		findReferencesIn: self lspFile filename
+		at: (textEditor editor positionFor: index)
+		do: [ :items | 
+			items
+				ifNotNil: [ | fileMappings |
+					fileMappings := Dictionary new.
+					self lspDirectory files
+						do: [ :each | fileMappings at: each filename uri printString put: each ].
+					textEditor
+						inUIProcessDo: [ textEditor phlow
+								spawnObject: (GtLSPReferenceList new
+										references: ((items
+												collect: [ :each | 
+													fileMappings
+														at: each uri
+														ifPresent: [ :file | 
+															GtLSPReference new
+																lspFile: file;
+																startPosition: each range start;
+																endPosition: each range end ] ]) select: #notNil)) ] ] ]
 ]
 
 { #category : #initialization }
@@ -120,19 +147,34 @@ GtLSPCoder >> initializeSidebar [
 	sidebarElement hide
 ]
 
+{ #category : #updating }
+GtLSPCoder >> lspClient [
+	^ self lspFile lspClient
+]
+
+{ #category : #updating }
+GtLSPCoder >> lspDirectory [
+	^ self lspFile lspDirectory
+]
+
+{ #category : #accessing }
+GtLSPCoder >> lspFile [
+	^ lspObject lspFile
+]
+
 { #category : #accessing }
 GtLSPCoder >> modificationColor [
-	^ lspFile isModified
+	^ self lspFile isModified
 		ifTrue: [ self theme status changesBackgroundColor ]
 		ifFalse: [ Color transparent ]
 ]
 
 { #category : #accessing }
 GtLSPCoder >> object: anObject [
-	lspFile := anObject isLSPDirectory
+	lspObject := anObject isLSPDirectory
 			ifTrue: [ anObject files isEmpty ifTrue: [ anObject ] ifFalse: [ anObject files first ] ]
 			ifFalse: [ anObject ].
-	sidebarElement contentStencil: [ self buildSidebarFor: lspFile ]
+	sidebarElement contentStencil: [ self buildSidebarFor: lspObject ]
 ]
 
 { #category : #search }
@@ -149,38 +191,41 @@ GtLSPCoder >> searchButtonFor: obj [
 
 { #category : #updating }
 GtLSPCoder >> updateChangeStatus [
-	modified = lspFile isModified ifTrue: [ ^ self ].
-	modified := lspFile isModified.
+	modified = self lspFile isModified ifTrue: [ ^ self ].
+	modified := self lspFile isModified.
 	contentElement
 		childNamed: #modificationBar
 		ifFound: [ :elmt | elmt inUIProcessDo: [ elmt background: self modificationColor ] ].
 	contentElement
 		childNamed: #saveButton
-		ifFound: [ :elmt | elmt inUIProcessDo: [ elmt enabled: lspFile isModified ] ].
+		ifFound: [ :elmt | elmt inUIProcessDo: [ elmt enabled: self lspFile isModified ] ].
 	contentElement
 		childNamed: #cancelButton
-		ifFound: [ :elmt | elmt inUIProcessDo: [ elmt enabled: lspFile isModified ] ].
+		ifFound: [ :elmt | elmt inUIProcessDo: [ elmt enabled: self lspFile isModified ] ].
 	sidebarElement
 		childNamed: #files
 		ifFound: [ :files | 
 			files
-				allChildrenBreadthFirstDetect: [ :each | (each userData at: #lexiconFile ifAbsent: [  ]) = lspFile ]
+				allChildrenBreadthFirstDetect: [ :each | (each userData at: #lspFile ifAbsent: [  ]) = self lspFile ]
 				ifFound: [ :elmt | self updateModifiedIn: elmt ] ]
 ]
 
 { #category : #updating }
-GtLSPCoder >> updateContentsTo: aLSPFile [
+GtLSPCoder >> updateContentsTo: aLSPObject [
 	| textEditor content toolbar |
+	(lspObject notNil
+		and: [ lspObject isLSPReference and: [ lspObject lspFile = aLSPObject ] ])
+		ifTrue: [ ^ self ].
 	modified := nil.
-	lspFile := aLSPFile.
-	lspFile announcer weak
+	lspObject := aLSPObject.
+	self lspFile announcer weak
 		when: GtLSPFileSaved
 			send: #updateChangeStatus
 			to: self;
 		when: GtLSPFileSourceChanged
 			send: #updateChangeStatus
 			to: self.
-	lspFile lspDirectory announcer weak
+	self lspDirectory announcer weak
 		when: GtLSPFileAdded
 			send: #updateTrees
 			to: self;
@@ -194,11 +239,15 @@ GtLSPCoder >> updateContentsTo: aLSPFile [
 				constraintsDo: [ :c | c vertical matchParent ];
 				yourself)
 		as: #modificationBar.
-	textEditor := lspFile editor.
+
+	textEditor := lspObject editor.
 	textEditor
 		addShortcut: (BlShortcutWithAction new
 				combination: BlKeyCombination primaryS;
-				action: [ aLSPFile saveFile ]).
+				action: [ aLSPObject saveFile ]);
+		addShortcut: (BlShortcutWithAction new
+				combination: BlKeyCombination primaryN;
+				action: [ self findReferencesIn: textEditor ]).
 	textEditor editor
 		when: BrTextEditorInsertedEvent
 			do: [ :event | self editorChangedTo: event source text asString ];
@@ -222,7 +271,7 @@ GtLSPCoder >> updateContentsTo: aLSPFile [
 				aptitude: (BrGlamorousLabelAptitude new
 						bold;
 						fontSize: 18);
-				text: aLSPFile filename basename)
+				text: aLSPObject filename basename)
 		as: #filename.
 	content addChild: textEditor as: #editor.
 	toolbar := BrToolbar new
@@ -235,7 +284,7 @@ GtLSPCoder >> updateContentsTo: aLSPFile [
 				beSmallSize;
 				icon: BrGlamorousVectorIcons accept;
 				label: 'Save';
-				action: [ aLSPFile saveFile ])
+				action: [ aLSPObject lspFile saveFile ])
 		as: #saveButton.
 	toolbar
 		addChild: (BrButton new
@@ -243,7 +292,7 @@ GtLSPCoder >> updateContentsTo: aLSPFile [
 				beSmallSize;
 				icon: BrGlamorousVectorIcons cancel;
 				label: 'Cancel';
-				action: [ aLSPFile cancel ])
+				action: [ aLSPObject lspFile cancel ])
 		as: #cancelButton.
 	content addChild: toolbar as: #toolbar.
 	contentElement addChild: content.
@@ -253,7 +302,7 @@ GtLSPCoder >> updateContentsTo: aLSPFile [
 { #category : #updating }
 GtLSPCoder >> updateFileTreeItems: tree [
 	tree
-		items: {{lspFile lspDirectory filename absolutePath asFileReference.
+		items: {{self lspDirectory filename absolutePath asFileReference.
 						nil}}
 			lazy: [ :each | 
 				each first isDirectory
@@ -262,10 +311,10 @@ GtLSPCoder >> updateFileTreeItems: tree [
 									collect: [ :dir | 
 										{dir.
 											nil} ]))
-							addAll: ((each first childrenMatching: lspFile lspDirectory extensions)
+							addAll: ((each first childrenMatching: self lspDirectory extensions)
 									collect: [ :file | 
 										{file.
-											lspFile lspDirectory fileFor: file} ]);
+											self lspDirectory fileFor: file} ]);
 							sort: [ :a :b | a first basename < b first basename ];
 							yourself ]
 					ifFalse: [ #() ] ];
@@ -278,10 +327,10 @@ GtLSPCoder >> updateFilesTo: obj [
 		childNamed: #files
 		ifFound: [ :tree | 
 			tree
-				expandSuchThat: [ :each | lspFile filename isContainedBy: each value first ].
+				expandSuchThat: [ :each | self lspFile filename isContainedBy: each value first ].
 			tree
-				selectAndScrollTo: {lspFile filename.
-						lspFile} ]
+				selectAndScrollTo: {self lspFile filename.
+						self lspFile} ]
 ]
 
 { #category : #updating }
@@ -296,11 +345,11 @@ GtLSPCoder >> updateModifiedIn: anElement [
 
 { #category : #updating }
 GtLSPCoder >> updateTrees [
-	lspFile ifNil: [ ^ self ].
+	self lspFile ifNil: [ ^ self ].
 	self
 		inUIProcessDo: [ self
 				childNamed: #files
 				ifFound: [ :tree | 
 					self updateFileTreeItems: tree.
-					self updateFilesTo: lspFile ] ]
+					self updateFilesTo: self lspFile ] ]
 ]
