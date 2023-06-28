@@ -14,7 +14,8 @@ Class {
 { #category : #accessing }
 GtLSPFileModel >> cancel [
 	self isModified ifFalse: [ ^ self ].
-	self source: self originalSource
+	self source: self originalSource.
+	self updateServerSource
 ]
 
 { #category : #actions }
@@ -55,10 +56,7 @@ GtLSPFileModel >> fileUpdated [
 	originalSource := nil.
 	modified
 		ifFalse: [ self source: self originalSource.
-			self isOpen
-				ifTrue: [ self lspClient
-						didChange: filename
-						with: {Dictionary new at: 'text' put: source} ] ]
+			self isOpen ifTrue: [ self updateServerSource ] ]
 ]
 
 { #category : #accessing }
@@ -155,4 +153,13 @@ GtLSPFileModel >> source: aString [
 { #category : #accessing }
 GtLSPFileModel >> styler [
 	^ directory styler
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> updateServerSource [
+	self lspClient
+		didChange: filename
+		with: {Dictionary new
+					at: 'text' put: source;
+					yourself}
 ]
