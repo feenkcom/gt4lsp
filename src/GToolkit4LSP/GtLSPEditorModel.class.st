@@ -81,7 +81,9 @@ GtLSPEditorModel >> onStringsInserted: aBlTextStringsInserted [
 GtLSPEditorModel >> onTextsDeleted: aBlTextsDeleted [
 	| events |
 	aBlTextsDeleted requestedIntervals size > 1
-		ifTrue: [ events := {Dictionary new at: 'text' put: text asString} ]
+		ifTrue: [ events := {Dictionary new
+						at: 'text' put: text asString;
+						yourself} ]
 		ifFalse: [ events := (aBlTextsDeleted requestedIntervals
 					with: aBlTextsDeleted texts
 					collect: [ :interval :value | 
