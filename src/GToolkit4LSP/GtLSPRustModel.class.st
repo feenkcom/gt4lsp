@@ -17,7 +17,7 @@ GtLSPRustModel class >> downloadExecutable [
 			, (Smalltalk os isWindows ifTrue: [ '.exe' ] ifFalse: [ '' ]).
 	executableFile := '.' asFileReference / programName.
 	executableFile exists ifTrue: [ ^ self executable: executableFile pathString ].
-	downloaded := executableFile withExtension: '.gz'.
+	downloaded := (executableFile pathString , '.gz') asFileReference.
 	tags := GtJson
 			forJsonString: (ZnClient new url: 'https://api.github.com/repos/rust-lang/rust-analyzer/tags')
 					get.
