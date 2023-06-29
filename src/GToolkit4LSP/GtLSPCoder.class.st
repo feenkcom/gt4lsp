@@ -90,17 +90,21 @@ GtLSPCoder >> findReferencesIn: textEditor [
 		at: (textEditor editor positionFor: index)
 		do: [ :items | 
 			items
-				ifNotNil: [ | fileMappings |
+				ifNotNil: [ | fileMappings caseSensitive uriBlock |
+					caseSensitive := self lspFile filename fileSystem isCaseSensitive.
+					uriBlock := caseSensitive
+							ifTrue: [ [ :each | each ] ]
+							ifFalse: [ [ :each | each asLowercase ] ].
 					fileMappings := Dictionary new.
 					self lspDirectory files
-						do: [ :each | fileMappings at: each filename uri printString put: each ].
+						do: [ :each | fileMappings at: (uriBlock value: each filename uri printString) put: each ].
 					textEditor
 						inUIProcessDo: [ textEditor phlow
 								spawnObject: (GtLSPReferenceList new
 										references: ((items
 												collect: [ :each | 
 													fileMappings
-														at: each uri
+														at: (uriBlock value: each uri)
 														ifPresent: [ :file | 
 															GtLSPReference new
 																lspFile: file;
