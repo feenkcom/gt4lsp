@@ -10,8 +10,64 @@ Class {
 		'styler',
 		'filename'
 	],
+	#classVars : [
+		'Registry'
+	],
+	#classInstVars : [
+		'executable'
+	],
 	#category : #'GToolkit4LSP-Model'
 }
+
+{ #category : #accessing }
+GtLSPDirectoryModel class >> executable [
+	^ executable
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel class >> executable: anObject [
+	executable := anObject
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel class >> extensions [
+	^ '*'
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel class >> languageType [
+	^ ''
+]
+
+{ #category : #'instance creation' }
+GtLSPDirectoryModel class >> onDirectory: aDirectory [
+	| client dir semaphore |
+	semaphore := Semaphore new.
+	dir := aDirectory asFileReference.
+	client := GtLanguageServerProtocolStdioClient new
+			program: self executable;
+			defaultLanguageType: self languageType;
+			start;
+			yourself.
+	client initializeIn: {dir} do: [ semaphore signal ].
+	semaphore wait.
+	^ self registry
+		add: (GtLSPDirectoryModel new
+				filename: dir;
+				extensions: self extensions;
+				lspClient: client;
+				styler: self styler)
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel class >> registry [
+	^ Registry ifNil: [ Registry := WeakRegistry new ]
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel class >> styler [
+	^ nil
+]
 
 { #category : #accessing }
 GtLSPDirectoryModel >> extensions [
@@ -74,6 +130,12 @@ GtLSPDirectoryModel >> files [
 									filename: each;
 									directory: self ] ]) asOrderedCollection
 					sort: [ :a :b | a filename pathString < b filename pathString ] ]
+]
+
+{ #category : #finalization }
+GtLSPDirectoryModel >> finalize [
+	self lspClient ifNotNil: [ :client | client terminate ].
+	super finalize
 ]
 
 { #category : #searching }
