@@ -6,40 +6,8 @@ Class {
 	#instVars : [
 		'announcer'
 	],
-	#classVars : [
-		'rustAnalyzer'
-	],
 	#category : #'GToolkit4LSP-Model'
 }
-
-{ #category : #accessing }
-GtLSPModel class >> rustAnalyzer [
-	^ rustAnalyzer
-]
-
-{ #category : #accessing }
-GtLSPModel class >> rustAnalyzer: aString [
-	rustAnalyzer := aString
-]
-
-{ #category : #'instance creation\t' }
-GtLSPModel class >> rustModelOn: aDirectory [
-	| client dir semaphore |
-	semaphore := Semaphore new.
-	dir := aDirectory asFileReference.
-	client := GtLanguageServerProtocolStdioClient new
-			program: self rustAnalyzer;
-			defaultLanguageType: 'rust';
-			start;
-			yourself.
-	client initializeIn: {dir} do: [ semaphore signal ].
-	semaphore wait.
-	^ GtLSPDirectoryModel new
-		filename: dir;
-		extensions: '*.rs';
-		lspClient: client;
-		styler: RustParser gtStyler
-]
 
 { #category : #comparing }
 GtLSPModel >> = anObject [
