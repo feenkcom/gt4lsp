@@ -260,8 +260,7 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 		when: BlInfiniteDataSourceChanged
 			do: [ :event | self editorChangedTo: event source text asString ].
 	content := BrVerticalPane new.
-	content hMatchParent.
-	content vFitContentLimited.
+	content matchParent.
 	content
 		addChild: (BrLabel new
 				aptitude: (BrGlamorousLabelAptitude new glamorousRegularFontAndSize
