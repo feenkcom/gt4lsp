@@ -187,7 +187,7 @@ GtLSPCoder >> searchButtonFor: obj [
 		valuable: [ obj lspDirectory ];
 		tooltip: 'Search';
 		icon: BrGlamorousVectorIcons search;
-		actOn: [ :anActOnEvent :anItem | 
+		objectActOn: [ :anActOnEvent :anItem | 
 			self updateFilesTo: anItem.
 			self updateContentsTo: anItem.
 			anActOnEvent beActed ]) asElement
