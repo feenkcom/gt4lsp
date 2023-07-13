@@ -13,7 +13,7 @@ Whether clients honor this property depends on the client capability `workspace.
 
 @since 3.16.0"
 
-	^ data at: 'changeAnnotations'
+	^ data at: 'changeAnnotations' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ GtLSPWorkspaceEditStructure >> changeAnnotations: anObject [
 GtLSPWorkspaceEditStructure >> changes [
 	"Holds changes to existing resources."
 
-	^ data at: 'changes'
+	^ data at: 'changes' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -46,7 +46,7 @@ Whether a client supports versioned document edits is expressed via
 If a client neither supports `documentChanges` nor `workspace.workspaceEdit.resourceOperations` then
 only plain `TextEdit`s using the `changes` property are supported."
 
-	^ data at: 'documentChanges'
+	^ data at: 'documentChanges' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

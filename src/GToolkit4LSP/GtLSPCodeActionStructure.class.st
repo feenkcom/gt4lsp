@@ -10,7 +10,7 @@ GtLSPCodeActionStructure >> command [
 provides an edit and a command, first the edit is
 executed and then the command."
 
-	^ (data at: 'command') ifNotNil: [ :obj | GtLSPCommandStructure new data: obj ]
+	^ (data at: 'command' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCommandStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ a `textDocument/codeAction` and a `codeAction/resolve` request.
 
 @since 3.16.0"
 
-	^ data at: 'data'
+	^ data at: 'data' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -37,7 +37,7 @@ GtLSPCodeActionStructure >> data: anObject [
 GtLSPCodeActionStructure >> diagnostics [
 	"The diagnostics that this code action resolves."
 
-	^ data at: 'diagnostics'
+	^ data at: 'diagnostics' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -63,7 +63,7 @@ Clients should follow the following guidelines regarding disabled code actions:
 
 @since 3.16.0"
 
-	^ data at: 'disabled'
+	^ data at: 'disabled' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -75,7 +75,7 @@ GtLSPCodeActionStructure >> disabled: anObject [
 GtLSPCodeActionStructure >> edit [
 	"The workspace edit this code action performs."
 
-	^ (data at: 'edit') ifNotNil: [ :obj | GtLSPWorkspaceEditStructure new data: obj ]
+	^ (data at: 'edit' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPWorkspaceEditStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -93,7 +93,7 @@ A refactoring should be marked preferred if it is the most reasonable choice of 
 
 @since 3.15.0"
 
-	^ data at: 'isPreferred'
+	^ data at: 'isPreferred' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -107,7 +107,7 @@ GtLSPCodeActionStructure >> kind [
 
 Used to filter code actions."
 
-	^ data at: 'kind'
+	^ data at: 'kind' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

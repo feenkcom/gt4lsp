@@ -6,7 +6,8 @@ Class {
 		'source',
 		'isOpen',
 		'directory',
-		'filename'
+		'filename',
+		'diagnostics'
 	],
 	#category : #'GToolkit4LSP-Model'
 }
@@ -23,6 +24,17 @@ GtLSPFileModel >> close [
 	isOpen ifFalse: [ ^ self ].
 	self lspClient didClose: filename.
 	isOpen := false
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> diagnostics [
+	^ diagnostics
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> diagnostics: anObject [
+	diagnostics := anObject.
+	self announce: (GtLSPFileDiagnostics new lspFile: self)
 ]
 
 { #category : #accessing }

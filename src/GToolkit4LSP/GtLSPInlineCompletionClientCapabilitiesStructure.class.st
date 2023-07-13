@@ -8,7 +8,7 @@ Class {
 GtLSPInlineCompletionClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether implementation supports dynamic registration for inline completion providers."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

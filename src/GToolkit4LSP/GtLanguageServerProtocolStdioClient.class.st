@@ -269,6 +269,24 @@ GtLanguageServerProtocolStdioClient >> nextLineIn: aStream [
 	^ nil
 ]
 
+{ #category : #methods }
+GtLanguageServerProtocolStdioClient >> on: aString as: aClass do: aBlock [
+	self
+		on: aString
+		do: [ :dict | 
+			aBlock
+				value: (aClass new
+						data: dict;
+						yourself) ]
+]
+
+{ #category : #methods }
+GtLanguageServerProtocolStdioClient >> on: aString do: aBlock [
+	aBlock
+		ifNil: [ methodHandlers removeKey: aString ifAbsent: [  ] ]
+		ifNotNil: [ methodHandlers at: aString put: aBlock ]
+]
+
 { #category : #running }
 GtLanguageServerProtocolStdioClient >> processMessage: aDictionary [
 	| id handler |
@@ -292,7 +310,7 @@ GtLanguageServerProtocolStdioClient >> processMessage: aDictionary [
 		ifTrue: [ handler := methodHandlers at: (aDictionary at: 'method') ifAbsent: [  ].
 			^ handler
 				ifNil: [ self handleUnknownMethod: aDictionary ]
-				ifNotNil: [ [ handler cull: aDictionary ] fork ] ]
+				ifNotNil: [ [ handler cull: (aDictionary at: 'params' ifAbsent: [ Dictionary new ]) ] fork ] ]
 ]
 
 { #category : #running }

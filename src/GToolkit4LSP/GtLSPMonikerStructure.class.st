@@ -21,7 +21,7 @@ GtLSPMonikerStructure >> identifier: anObject [
 GtLSPMonikerStructure >> kind [
 	"The moniker kind if known."
 
-	^ data at: 'kind'
+	^ data at: 'kind' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

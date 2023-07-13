@@ -29,7 +29,7 @@ a.cpp and result in errors in a header file b.hpp.
 
 @since 3.17.0"
 
-	^ data at: 'relatedDocuments'
+	^ data at: 'relatedDocuments' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

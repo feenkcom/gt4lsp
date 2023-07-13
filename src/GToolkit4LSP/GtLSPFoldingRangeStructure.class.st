@@ -12,7 +12,7 @@ will be chosen by the client.
 
 @since 3.17.0"
 
-	^ data at: 'collapsedText'
+	^ data at: 'collapsedText' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -24,7 +24,7 @@ GtLSPFoldingRangeStructure >> collapsedText: anObject [
 GtLSPFoldingRangeStructure >> endCharacter [
 	"The zero-based character offset before the folded range ends. If not defined, defaults to the length of the end line."
 
-	^ data at: 'endCharacter'
+	^ data at: 'endCharacter' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -51,7 +51,7 @@ GtLSPFoldingRangeStructure >> kind [
 is used to categorize folding ranges and used by commands like 'Fold all comments'.
 See {@link FoldingRangeKind} for an enumeration of standardized kinds."
 
-	^ data at: 'kind'
+	^ data at: 'kind' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -63,7 +63,7 @@ GtLSPFoldingRangeStructure >> kind: anObject [
 GtLSPFoldingRangeStructure >> startCharacter [
 	"The zero-based character offset from where the folded range starts. If not defined, defaults to the length of the start line."
 
-	^ data at: 'startCharacter'
+	^ data at: 'startCharacter' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

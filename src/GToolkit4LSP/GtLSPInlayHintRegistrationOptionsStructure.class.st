@@ -22,7 +22,7 @@ GtLSPInlayHintRegistrationOptionsStructure >> id [
 	"The id used to register the request. The id can be used to deregister
 the request again. See also Registration#id."
 
-	^ data at: 'id'
+	^ data at: 'id' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -35,7 +35,7 @@ GtLSPInlayHintRegistrationOptionsStructure >> resolveProvider [
 	"The server provides support to resolve additional
 information for an inlay hint item."
 
-	^ data at: 'resolveProvider'
+	^ data at: 'resolveProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -45,7 +45,7 @@ GtLSPInlayHintRegistrationOptionsStructure >> resolveProvider: anObject [
 
 { #category : #accessing }
 GtLSPInlayHintRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

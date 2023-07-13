@@ -10,7 +10,7 @@ GtLSPImplementationClientCapabilitiesStructure >> dynamicRegistration [
 the client supports the new `ImplementationRegistrationOptions` return value
 for the corresponding server capability as well."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -24,7 +24,7 @@ GtLSPImplementationClientCapabilitiesStructure >> linkSupport [
 
 @since 3.14.0"
 
-	^ data at: 'linkSupport'
+	^ data at: 'linkSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

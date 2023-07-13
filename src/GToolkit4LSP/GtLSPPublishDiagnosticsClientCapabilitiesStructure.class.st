@@ -10,7 +10,7 @@ GtLSPPublishDiagnosticsClientCapabilitiesStructure >> codeDescriptionSupport [
 
 @since 3.16.0"
 
-	^ data at: 'codeDescriptionSupport'
+	^ data at: 'codeDescriptionSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -26,7 +26,7 @@ preserved between a `textDocument/publishDiagnostics` and
 
 @since 3.16.0"
 
-	^ data at: 'dataSupport'
+	^ data at: 'dataSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -38,7 +38,7 @@ GtLSPPublishDiagnosticsClientCapabilitiesStructure >> dataSupport: anObject [
 GtLSPPublishDiagnosticsClientCapabilitiesStructure >> relatedInformation [
 	"Whether the clients accepts diagnostics with related information."
 
-	^ data at: 'relatedInformation'
+	^ data at: 'relatedInformation' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -53,7 +53,7 @@ Clients supporting tags have to handle unknown tags gracefully.
 
 @since 3.15.0"
 
-	^ data at: 'tagSupport'
+	^ data at: 'tagSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -68,7 +68,7 @@ GtLSPPublishDiagnosticsClientCapabilitiesStructure >> versionSupport [
 
 @since 3.15.0"
 
-	^ data at: 'versionSupport'
+	^ data at: 'versionSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

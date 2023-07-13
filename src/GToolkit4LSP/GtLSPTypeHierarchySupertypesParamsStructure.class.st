@@ -24,7 +24,7 @@ GtLSPTypeHierarchySupertypesParamsStructure >> partialResultToken [
 	"An optional token that a server can use to report partial results (e.g. streaming) to
 the client."
 
-	^ data at: 'partialResultToken'
+	^ data at: 'partialResultToken' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -36,7 +36,7 @@ GtLSPTypeHierarchySupertypesParamsStructure >> partialResultToken: anObject [
 GtLSPTypeHierarchySupertypesParamsStructure >> workDoneToken [
 	"An optional token that a server can use to report work done progress."
 
-	^ data at: 'workDoneToken'
+	^ data at: 'workDoneToken' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -10,7 +10,7 @@ GtLSPDocumentColorClientCapabilitiesStructure >> dynamicRegistration [
 the client supports the new `DocumentColorRegistrationOptions` return value
 for the corresponding server capability as well."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

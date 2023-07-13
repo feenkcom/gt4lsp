@@ -8,7 +8,7 @@ Class {
 GtLSPDocumentOnTypeFormattingClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether on type formatting supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

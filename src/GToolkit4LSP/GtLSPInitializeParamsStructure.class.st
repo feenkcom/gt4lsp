@@ -22,7 +22,7 @@ GtLSPInitializeParamsStructure >> clientInfo [
 
 @since 3.15.0"
 
-	^ data at: 'clientInfo'
+	^ data at: 'clientInfo' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -41,7 +41,7 @@ GtLSPInitializeParamsStructure >> create [
 GtLSPInitializeParamsStructure >> initializationOptions [
 	"User provided initialization options."
 
-	^ data at: 'initializationOptions'
+	^ data at: 'initializationOptions' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -60,7 +60,7 @@ Uses IETF language tags as the value's syntax
 
 @since 3.16.0"
 
-	^ data at: 'locale'
+	^ data at: 'locale' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -91,7 +91,7 @@ if no folder is open.
 
 @deprecated in favour of rootUri."
 
-	^ data at: 'rootPath'
+	^ data at: 'rootPath' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -119,7 +119,7 @@ GtLSPInitializeParamsStructure >> rootUri: anObject [
 GtLSPInitializeParamsStructure >> trace [
 	"The initial trace setting. If omitted trace is disabled ('off')."
 
-	^ data at: 'trace'
+	^ data at: 'trace' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -131,7 +131,7 @@ GtLSPInitializeParamsStructure >> trace: anObject [
 GtLSPInitializeParamsStructure >> workDoneToken [
 	"An optional token that a server can use to report work done progress."
 
-	^ data at: 'workDoneToken'
+	^ data at: 'workDoneToken' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -149,7 +149,7 @@ configured.
 
 @since 3.6.0"
 
-	^ data at: 'workspaceFolders'
+	^ data at: 'workspaceFolders' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

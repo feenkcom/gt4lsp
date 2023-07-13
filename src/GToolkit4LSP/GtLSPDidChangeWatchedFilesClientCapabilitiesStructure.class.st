@@ -10,7 +10,7 @@ GtLSPDidChangeWatchedFilesClientCapabilitiesStructure >> dynamicRegistration [
 that the current protocol doesn't support static configuration for file changes
 from the server side."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ or not.
 
 @since 3.17.0"
 
-	^ data at: 'relativePatternSupport'
+	^ data at: 'relativePatternSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

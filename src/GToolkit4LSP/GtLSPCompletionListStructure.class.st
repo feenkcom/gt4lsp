@@ -40,7 +40,7 @@ capability.
 
 @since 3.17.0"
 
-	^ data at: 'itemDefaults'
+	^ data at: 'itemDefaults' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

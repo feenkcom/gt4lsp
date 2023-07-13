@@ -23,7 +23,7 @@ GtLSPExecutionSummaryStructure >> success [
 	"Whether the execution was successful or
 not if known by the client."
 
-	^ data at: 'success'
+	^ data at: 'success' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

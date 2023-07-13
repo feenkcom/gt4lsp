@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 GtLSPDidChangeConfigurationRegistrationOptionsStructure >> section [
-	^ data at: 'section'
+	^ data at: 'section' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

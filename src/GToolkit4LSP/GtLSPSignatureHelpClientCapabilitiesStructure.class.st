@@ -13,7 +13,7 @@ contextSupport will also support the `retriggerCharacters` on
 
 @since 3.15.0"
 
-	^ data at: 'contextSupport'
+	^ data at: 'contextSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ GtLSPSignatureHelpClientCapabilitiesStructure >> contextSupport: anObject [
 GtLSPSignatureHelpClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether signature help supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -38,7 +38,7 @@ GtLSPSignatureHelpClientCapabilitiesStructure >> signatureInformation [
 	"The client supports the following `SignatureInformation`
 specific properties."
 
-	^ data at: 'signatureInformation'
+	^ data at: 'signatureInformation' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

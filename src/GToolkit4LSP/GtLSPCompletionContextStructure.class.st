@@ -9,7 +9,7 @@ GtLSPCompletionContextStructure >> triggerCharacter [
 	"The trigger character (a single character) that has trigger code complete.
 Is undefined if `triggerKind !== CompletionTriggerKind.TriggerCharacter`"
 
-	^ data at: 'triggerCharacter'
+	^ data at: 'triggerCharacter' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

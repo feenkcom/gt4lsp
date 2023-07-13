@@ -8,7 +8,7 @@ Class {
 GtLSPExecuteCommandParamsStructure >> arguments [
 	"Arguments that the command should be invoked with."
 
-	^ data at: 'arguments'
+	^ data at: 'arguments' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -32,7 +32,7 @@ GtLSPExecuteCommandParamsStructure >> command: anObject [
 GtLSPExecuteCommandParamsStructure >> workDoneToken [
 	"An optional token that a server can use to report work done progress."
 
-	^ data at: 'workDoneToken'
+	^ data at: 'workDoneToken' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -10,7 +10,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> callHierarchy [
 
 @since 3.16.0"
 
-	^ (data at: 'callHierarchy') ifNotNil: [ :obj | GtLSPCallHierarchyClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'callHierarchy' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCallHierarchyClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -22,7 +22,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> callHierarchy: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> codeAction [
 	"Capabilities specific to the `textDocument/codeAction` request."
 
-	^ (data at: 'codeAction') ifNotNil: [ :obj | GtLSPCodeActionClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'codeAction' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCodeActionClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -34,7 +34,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> codeAction: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> codeLens [
 	"Capabilities specific to the `textDocument/codeLens` request."
 
-	^ (data at: 'codeLens') ifNotNil: [ :obj | GtLSPCodeLensClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'codeLens' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCodeLensClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -49,7 +49,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> colorProvider [
 
 @since 3.6.0"
 
-	^ (data at: 'colorProvider') ifNotNil: [ :obj | GtLSPDocumentColorClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'colorProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentColorClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -61,7 +61,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> colorProvider: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> completion [
 	"Capabilities specific to the `textDocument/completion` request."
 
-	^ (data at: 'completion') ifNotNil: [ :obj | GtLSPCompletionClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'completion' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCompletionClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -75,7 +75,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> declaration [
 
 @since 3.14.0"
 
-	^ (data at: 'declaration') ifNotNil: [ :obj | GtLSPDeclarationClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'declaration' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDeclarationClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -87,7 +87,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> declaration: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> definition [
 	"Capabilities specific to the `textDocument/definition` request."
 
-	^ (data at: 'definition') ifNotNil: [ :obj | GtLSPDefinitionClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'definition' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDefinitionClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -101,7 +101,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> diagnostic [
 
 @since 3.17.0"
 
-	^ (data at: 'diagnostic') ifNotNil: [ :obj | GtLSPDiagnosticClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'diagnostic' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDiagnosticClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -113,7 +113,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> diagnostic: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> documentHighlight [
 	"Capabilities specific to the `textDocument/documentHighlight` request."
 
-	^ (data at: 'documentHighlight') ifNotNil: [ :obj | GtLSPDocumentHighlightClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'documentHighlight' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentHighlightClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -125,7 +125,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> documentHighlight: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> documentLink [
 	"Capabilities specific to the `textDocument/documentLink` request."
 
-	^ (data at: 'documentLink') ifNotNil: [ :obj | GtLSPDocumentLinkClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'documentLink' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentLinkClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -137,7 +137,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> documentLink: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> documentSymbol [
 	"Capabilities specific to the `textDocument/documentSymbol` request."
 
-	^ (data at: 'documentSymbol') ifNotNil: [ :obj | GtLSPDocumentSymbolClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'documentSymbol' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentSymbolClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -151,7 +151,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> foldingRange [
 
 @since 3.10.0"
 
-	^ (data at: 'foldingRange') ifNotNil: [ :obj | GtLSPFoldingRangeClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'foldingRange' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPFoldingRangeClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -163,7 +163,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> foldingRange: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> formatting [
 	"Capabilities specific to the `textDocument/formatting` request."
 
-	^ (data at: 'formatting') ifNotNil: [ :obj | GtLSPDocumentFormattingClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'formatting' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentFormattingClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -175,7 +175,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> formatting: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> hover [
 	"Capabilities specific to the `textDocument/hover` request."
 
-	^ (data at: 'hover') ifNotNil: [ :obj | GtLSPHoverClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'hover' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPHoverClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -189,7 +189,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> implementation [
 
 @since 3.6.0"
 
-	^ (data at: 'implementation') ifNotNil: [ :obj | GtLSPImplementationClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'implementation' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPImplementationClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -203,7 +203,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> inlayHint [
 
 @since 3.17.0"
 
-	^ (data at: 'inlayHint') ifNotNil: [ :obj | GtLSPInlayHintClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'inlayHint' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPInlayHintClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -218,7 +218,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> inlineCompletion [
 @since 3.18.0
 @proposed"
 
-	^ (data at: 'inlineCompletion') ifNotNil: [ :obj | GtLSPInlineCompletionClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'inlineCompletion' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPInlineCompletionClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -232,7 +232,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> inlineValue [
 
 @since 3.17.0"
 
-	^ (data at: 'inlineValue') ifNotNil: [ :obj | GtLSPInlineValueClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'inlineValue' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPInlineValueClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -246,7 +246,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> linkedEditingRange [
 
 @since 3.16.0"
 
-	^ (data at: 'linkedEditingRange') ifNotNil: [ :obj | GtLSPLinkedEditingRangeClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'linkedEditingRange' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPLinkedEditingRangeClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -260,7 +260,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> moniker [
 
 @since 3.16.0"
 
-	^ (data at: 'moniker') ifNotNil: [ :obj | GtLSPMonikerClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'moniker' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPMonikerClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -272,7 +272,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> moniker: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> onTypeFormatting [
 	"Capabilities specific to the `textDocument/onTypeFormatting` request."
 
-	^ (data at: 'onTypeFormatting') ifNotNil: [ :obj | GtLSPDocumentOnTypeFormattingClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'onTypeFormatting' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentOnTypeFormattingClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -284,7 +284,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> onTypeFormatting: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> publishDiagnostics [
 	"Capabilities specific to the `textDocument/publishDiagnostics` notification."
 
-	^ (data at: 'publishDiagnostics') ifNotNil: [ :obj | GtLSPPublishDiagnosticsClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'publishDiagnostics' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPPublishDiagnosticsClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -296,7 +296,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> publishDiagnostics: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> rangeFormatting [
 	"Capabilities specific to the `textDocument/rangeFormatting` request."
 
-	^ (data at: 'rangeFormatting') ifNotNil: [ :obj | GtLSPDocumentRangeFormattingClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'rangeFormatting' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentRangeFormattingClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -308,7 +308,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> rangeFormatting: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> references [
 	"Capabilities specific to the `textDocument/references` request."
 
-	^ (data at: 'references') ifNotNil: [ :obj | GtLSPReferenceClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'references' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPReferenceClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -320,7 +320,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> references: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> rename [
 	"Capabilities specific to the `textDocument/rename` request."
 
-	^ (data at: 'rename') ifNotNil: [ :obj | GtLSPRenameClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'rename' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRenameClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -334,7 +334,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> selectionRange [
 
 @since 3.15.0"
 
-	^ (data at: 'selectionRange') ifNotNil: [ :obj | GtLSPSelectionRangeClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'selectionRange' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSelectionRangeClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -348,7 +348,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> semanticTokens [
 
 @since 3.16.0"
 
-	^ (data at: 'semanticTokens') ifNotNil: [ :obj | GtLSPSemanticTokensClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'semanticTokens' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSemanticTokensClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -360,7 +360,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> semanticTokens: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> signatureHelp [
 	"Capabilities specific to the `textDocument/signatureHelp` request."
 
-	^ (data at: 'signatureHelp') ifNotNil: [ :obj | GtLSPSignatureHelpClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'signatureHelp' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSignatureHelpClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -372,7 +372,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> signatureHelp: anObject [
 GtLSPTextDocumentClientCapabilitiesStructure >> synchronization [
 	"Defines which synchronization capabilities the client supports."
 
-	^ (data at: 'synchronization') ifNotNil: [ :obj | GtLSPTextDocumentSyncClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'synchronization' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPTextDocumentSyncClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -386,7 +386,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> typeDefinition [
 
 @since 3.6.0"
 
-	^ (data at: 'typeDefinition') ifNotNil: [ :obj | GtLSPTypeDefinitionClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'typeDefinition' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPTypeDefinitionClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -400,7 +400,7 @@ GtLSPTextDocumentClientCapabilitiesStructure >> typeHierarchy [
 
 @since 3.17.0"
 
-	^ (data at: 'typeHierarchy') ifNotNil: [ :obj | GtLSPTypeHierarchyClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'typeHierarchy' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPTypeHierarchyClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }

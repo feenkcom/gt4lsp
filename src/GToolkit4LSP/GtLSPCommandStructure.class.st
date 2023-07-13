@@ -9,7 +9,7 @@ GtLSPCommandStructure >> arguments [
 	"Arguments that the command handler should be
 invoked with."
 
-	^ data at: 'arguments'
+	^ data at: 'arguments' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

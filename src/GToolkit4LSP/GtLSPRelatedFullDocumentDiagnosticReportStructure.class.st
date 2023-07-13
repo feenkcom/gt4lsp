@@ -43,7 +43,7 @@ a.cpp and result in errors in a header file b.hpp.
 
 @since 3.17.0"
 
-	^ data at: 'relatedDocuments'
+	^ data at: 'relatedDocuments' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -57,7 +57,7 @@ GtLSPRelatedFullDocumentDiagnosticReportStructure >> resultId [
 be sent on the next diagnostic request for the
 same document."
 
-	^ data at: 'resultId'
+	^ data at: 'resultId' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

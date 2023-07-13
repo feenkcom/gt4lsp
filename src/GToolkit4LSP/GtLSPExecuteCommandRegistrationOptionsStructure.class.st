@@ -23,7 +23,7 @@ GtLSPExecuteCommandRegistrationOptionsStructure >> create [
 
 { #category : #accessing }
 GtLSPExecuteCommandRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

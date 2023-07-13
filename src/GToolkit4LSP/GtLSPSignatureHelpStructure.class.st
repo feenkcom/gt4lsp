@@ -14,7 +14,7 @@ In future version of the protocol this property might become
 mandatory to better express the active parameter if the
 active signature does have any."
 
-	^ data at: 'activeParameter'
+	^ data at: 'activeParameter' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -34,7 +34,7 @@ the active signature and shouldn't rely on a default value.
 In future version of the protocol this property might become
 mandatory to better express this."
 
-	^ data at: 'activeSignature'
+	^ data at: 'activeSignature' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -11,7 +11,7 @@ GtLSPCodeActionOptionsStructure >> codeActionKinds [
 The list of kinds may be generic, such as `CodeActionKind.Refactor`, or the server
 may list out every specific kind they provide."
 
-	^ data at: 'codeActionKinds'
+	^ data at: 'codeActionKinds' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -26,7 +26,7 @@ information for a code action.
 
 @since 3.16.0"
 
-	^ data at: 'resolveProvider'
+	^ data at: 'resolveProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -36,7 +36,7 @@ GtLSPCodeActionOptionsStructure >> resolveProvider: anObject [
 
 { #category : #accessing }
 GtLSPCodeActionOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

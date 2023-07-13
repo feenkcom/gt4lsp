@@ -22,7 +22,7 @@ GtLSPSelectionRangeRegistrationOptionsStructure >> id [
 	"The id used to register the request. The id can be used to deregister
 the request again. See also Registration#id."
 
-	^ data at: 'id'
+	^ data at: 'id' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -32,7 +32,7 @@ GtLSPSelectionRangeRegistrationOptionsStructure >> id: anObject [
 
 { #category : #accessing }
 GtLSPSelectionRangeRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

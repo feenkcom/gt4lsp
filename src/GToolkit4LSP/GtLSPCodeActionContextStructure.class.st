@@ -32,7 +32,7 @@ GtLSPCodeActionContextStructure >> only [
 Actions not of this kind are filtered out by the client before being shown. So servers
 can omit computing them."
 
-	^ data at: 'only'
+	^ data at: 'only' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -46,7 +46,7 @@ GtLSPCodeActionContextStructure >> triggerKind [
 
 @since 3.17.0"
 
-	^ data at: 'triggerKind'
+	^ data at: 'triggerKind' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

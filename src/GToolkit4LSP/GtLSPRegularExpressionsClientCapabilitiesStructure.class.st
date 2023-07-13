@@ -20,7 +20,7 @@ GtLSPRegularExpressionsClientCapabilitiesStructure >> engine: anObject [
 GtLSPRegularExpressionsClientCapabilitiesStructure >> version [
 	"The engine's version."
 
-	^ data at: 'version'
+	^ data at: 'version' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

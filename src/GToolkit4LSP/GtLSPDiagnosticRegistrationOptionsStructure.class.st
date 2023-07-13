@@ -22,7 +22,7 @@ GtLSPDiagnosticRegistrationOptionsStructure >> id [
 	"The id used to register the request. The id can be used to deregister
 the request again. See also Registration#id."
 
-	^ data at: 'id'
+	^ data at: 'id' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -35,7 +35,7 @@ GtLSPDiagnosticRegistrationOptionsStructure >> identifier [
 	"An optional identifier under which the diagnostics are
 managed by the client."
 
-	^ data at: 'identifier'
+	^ data at: 'identifier' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -60,7 +60,7 @@ GtLSPDiagnosticRegistrationOptionsStructure >> interFileDependencies: anObject [
 
 { #category : #accessing }
 GtLSPDiagnosticRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

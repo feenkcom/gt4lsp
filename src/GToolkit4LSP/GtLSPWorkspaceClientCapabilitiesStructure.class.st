@@ -10,7 +10,7 @@ GtLSPWorkspaceClientCapabilitiesStructure >> applyEdit [
 to the workspace by supporting the request
 'workspace/applyEdit'"
 
-	^ data at: 'applyEdit'
+	^ data at: 'applyEdit' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ workspace.
 
 @since 3.16.0."
 
-	^ (data at: 'codeLens') ifNotNil: [ :obj | GtLSPCodeLensWorkspaceClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'codeLens' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCodeLensWorkspaceClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -39,7 +39,7 @@ GtLSPWorkspaceClientCapabilitiesStructure >> configuration [
 
 @since 3.6.0"
 
-	^ data at: 'configuration'
+	^ data at: 'configuration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -54,7 +54,7 @@ workspace.
 
 @since 3.17.0."
 
-	^ (data at: 'diagnostics') ifNotNil: [ :obj | GtLSPDiagnosticWorkspaceClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'diagnostics' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDiagnosticWorkspaceClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -66,7 +66,7 @@ GtLSPWorkspaceClientCapabilitiesStructure >> diagnostics: anObject [
 GtLSPWorkspaceClientCapabilitiesStructure >> didChangeConfiguration [
 	"Capabilities specific to the `workspace/didChangeConfiguration` notification."
 
-	^ (data at: 'didChangeConfiguration') ifNotNil: [ :obj | GtLSPDidChangeConfigurationClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'didChangeConfiguration' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDidChangeConfigurationClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -78,7 +78,7 @@ GtLSPWorkspaceClientCapabilitiesStructure >> didChangeConfiguration: anObject [
 GtLSPWorkspaceClientCapabilitiesStructure >> didChangeWatchedFiles [
 	"Capabilities specific to the `workspace/didChangeWatchedFiles` notification."
 
-	^ (data at: 'didChangeWatchedFiles') ifNotNil: [ :obj | GtLSPDidChangeWatchedFilesClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'didChangeWatchedFiles' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDidChangeWatchedFilesClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -90,7 +90,7 @@ GtLSPWorkspaceClientCapabilitiesStructure >> didChangeWatchedFiles: anObject [
 GtLSPWorkspaceClientCapabilitiesStructure >> executeCommand [
 	"Capabilities specific to the `workspace/executeCommand` request."
 
-	^ (data at: 'executeCommand') ifNotNil: [ :obj | GtLSPExecuteCommandClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'executeCommand' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPExecuteCommandClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -104,7 +104,7 @@ GtLSPWorkspaceClientCapabilitiesStructure >> fileOperations [
 
 Since 3.16.0"
 
-	^ (data at: 'fileOperations') ifNotNil: [ :obj | GtLSPFileOperationClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'fileOperations' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPFileOperationClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -119,7 +119,7 @@ workspace.
 
 @since 3.17.0."
 
-	^ (data at: 'inlayHint') ifNotNil: [ :obj | GtLSPInlayHintWorkspaceClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'inlayHint' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPInlayHintWorkspaceClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -134,7 +134,7 @@ workspace.
 
 @since 3.17.0."
 
-	^ (data at: 'inlineValue') ifNotNil: [ :obj | GtLSPInlineValueWorkspaceClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'inlineValue' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPInlineValueWorkspaceClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -149,7 +149,7 @@ workspace.
 
 @since 3.16.0."
 
-	^ (data at: 'semanticTokens') ifNotNil: [ :obj | GtLSPSemanticTokensWorkspaceClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'semanticTokens' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSemanticTokensWorkspaceClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -161,7 +161,7 @@ GtLSPWorkspaceClientCapabilitiesStructure >> semanticTokens: anObject [
 GtLSPWorkspaceClientCapabilitiesStructure >> symbol [
 	"Capabilities specific to the `workspace/symbol` request."
 
-	^ (data at: 'symbol') ifNotNil: [ :obj | GtLSPWorkspaceSymbolClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'symbol' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPWorkspaceSymbolClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -173,7 +173,7 @@ GtLSPWorkspaceClientCapabilitiesStructure >> symbol: anObject [
 GtLSPWorkspaceClientCapabilitiesStructure >> workspaceEdit [
 	"Capabilities specific to `WorkspaceEdit`s."
 
-	^ (data at: 'workspaceEdit') ifNotNil: [ :obj | GtLSPWorkspaceEditClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'workspaceEdit' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPWorkspaceEditClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -187,7 +187,7 @@ GtLSPWorkspaceClientCapabilitiesStructure >> workspaceFolders [
 
 @since 3.6.0"
 
-	^ data at: 'workspaceFolders'
+	^ data at: 'workspaceFolders' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -39,7 +39,7 @@ GtLSPPublishDiagnosticsParamsStructure >> version [
 
 @since 3.15.0"
 
-	^ data at: 'version'
+	^ data at: 'version' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

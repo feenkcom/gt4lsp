@@ -19,7 +19,7 @@ GtLSPDocumentFormattingRegistrationOptionsStructure >> documentSelector: anObjec
 
 { #category : #accessing }
 GtLSPDocumentFormattingRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

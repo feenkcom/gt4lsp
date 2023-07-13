@@ -101,13 +101,14 @@ GtLSPStructure class >> compileNewClasses [
 ]
 
 { #category : #'code generation' }
-GtLSPStructure class >> converterForType: aDictionary variable: varName [
+GtLSPStructure class >> converterForType: aDictionary variable: varName optional: aBoolean [
 	| refType |
 	(aDictionary at: 'kind') = 'reference'
 		ifTrue: [ refType := Smalltalk
 					at: ('GtLSP' , (aDictionary at: 'name') , 'Structure') asSymbol
 					ifAbsent: [  ] ].
 	^ (refType ifNil: [ '' ] ifNotNil: [ '(' ]) , 'data at: ''' , varName , ''''
+		, (aBoolean ifTrue: [ ' ifAbsent: [ ]' ] ifFalse: [ '' ])
 		, (refType
 				ifNil: [ '' ]
 				ifNotNil: [ ') ifNotNil: [ :obj | ' , refType name asString , ' new data: obj ]' ])
@@ -192,7 +193,10 @@ GtLSPStructure class >> getterForProperty: aDictionary [
 						cr;
 						cr ].
 			stream tab << '^ '
-				<< (self converterForType: (aDictionary at: 'type') variable: varName) ]
+				<< (self
+						converterForType: (aDictionary at: 'type')
+						variable: varName
+						optional: (aDictionary at: 'optional' ifAbsent: [ false ])) ]
 ]
 
 { #category : #'class initialization' }
@@ -252,6 +256,7 @@ GtLSPStructure class >> initialize [
 		#('documentLink/resolve' #GtLSPDocumentLinkStructure)
 		#('textDocument/formatting' #GtLSPDocumentFormattingParamsStructure)
 		#('textDocument/rangeFormatting' #GtLSPDocumentRangeFormattingParamsStructure)
+		#('textDocument/rangesFormatting' #GtLSPDocumentRangesFormattingParamsStructure)
 		#('textDocument/onTypeFormatting' #GtLSPDocumentOnTypeFormattingParamsStructure)
 		#('textDocument/rename' #GtLSPRenameParamsStructure)
 		#('textDocument/prepareRename' #GtLSPPrepareRenameParamsStructure)

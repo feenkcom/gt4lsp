@@ -12,7 +12,7 @@ set the request can only return `Command` literals.
 
 @since 3.8.0"
 
-	^ data at: 'codeActionLiteralSupport'
+	^ data at: 'codeActionLiteralSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -28,7 +28,7 @@ preserved between a `textDocument/codeAction` and a
 
 @since 3.16.0"
 
-	^ data at: 'dataSupport'
+	^ data at: 'dataSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -42,7 +42,7 @@ GtLSPCodeActionClientCapabilitiesStructure >> disabledSupport [
 
 @since 3.16.0"
 
-	^ data at: 'disabledSupport'
+	^ data at: 'disabledSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -54,7 +54,7 @@ GtLSPCodeActionClientCapabilitiesStructure >> disabledSupport: anObject [
 GtLSPCodeActionClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether code action supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -72,7 +72,7 @@ for confirmation.
 
 @since 3.16.0"
 
-	^ data at: 'honorsChangeAnnotations'
+	^ data at: 'honorsChangeAnnotations' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -86,7 +86,7 @@ GtLSPCodeActionClientCapabilitiesStructure >> isPreferredSupport [
 
 @since 3.15.0"
 
-	^ data at: 'isPreferredSupport'
+	^ data at: 'isPreferredSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -101,7 +101,7 @@ properties via a separate `codeAction/resolve` request.
 
 @since 3.16.0"
 
-	^ data at: 'resolveSupport'
+	^ data at: 'resolveSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

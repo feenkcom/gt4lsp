@@ -26,7 +26,7 @@ GtLSPSemanticTokensRegistrationOptionsStructure >> documentSelector: anObject [
 GtLSPSemanticTokensRegistrationOptionsStructure >> full [
 	"Server supports providing semantic tokens for a full document."
 
-	^ data at: 'full'
+	^ data at: 'full' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -39,7 +39,7 @@ GtLSPSemanticTokensRegistrationOptionsStructure >> id [
 	"The id used to register the request. The id can be used to deregister
 the request again. See also Registration#id."
 
-	^ data at: 'id'
+	^ data at: 'id' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -64,7 +64,7 @@ GtLSPSemanticTokensRegistrationOptionsStructure >> range [
 	"Server supports providing semantic tokens for a specific range
 of a document."
 
-	^ data at: 'range'
+	^ data at: 'range' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -74,7 +74,7 @@ GtLSPSemanticTokensRegistrationOptionsStructure >> range: anObject [
 
 { #category : #accessing }
 GtLSPSemanticTokensRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

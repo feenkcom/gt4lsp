@@ -13,7 +13,7 @@ GtLSPWorkspaceDiagnosticParamsStructure >> create [
 GtLSPWorkspaceDiagnosticParamsStructure >> identifier [
 	"The additional identifier provided during registration."
 
-	^ data at: 'identifier'
+	^ data at: 'identifier' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -26,7 +26,7 @@ GtLSPWorkspaceDiagnosticParamsStructure >> partialResultToken [
 	"An optional token that a server can use to report partial results (e.g. streaming) to
 the client."
 
-	^ data at: 'partialResultToken'
+	^ data at: 'partialResultToken' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -51,7 +51,7 @@ GtLSPWorkspaceDiagnosticParamsStructure >> previousResultIds: anObject [
 GtLSPWorkspaceDiagnosticParamsStructure >> workDoneToken [
 	"An optional token that a server can use to report work done progress."
 
-	^ data at: 'workDoneToken'
+	^ data at: 'workDoneToken' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

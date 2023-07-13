@@ -11,7 +11,7 @@ GtLSPNotebookCellTextDocumentFilterStructure >> language [
 Will be matched against the language id of the
 notebook cell document. '*' matches every language."
 
-	^ data at: 'language'
+	^ data at: 'language' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

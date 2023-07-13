@@ -10,7 +10,7 @@ GtLSPDeleteFileStructure >> annotationId [
 
 @since 3.16.0"
 
-	^ data at: 'annotationId'
+	^ data at: 'annotationId' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -34,7 +34,7 @@ GtLSPDeleteFileStructure >> kind: anObject [
 GtLSPDeleteFileStructure >> options [
 	"Delete options."
 
-	^ (data at: 'options') ifNotNil: [ :obj | GtLSPDeleteFileOptionsStructure new data: obj ]
+	^ (data at: 'options' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDeleteFileOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }

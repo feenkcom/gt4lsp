@@ -11,7 +11,7 @@ information for a workspace symbol.
 
 @since 3.17.0"
 
-	^ data at: 'resolveProvider'
+	^ data at: 'resolveProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -21,7 +21,7 @@ GtLSPWorkspaceSymbolOptionsStructure >> resolveProvider: anObject [
 
 { #category : #accessing }
 GtLSPWorkspaceSymbolOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

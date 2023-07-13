@@ -19,7 +19,7 @@ GtLSPHoverRegistrationOptionsStructure >> documentSelector: anObject [
 
 { #category : #accessing }
 GtLSPHoverRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

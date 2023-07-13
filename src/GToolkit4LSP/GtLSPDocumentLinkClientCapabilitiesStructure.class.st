@@ -8,7 +8,7 @@ Class {
 GtLSPDocumentLinkClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether document link supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -22,7 +22,7 @@ GtLSPDocumentLinkClientCapabilitiesStructure >> tooltipSupport [
 
 @since 3.15.0"
 
-	^ data at: 'tooltipSupport'
+	^ data at: 'tooltipSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

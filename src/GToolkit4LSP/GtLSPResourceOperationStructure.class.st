@@ -10,7 +10,7 @@ GtLSPResourceOperationStructure >> annotationId [
 
 @since 3.16.0"
 
-	^ data at: 'annotationId'
+	^ data at: 'annotationId' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

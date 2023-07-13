@@ -27,7 +27,7 @@ GtLSPInitializeResultStructure >> serverInfo [
 
 @since 3.15.0"
 
-	^ data at: 'serverInfo'
+	^ data at: 'serverInfo' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -25,7 +25,7 @@ GtLSPFileOperationFilterStructure >> pattern: anObject [
 GtLSPFileOperationFilterStructure >> scheme [
 	"A Uri scheme like `file` or `untitled`."
 
-	^ data at: 'scheme'
+	^ data at: 'scheme' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

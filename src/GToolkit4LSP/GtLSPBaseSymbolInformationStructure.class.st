@@ -11,7 +11,7 @@ user interface purposes (e.g. to render a qualifier in the user interface
 if necessary). It can't be used to re-infer a hierarchy for the document
 symbols."
 
-	^ data at: 'containerName'
+	^ data at: 'containerName' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -49,7 +49,7 @@ GtLSPBaseSymbolInformationStructure >> tags [
 
 @since 3.16.0"
 
-	^ data at: 'tags'
+	^ data at: 'tags' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

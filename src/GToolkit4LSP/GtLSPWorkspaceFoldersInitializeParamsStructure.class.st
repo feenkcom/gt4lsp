@@ -14,7 +14,7 @@ configured.
 
 @since 3.6.0"
 
-	^ data at: 'workspaceFolders'
+	^ data at: 'workspaceFolders' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

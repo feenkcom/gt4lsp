@@ -8,7 +8,7 @@ Class {
 GtLSPRenameFileOptionsStructure >> ignoreIfExists [
 	"Ignores if target exists."
 
-	^ data at: 'ignoreIfExists'
+	^ data at: 'ignoreIfExists' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -20,7 +20,7 @@ GtLSPRenameFileOptionsStructure >> ignoreIfExists: anObject [
 GtLSPRenameFileOptionsStructure >> overwrite [
 	"Overwrite target if existing. Overwrite wins over `ignoreIfExists`"
 
-	^ data at: 'overwrite'
+	^ data at: 'overwrite' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

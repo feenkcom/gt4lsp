@@ -19,7 +19,7 @@ GtLSPWorkDoneProgressEndStructure >> message [
 	"Optional, a final message indicating to for example indicate the outcome
 of the operation."
 
-	^ data at: 'message'
+	^ data at: 'message' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

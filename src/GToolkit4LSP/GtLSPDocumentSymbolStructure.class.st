@@ -8,7 +8,7 @@ Class {
 GtLSPDocumentSymbolStructure >> children [
 	"Children of this symbol, e.g. properties of a class."
 
-	^ data at: 'children'
+	^ data at: 'children' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -28,7 +28,7 @@ GtLSPDocumentSymbolStructure >> deprecated [
 
 @deprecated Use tags instead"
 
-	^ data at: 'deprecated'
+	^ data at: 'deprecated' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ GtLSPDocumentSymbolStructure >> deprecated: anObject [
 GtLSPDocumentSymbolStructure >> detail [
 	"More detail for this symbol, e.g the signature of a function."
 
-	^ data at: 'detail'
+	^ data at: 'detail' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -106,7 +106,7 @@ GtLSPDocumentSymbolStructure >> tags [
 
 @since 3.16.0"
 
-	^ data at: 'tags'
+	^ data at: 'tags' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

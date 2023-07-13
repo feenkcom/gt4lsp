@@ -8,7 +8,7 @@ Class {
 GtLSPFileOperationOptionsStructure >> didCreate [
 	"The server is interested in receiving didCreateFiles notifications."
 
-	^ (data at: 'didCreate') ifNotNil: [ :obj | GtLSPFileOperationRegistrationOptionsStructure new data: obj ]
+	^ (data at: 'didCreate' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPFileOperationRegistrationOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -20,7 +20,7 @@ GtLSPFileOperationOptionsStructure >> didCreate: anObject [
 GtLSPFileOperationOptionsStructure >> didDelete [
 	"The server is interested in receiving didDeleteFiles file notifications."
 
-	^ (data at: 'didDelete') ifNotNil: [ :obj | GtLSPFileOperationRegistrationOptionsStructure new data: obj ]
+	^ (data at: 'didDelete' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPFileOperationRegistrationOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -32,7 +32,7 @@ GtLSPFileOperationOptionsStructure >> didDelete: anObject [
 GtLSPFileOperationOptionsStructure >> didRename [
 	"The server is interested in receiving didRenameFiles notifications."
 
-	^ (data at: 'didRename') ifNotNil: [ :obj | GtLSPFileOperationRegistrationOptionsStructure new data: obj ]
+	^ (data at: 'didRename' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPFileOperationRegistrationOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -44,7 +44,7 @@ GtLSPFileOperationOptionsStructure >> didRename: anObject [
 GtLSPFileOperationOptionsStructure >> willCreate [
 	"The server is interested in receiving willCreateFiles requests."
 
-	^ (data at: 'willCreate') ifNotNil: [ :obj | GtLSPFileOperationRegistrationOptionsStructure new data: obj ]
+	^ (data at: 'willCreate' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPFileOperationRegistrationOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -56,7 +56,7 @@ GtLSPFileOperationOptionsStructure >> willCreate: anObject [
 GtLSPFileOperationOptionsStructure >> willDelete [
 	"The server is interested in receiving willDeleteFiles file requests."
 
-	^ (data at: 'willDelete') ifNotNil: [ :obj | GtLSPFileOperationRegistrationOptionsStructure new data: obj ]
+	^ (data at: 'willDelete' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPFileOperationRegistrationOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -68,7 +68,7 @@ GtLSPFileOperationOptionsStructure >> willDelete: anObject [
 GtLSPFileOperationOptionsStructure >> willRename [
 	"The server is interested in receiving willRenameFiles requests."
 
-	^ (data at: 'willRename') ifNotNil: [ :obj | GtLSPFileOperationRegistrationOptionsStructure new data: obj ]
+	^ (data at: 'willRename' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPFileOperationRegistrationOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }

@@ -22,7 +22,7 @@ GtLSPNotebookCellStructure >> executionSummary [
 	"Additional execution summary information
 if supported by the client."
 
-	^ (data at: 'executionSummary') ifNotNil: [ :obj | GtLSPExecutionSummaryStructure new data: obj ]
+	^ (data at: 'executionSummary' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPExecutionSummaryStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -48,7 +48,7 @@ GtLSPNotebookCellStructure >> metadata [
 
 Note: should always be an object literal (e.g. LSPObject)"
 
-	^ data at: 'metadata'
+	^ data at: 'metadata' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

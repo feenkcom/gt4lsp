@@ -8,7 +8,7 @@ Class {
 GtLSPCodeLensOptionsStructure >> resolveProvider [
 	"Code lens has a resolve provider as well."
 
-	^ data at: 'resolveProvider'
+	^ data at: 'resolveProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -18,7 +18,7 @@ GtLSPCodeLensOptionsStructure >> resolveProvider: anObject [
 
 { #category : #accessing }
 GtLSPCodeLensOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -9,7 +9,7 @@ GtLSPHoverClientCapabilitiesStructure >> contentFormat [
 	"Client supports the following content formats for the content
 property. The order describes the preferred format of the client."
 
-	^ data at: 'contentFormat'
+	^ data at: 'contentFormat' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -21,7 +21,7 @@ GtLSPHoverClientCapabilitiesStructure >> contentFormat: anObject [
 GtLSPHoverClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether hover supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

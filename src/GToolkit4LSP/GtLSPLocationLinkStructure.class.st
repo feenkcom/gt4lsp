@@ -17,7 +17,7 @@ GtLSPLocationLinkStructure >> originSelectionRange [
 Used as the underlined span for mouse interaction. Defaults to the word range at
 the definition position."
 
-	^ (data at: 'originSelectionRange') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'originSelectionRange' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
 ]
 
 { #category : #accessing }

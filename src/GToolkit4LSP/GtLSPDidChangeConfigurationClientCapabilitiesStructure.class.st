@@ -8,7 +8,7 @@ Class {
 GtLSPDidChangeConfigurationClientCapabilitiesStructure >> dynamicRegistration [
 	"Did change configuration notification supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

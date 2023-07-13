@@ -19,7 +19,7 @@ GtLSPReferenceRegistrationOptionsStructure >> documentSelector: anObject [
 
 { #category : #accessing }
 GtLSPReferenceRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

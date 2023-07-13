@@ -10,7 +10,7 @@ GtLSPDeclarationClientCapabilitiesStructure >> dynamicRegistration [
 the client supports the new `DeclarationRegistrationOptions` return value
 for the corresponding server capability as well."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -22,7 +22,7 @@ GtLSPDeclarationClientCapabilitiesStructure >> dynamicRegistration: anObject [
 GtLSPDeclarationClientCapabilitiesStructure >> linkSupport [
 	"The client supports additional metadata in the form of declaration links."
 
-	^ data at: 'linkSupport'
+	^ data at: 'linkSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

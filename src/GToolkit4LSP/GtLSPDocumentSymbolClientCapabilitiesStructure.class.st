@@ -8,7 +8,7 @@ Class {
 GtLSPDocumentSymbolClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether document symbol supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -20,7 +20,7 @@ GtLSPDocumentSymbolClientCapabilitiesStructure >> dynamicRegistration: anObject 
 GtLSPDocumentSymbolClientCapabilitiesStructure >> hierarchicalDocumentSymbolSupport [
 	"The client supports hierarchical document symbols."
 
-	^ data at: 'hierarchicalDocumentSymbolSupport'
+	^ data at: 'hierarchicalDocumentSymbolSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -35,7 +35,7 @@ registering a document symbol provider.
 
 @since 3.16.0"
 
-	^ data at: 'labelSupport'
+	^ data at: 'labelSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -48,7 +48,7 @@ GtLSPDocumentSymbolClientCapabilitiesStructure >> symbolKind [
 	"Specific capabilities for the `SymbolKind` in the
 `textDocument/documentSymbol` request."
 
-	^ data at: 'symbolKind'
+	^ data at: 'symbolKind' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -64,7 +64,7 @@ Clients supporting tags have to handle unknown tags gracefully.
 
 @since 3.16.0"
 
-	^ data at: 'tagSupport'
+	^ data at: 'tagSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

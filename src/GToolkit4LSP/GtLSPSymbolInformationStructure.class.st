@@ -11,7 +11,7 @@ user interface purposes (e.g. to render a qualifier in the user interface
 if necessary). It can't be used to re-infer a hierarchy for the document
 symbols."
 
-	^ data at: 'containerName'
+	^ data at: 'containerName' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -30,7 +30,7 @@ GtLSPSymbolInformationStructure >> deprecated [
 
 @deprecated Use tags instead"
 
-	^ data at: 'deprecated'
+	^ data at: 'deprecated' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -88,7 +88,7 @@ GtLSPSymbolInformationStructure >> tags [
 
 @since 3.16.0"
 
-	^ data at: 'tags'
+	^ data at: 'tags' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

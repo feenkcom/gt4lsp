@@ -28,7 +28,7 @@ GtLSPLinkedEditingRangesStructure >> wordPattern [
 the given ranges. If no pattern is provided, the client configuration's word
 pattern will be used."
 
-	^ data at: 'wordPattern'
+	^ data at: 'wordPattern' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

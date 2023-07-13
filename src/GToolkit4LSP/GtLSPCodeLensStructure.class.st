@@ -8,7 +8,7 @@ Class {
 GtLSPCodeLensStructure >> command [
 	"The command this code lens represents."
 
-	^ (data at: 'command') ifNotNil: [ :obj | GtLSPCommandStructure new data: obj ]
+	^ (data at: 'command' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCommandStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -27,7 +27,7 @@ GtLSPCodeLensStructure >> data [
 a {@link CodeLensRequest} and a [CodeLensResolveRequest]
 (#CodeLensResolveRequest)"
 
-	^ data at: 'data'
+	^ data at: 'data' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

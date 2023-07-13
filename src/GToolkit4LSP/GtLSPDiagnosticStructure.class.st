@@ -8,7 +8,7 @@ Class {
 GtLSPDiagnosticStructure >> code [
 	"The diagnostic's code, which usually appear in the user interface."
 
-	^ data at: 'code'
+	^ data at: 'code' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -23,7 +23,7 @@ Requires the code field (above) to be present/not null.
 
 @since 3.16.0"
 
-	^ (data at: 'codeDescription') ifNotNil: [ :obj | GtLSPCodeDescriptionStructure new data: obj ]
+	^ (data at: 'codeDescription' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCodeDescriptionStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -43,7 +43,7 @@ notification and `textDocument/codeAction` request.
 
 @since 3.16.0"
 
-	^ data at: 'data'
+	^ data at: 'data' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -80,7 +80,7 @@ GtLSPDiagnosticStructure >> relatedInformation [
 	"An array of related diagnostic information, e.g. when symbol-names within
 a scope collide all definitions can be marked via this property."
 
-	^ data at: 'relatedInformation'
+	^ data at: 'relatedInformation' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -93,7 +93,7 @@ GtLSPDiagnosticStructure >> severity [
 	"The diagnostic's severity. Can be omitted. If omitted it is up to the
 client to interpret diagnostics as error, warning, info or hint."
 
-	^ data at: 'severity'
+	^ data at: 'severity' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -107,7 +107,7 @@ GtLSPDiagnosticStructure >> source [
 diagnostic, e.g. 'typescript' or 'super lint'. It usually
 appears in the user interface."
 
-	^ data at: 'source'
+	^ data at: 'source' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -121,7 +121,7 @@ GtLSPDiagnosticStructure >> tags [
 
 @since 3.15.0"
 
-	^ data at: 'tags'
+	^ data at: 'tags' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

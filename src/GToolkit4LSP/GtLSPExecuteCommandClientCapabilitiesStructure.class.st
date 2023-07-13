@@ -8,7 +8,7 @@ Class {
 GtLSPExecuteCommandClientCapabilitiesStructure >> dynamicRegistration [
 	"Execute command supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

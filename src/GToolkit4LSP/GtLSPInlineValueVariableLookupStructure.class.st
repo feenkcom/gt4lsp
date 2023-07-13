@@ -38,7 +38,7 @@ GtLSPInlineValueVariableLookupStructure >> range: anObject [
 GtLSPInlineValueVariableLookupStructure >> variableName [
 	"If specified the name of the variable to look up."
 
-	^ data at: 'variableName'
+	^ data at: 'variableName' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

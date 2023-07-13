@@ -10,7 +10,7 @@ GtLSPShowDocumentParamsStructure >> external [
 To show, for example, `https://code.visualstudio.com/`
 in the default WEB browser set `external` to `true`."
 
-	^ data at: 'external'
+	^ data at: 'external' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ document. Clients might ignore the property if an
 external program is started or the file is not a text
 file."
 
-	^ (data at: 'selection') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'selection' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ showing the document should take focus or not.
 Clients might ignore this property if an external
 program is started."
 
-	^ data at: 'takeFocus'
+	^ data at: 'takeFocus' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

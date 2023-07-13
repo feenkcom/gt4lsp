@@ -8,7 +8,7 @@ Class {
 GtLSPConfigurationItemStructure >> scopeUri [
 	"The scope to get the configuration section for."
 
-	^ data at: 'scopeUri'
+	^ data at: 'scopeUri' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -20,7 +20,7 @@ GtLSPConfigurationItemStructure >> scopeUri: anObject [
 GtLSPConfigurationItemStructure >> section [
 	"The configuration section asked for."
 
-	^ data at: 'section'
+	^ data at: 'section' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

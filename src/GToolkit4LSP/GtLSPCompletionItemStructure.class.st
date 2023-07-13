@@ -14,7 +14,7 @@ Additional text edits should be used to change text unrelated to the current cur
 (for example adding an import statement at the top of the file if the completion item will
 insert an unqualified type)."
 
-	^ data at: 'additionalTextEdits'
+	^ data at: 'additionalTextEdits' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -28,7 +28,7 @@ GtLSPCompletionItemStructure >> command [
 additional modifications to the current document should be described with the
 {@link CompletionItem.additionalTextEdits additionalTextEdits}-property."
 
-	^ (data at: 'command') ifNotNil: [ :obj | GtLSPCommandStructure new data: obj ]
+	^ (data at: 'command' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCommandStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -42,7 +42,7 @@ GtLSPCompletionItemStructure >> commitCharacters [
 then type that character. *Note* that all commit characters should have `length=1` and that superfluous
 characters will be ignored."
 
-	^ data at: 'commitCharacters'
+	^ data at: 'commitCharacters' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -55,7 +55,7 @@ GtLSPCompletionItemStructure >> data [
 	"A data entry field that is preserved on a completion item between a
 {@link CompletionRequest} and a {@link CompletionResolveRequest}."
 
-	^ data at: 'data'
+	^ data at: 'data' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -68,7 +68,7 @@ GtLSPCompletionItemStructure >> deprecated [
 	"Indicates if this item is deprecated.
 @deprecated Use `tags` instead."
 
-	^ data at: 'deprecated'
+	^ data at: 'deprecated' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -81,7 +81,7 @@ GtLSPCompletionItemStructure >> detail [
 	"A human-readable string with additional information
 about this item, like type or symbol information."
 
-	^ data at: 'detail'
+	^ data at: 'detail' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -93,7 +93,7 @@ GtLSPCompletionItemStructure >> detail: anObject [
 GtLSPCompletionItemStructure >> documentation [
 	"A human-readable string that represents a doc-comment."
 
-	^ data at: 'documentation'
+	^ data at: 'documentation' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -107,7 +107,7 @@ GtLSPCompletionItemStructure >> filterText [
 completion items. When `falsy` the {@link CompletionItem.label label}
 is used."
 
-	^ data at: 'filterText'
+	^ data at: 'filterText' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -129,7 +129,7 @@ VS Code when code complete is requested in this example
 recommended to use `textEdit` instead since it avoids additional client
 side interpretation."
 
-	^ data at: 'insertText'
+	^ data at: 'insertText' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -146,7 +146,7 @@ GtLSPCompletionItemStructure >> insertTextFormat [
 Please note that the insertTextFormat doesn't apply to
 `additionalTextEdits`."
 
-	^ data at: 'insertTextFormat'
+	^ data at: 'insertTextFormat' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -162,7 +162,7 @@ the `textDocument.completion.insertTextMode` client capability.
 
 @since 3.16.0"
 
-	^ data at: 'insertTextMode'
+	^ data at: 'insertTextMode' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -175,7 +175,7 @@ GtLSPCompletionItemStructure >> kind [
 	"The kind of this completion item. Based of the kind
 an icon is chosen by the editor."
 
-	^ data at: 'kind'
+	^ data at: 'kind' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -207,7 +207,7 @@ GtLSPCompletionItemStructure >> labelDetails [
 
 @since 3.17.0"
 
-	^ (data at: 'labelDetails') ifNotNil: [ :obj | GtLSPCompletionItemLabelDetailsStructure new data: obj ]
+	^ (data at: 'labelDetails' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCompletionItemLabelDetailsStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -223,7 +223,7 @@ GtLSPCompletionItemStructure >> preselect [
 tool / client decides which item that is. The rule is that the *first*
 item of those that match best is selected."
 
-	^ data at: 'preselect'
+	^ data at: 'preselect' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -237,7 +237,7 @@ GtLSPCompletionItemStructure >> sortText [
 with other items. When `falsy` the {@link CompletionItem.label label}
 is used."
 
-	^ data at: 'sortText'
+	^ data at: 'sortText' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -251,7 +251,7 @@ GtLSPCompletionItemStructure >> tags [
 
 @since 3.15.0"
 
-	^ data at: 'tags'
+	^ data at: 'tags' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -282,7 +282,7 @@ contained and starting at the same position.
 
 @since 3.16.0 additional type `InsertReplaceEdit`"
 
-	^ data at: 'textEdit'
+	^ data at: 'textEdit' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -303,7 +303,7 @@ property is used as a text.
 
 @since 3.17.0"
 
-	^ data at: 'textEditText'
+	^ data at: 'textEditText' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -20,7 +20,7 @@ GtLSPDocumentOnTypeFormattingOptionsStructure >> firstTriggerCharacter: anObject
 GtLSPDocumentOnTypeFormattingOptionsStructure >> moreTriggerCharacter [
 	"More trigger characters."
 
-	^ data at: 'moreTriggerCharacter'
+	^ data at: 'moreTriggerCharacter' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

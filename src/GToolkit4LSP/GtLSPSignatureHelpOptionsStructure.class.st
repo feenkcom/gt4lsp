@@ -13,7 +13,7 @@ are also counted as re-trigger characters.
 
 @since 3.15.0"
 
-	^ data at: 'retriggerCharacters'
+	^ data at: 'retriggerCharacters' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ GtLSPSignatureHelpOptionsStructure >> retriggerCharacters: anObject [
 GtLSPSignatureHelpOptionsStructure >> triggerCharacters [
 	"List of characters that trigger signature help automatically."
 
-	^ data at: 'triggerCharacters'
+	^ data at: 'triggerCharacters' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -35,7 +35,7 @@ GtLSPSignatureHelpOptionsStructure >> triggerCharacters: anObject [
 
 { #category : #accessing }
 GtLSPSignatureHelpOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

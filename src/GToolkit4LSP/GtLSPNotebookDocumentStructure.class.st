@@ -28,7 +28,7 @@ document.
 
 Note: should always be an object literal (e.g. LSPObject)"
 
-	^ data at: 'metadata'
+	^ data at: 'metadata' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
