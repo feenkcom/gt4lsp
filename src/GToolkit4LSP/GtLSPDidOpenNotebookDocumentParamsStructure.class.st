@@ -27,7 +27,7 @@ GtLSPDidOpenNotebookDocumentParamsStructure >> create [
 GtLSPDidOpenNotebookDocumentParamsStructure >> notebookDocument [
 	"The notebook document that got opened."
 
-	^ (data at: 'notebookDocument') ifNotNil: [ :obj | GtLSPNotebookDocumentStructure new data: obj ]
+	^ (data at: 'notebookDocument') ifNotNil: [ :obj | GtLSPNotebookDocumentStructure on: obj ]
 ]
 
 { #category : #accessing }

@@ -13,7 +13,7 @@ GtLSPDidOpenTextDocumentParamsStructure >> create [
 GtLSPDidOpenTextDocumentParamsStructure >> textDocument [
 	"The document that was opened."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentItemStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentItemStructure on: obj ]
 ]
 
 { #category : #accessing }

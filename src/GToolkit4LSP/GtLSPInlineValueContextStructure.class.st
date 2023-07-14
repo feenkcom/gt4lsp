@@ -26,7 +26,7 @@ GtLSPInlineValueContextStructure >> stoppedLocation [
 	"The document range where execution has stopped.
 Typically the end position of the range denotes the line where the inline values are shown."
 
-	^ (data at: 'stoppedLocation') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'stoppedLocation') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

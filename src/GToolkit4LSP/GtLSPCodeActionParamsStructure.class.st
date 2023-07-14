@@ -8,7 +8,7 @@ Class {
 GtLSPCodeActionParamsStructure >> context [
 	"Context carrying additional information."
 
-	^ (data at: 'context') ifNotNil: [ :obj | GtLSPCodeActionContextStructure new data: obj ]
+	^ (data at: 'context') ifNotNil: [ :obj | GtLSPCodeActionContextStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ GtLSPCodeActionParamsStructure >> partialResultToken: anObject [
 GtLSPCodeActionParamsStructure >> range [
 	"The range for which the command was invoked."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -52,7 +52,7 @@ GtLSPCodeActionParamsStructure >> range: anObject [
 GtLSPCodeActionParamsStructure >> textDocument [
 	"The document in which the command was invoked."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

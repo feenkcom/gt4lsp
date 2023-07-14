@@ -13,7 +13,7 @@ GtLSPFileOperationFilterStructure >> create [
 GtLSPFileOperationFilterStructure >> pattern [
 	"The actual file operation pattern."
 
-	^ (data at: 'pattern') ifNotNil: [ :obj | GtLSPFileOperationPatternStructure new data: obj ]
+	^ (data at: 'pattern') ifNotNil: [ :obj | GtLSPFileOperationPatternStructure on: obj ]
 ]
 
 { #category : #accessing }

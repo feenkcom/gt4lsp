@@ -13,7 +13,7 @@ GtLSPInlineValueTextStructure >> create [
 GtLSPInlineValueTextStructure >> range [
 	"The document range for which the inline value applies."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

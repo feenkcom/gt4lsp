@@ -50,7 +50,7 @@ GtLSPDocumentDiagnosticParamsStructure >> previousResultId: anObject [
 GtLSPDocumentDiagnosticParamsStructure >> textDocument [
 	"The text document."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

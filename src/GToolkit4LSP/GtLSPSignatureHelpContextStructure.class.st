@@ -11,7 +11,7 @@ GtLSPSignatureHelpContextStructure >> activeSignatureHelp [
 The `activeSignatureHelp` has its `SignatureHelp.activeSignature` field updated based on
 the user navigating through available signatures."
 
-	^ (data at: 'activeSignatureHelp' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSignatureHelpStructure new data: obj ]
+	^ (data at: 'activeSignatureHelp' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSignatureHelpStructure on: obj ]
 ]
 
 { #category : #accessing }

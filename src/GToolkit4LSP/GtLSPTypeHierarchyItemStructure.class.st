@@ -66,7 +66,7 @@ GtLSPTypeHierarchyItemStructure >> range [
 	"The range enclosing this symbol not including leading/trailing whitespace
 but everything else, e.g. comments and code."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -80,7 +80,7 @@ GtLSPTypeHierarchyItemStructure >> selectionRange [
 picked, e.g. the name of a function. Must be contained by the
 {@link TypeHierarchyItem.range `range`}."
 
-	^ (data at: 'selectionRange') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'selectionRange') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

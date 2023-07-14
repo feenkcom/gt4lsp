@@ -11,7 +11,7 @@ GtLSPCallHierarchyIncomingCallsParamsStructure >> create [
 
 { #category : #accessing }
 GtLSPCallHierarchyIncomingCallsParamsStructure >> item [
-	^ (data at: 'item') ifNotNil: [ :obj | GtLSPCallHierarchyItemStructure new data: obj ]
+	^ (data at: 'item') ifNotNil: [ :obj | GtLSPCallHierarchyItemStructure on: obj ]
 ]
 
 { #category : #accessing }

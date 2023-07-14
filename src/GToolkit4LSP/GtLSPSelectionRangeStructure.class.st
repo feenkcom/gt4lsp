@@ -13,7 +13,7 @@ GtLSPSelectionRangeStructure >> create [
 GtLSPSelectionRangeStructure >> parent [
 	"The parent selection range containing this range. Therefore `parent.range` must contain `this.range`."
 
-	^ (data at: 'parent' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSelectionRangeStructure new data: obj ]
+	^ (data at: 'parent' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSelectionRangeStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ GtLSPSelectionRangeStructure >> parent: anObject [
 GtLSPSelectionRangeStructure >> range [
 	"The {@link Range range} of this selection range."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

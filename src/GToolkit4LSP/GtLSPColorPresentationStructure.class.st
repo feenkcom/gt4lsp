@@ -37,7 +37,7 @@ GtLSPColorPresentationStructure >> textEdit [
 this presentation for the color.  When `falsy` the {@link ColorPresentation.label label}
 is used."
 
-	^ (data at: 'textEdit' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPTextEditStructure new data: obj ]
+	^ (data at: 'textEdit' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPTextEditStructure on: obj ]
 ]
 
 { #category : #accessing }

@@ -30,7 +30,7 @@ GtLSPDocumentOnTypeFormattingParamsStructure >> create [
 GtLSPDocumentOnTypeFormattingParamsStructure >> options [
 	"The formatting options."
 
-	^ (data at: 'options') ifNotNil: [ :obj | GtLSPFormattingOptionsStructure new data: obj ]
+	^ (data at: 'options') ifNotNil: [ :obj | GtLSPFormattingOptionsStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -44,7 +44,7 @@ GtLSPDocumentOnTypeFormattingParamsStructure >> position [
 This is not necessarily the exact position where the character denoted
 by the property `ch` got typed."
 
-	^ (data at: 'position') ifNotNil: [ :obj | GtLSPPositionStructure new data: obj ]
+	^ (data at: 'position') ifNotNil: [ :obj | GtLSPPositionStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -56,7 +56,7 @@ GtLSPDocumentOnTypeFormattingParamsStructure >> position: anObject [
 GtLSPDocumentOnTypeFormattingParamsStructure >> textDocument [
 	"The document to format."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

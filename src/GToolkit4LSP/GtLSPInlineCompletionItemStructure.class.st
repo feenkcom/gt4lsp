@@ -8,7 +8,7 @@ Class {
 GtLSPInlineCompletionItemStructure >> command [
 	"An optional {@link Command} that is executed *after* inserting this completion."
 
-	^ (data at: 'command' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCommandStructure new data: obj ]
+	^ (data at: 'command' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCommandStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -44,7 +44,7 @@ GtLSPInlineCompletionItemStructure >> insertText: anObject [
 GtLSPInlineCompletionItemStructure >> range [
 	"The range to replace. Must begin and end on the same line."
 
-	^ (data at: 'range' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

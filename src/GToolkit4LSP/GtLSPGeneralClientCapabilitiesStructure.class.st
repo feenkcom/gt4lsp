@@ -10,7 +10,7 @@ GtLSPGeneralClientCapabilitiesStructure >> markdown [
 
 @since 3.16.0"
 
-	^ (data at: 'markdown' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPMarkdownClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'markdown' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPMarkdownClientCapabilitiesStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -53,7 +53,7 @@ GtLSPGeneralClientCapabilitiesStructure >> regularExpressions [
 
 @since 3.16.0"
 
-	^ (data at: 'regularExpressions' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRegularExpressionsClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'regularExpressions' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRegularExpressionsClientCapabilitiesStructure on: obj ]
 ]
 
 { #category : #accessing }

@@ -9,7 +9,7 @@ GtLSPInlineValueParamsStructure >> context [
 	"Additional information about the context in which inline values were
 requested."
 
-	^ (data at: 'context') ifNotNil: [ :obj | GtLSPInlineValueContextStructure new data: obj ]
+	^ (data at: 'context') ifNotNil: [ :obj | GtLSPInlineValueContextStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -28,7 +28,7 @@ GtLSPInlineValueParamsStructure >> create [
 GtLSPInlineValueParamsStructure >> range [
 	"The document range for which inline values should be computed."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ GtLSPInlineValueParamsStructure >> range: anObject [
 GtLSPInlineValueParamsStructure >> textDocument [
 	"The text document."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

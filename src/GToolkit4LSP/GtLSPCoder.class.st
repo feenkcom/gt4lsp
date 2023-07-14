@@ -292,11 +292,47 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 		as: #cancelButton.
 	content addChild: toolbar as: #toolbar.
 	contentElement addChild: content.
-	self updateChangeStatus
+	self updateChangeStatus.
+	self lspFile diagnostics
+		ifNil: [ self lspClient
+				requestDiagnosticsFor: self lspFile filename
+				do: [ :diags | self lspFile diagnostics: diags ] ]
+		ifNotNil: [ self updateDiagnostics ]
 ]
 
 { #category : #updating }
 GtLSPCoder >> updateDiagnostics [
+	self lspFile diagnostics
+		ifNotNil: [ :diagnostics | 
+			self
+				inUIProcessDo: [ contentElement
+						childNamed: #editor
+						ifFound: [ :editor | 
+							| source text |
+							text := editor editor text.
+							text
+								clearAttributes: 0
+								to: text size
+								if: [ :each | each class == GtSourceCoderErrorAttribute ].
+							(diagnostics select: [ :each | (each severity ifNil: [ 0 ]) <= 2 ])
+								ifNotEmpty: [ :diags | 
+									source := text asString.
+									diags
+										do: [ :each | 
+											(source gtIndexOfLineNumber: each range end line + 1)
+												ifNotNil: [ :location | 
+													| end index |
+													end := each range end character.
+													index := location key.
+													[ end > 0 and: [ index <= source size ] ]
+														whileTrue: [ end := end - (editor editor characterSizeOf: (source at: index)).
+															index := index + 1 ].
+													text
+														attributes: {(GtSourceCoderErrorAttribute for: each message)
+																	openOnFirstShow: false;
+																	beNotOverwritableByStyler}
+														from: index - 1
+														to: index - 1 ] ] ] ] ] ]
 ]
 
 { #category : #updating }

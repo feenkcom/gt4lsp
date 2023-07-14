@@ -13,7 +13,7 @@ GtLSPSelectedCompletionInfoStructure >> create [
 GtLSPSelectedCompletionInfoStructure >> range [
 	"The range that will be replaced if this completion item is accepted."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

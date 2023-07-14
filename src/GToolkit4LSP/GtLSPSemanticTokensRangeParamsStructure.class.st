@@ -27,7 +27,7 @@ GtLSPSemanticTokensRangeParamsStructure >> partialResultToken: anObject [
 GtLSPSemanticTokensRangeParamsStructure >> range [
 	"The range the semantic tokens are requested for."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -39,7 +39,7 @@ GtLSPSemanticTokensRangeParamsStructure >> range: anObject [
 GtLSPSemanticTokensRangeParamsStructure >> textDocument [
 	"The text document."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

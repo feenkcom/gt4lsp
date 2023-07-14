@@ -9,7 +9,7 @@ GtLSPCompletionParamsStructure >> context [
 	"The completion context. This is only available it the client specifies
 to send this using the client capability `textDocument.completion.contextSupport === true`"
 
-	^ (data at: 'context' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCompletionContextStructure new data: obj ]
+	^ (data at: 'context' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCompletionContextStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -42,7 +42,7 @@ GtLSPCompletionParamsStructure >> partialResultToken: anObject [
 GtLSPCompletionParamsStructure >> position [
 	"The position inside the text document."
 
-	^ (data at: 'position') ifNotNil: [ :obj | GtLSPPositionStructure new data: obj ]
+	^ (data at: 'position') ifNotNil: [ :obj | GtLSPPositionStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -54,7 +54,7 @@ GtLSPCompletionParamsStructure >> position: anObject [
 GtLSPCompletionParamsStructure >> textDocument [
 	"The text document."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

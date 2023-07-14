@@ -10,7 +10,7 @@ GtLSPWindowClientCapabilitiesStructure >> showDocument [
 
 @since 3.16.0"
 
-	^ (data at: 'showDocument' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPShowDocumentClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'showDocument' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPShowDocumentClientCapabilitiesStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -24,7 +24,7 @@ GtLSPWindowClientCapabilitiesStructure >> showMessage [
 
 @since 3.16.0"
 
-	^ (data at: 'showMessage' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPShowMessageRequestClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'showMessage' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPShowMessageRequestClientCapabilitiesStructure on: obj ]
 ]
 
 { #category : #accessing }

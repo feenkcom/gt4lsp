@@ -8,7 +8,7 @@ Class {
 GtLSPCodeLensStructure >> command [
 	"The command this code lens represents."
 
-	^ (data at: 'command' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCommandStructure new data: obj ]
+	^ (data at: 'command' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCommandStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -39,7 +39,7 @@ GtLSPCodeLensStructure >> data: anObject [
 GtLSPCodeLensStructure >> range [
 	"The range in which this code lens is valid. Should only span a single line."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

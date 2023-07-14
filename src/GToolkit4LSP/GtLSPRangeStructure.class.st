@@ -14,7 +14,7 @@ GtLSPRangeStructure >> create [
 GtLSPRangeStructure >> end [
 	"The range's end position."
 
-	^ (data at: 'end') ifNotNil: [ :obj | GtLSPPositionStructure new data: obj ]
+	^ (data at: 'end') ifNotNil: [ :obj | GtLSPPositionStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -26,7 +26,7 @@ GtLSPRangeStructure >> end: anObject [
 GtLSPRangeStructure >> start [
 	"The range's start position."
 
-	^ (data at: 'start') ifNotNil: [ :obj | GtLSPPositionStructure new data: obj ]
+	^ (data at: 'start') ifNotNil: [ :obj | GtLSPPositionStructure on: obj ]
 ]
 
 { #category : #accessing }

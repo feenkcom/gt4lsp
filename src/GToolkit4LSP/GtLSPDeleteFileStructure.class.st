@@ -34,7 +34,7 @@ GtLSPDeleteFileStructure >> kind: anObject [
 GtLSPDeleteFileStructure >> options [
 	"Delete options."
 
-	^ (data at: 'options' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDeleteFileOptionsStructure new data: obj ]
+	^ (data at: 'options' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDeleteFileOptionsStructure on: obj ]
 ]
 
 { #category : #accessing }

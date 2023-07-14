@@ -9,7 +9,7 @@ GtLSPInlineCompletionParamsStructure >> context [
 	"Additional information about the context in which inline completions were
 requested."
 
-	^ (data at: 'context') ifNotNil: [ :obj | GtLSPInlineCompletionContextStructure new data: obj ]
+	^ (data at: 'context') ifNotNil: [ :obj | GtLSPInlineCompletionContextStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -32,7 +32,7 @@ GtLSPInlineCompletionParamsStructure >> create [
 GtLSPInlineCompletionParamsStructure >> position [
 	"The position inside the text document."
 
-	^ (data at: 'position') ifNotNil: [ :obj | GtLSPPositionStructure new data: obj ]
+	^ (data at: 'position') ifNotNil: [ :obj | GtLSPPositionStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -44,7 +44,7 @@ GtLSPInlineCompletionParamsStructure >> position: anObject [
 GtLSPInlineCompletionParamsStructure >> textDocument [
 	"The text document."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

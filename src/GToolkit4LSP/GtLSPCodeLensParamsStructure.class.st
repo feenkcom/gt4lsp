@@ -26,7 +26,7 @@ GtLSPCodeLensParamsStructure >> partialResultToken: anObject [
 GtLSPCodeLensParamsStructure >> textDocument [
 	"The document to request code lens for."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

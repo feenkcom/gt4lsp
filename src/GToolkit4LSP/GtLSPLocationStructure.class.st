@@ -11,7 +11,7 @@ GtLSPLocationStructure >> create [
 
 { #category : #accessing }
 GtLSPLocationStructure >> range [
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

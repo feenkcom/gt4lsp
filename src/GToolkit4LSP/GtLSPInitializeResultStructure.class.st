@@ -8,7 +8,7 @@ Class {
 GtLSPInitializeResultStructure >> capabilities [
 	"The capabilities the language server provides."
 
-	^ (data at: 'capabilities') ifNotNil: [ :obj | GtLSPServerCapabilitiesStructure new data: obj ]
+	^ (data at: 'capabilities') ifNotNil: [ :obj | GtLSPServerCapabilitiesStructure on: obj ]
 ]
 
 { #category : #accessing }

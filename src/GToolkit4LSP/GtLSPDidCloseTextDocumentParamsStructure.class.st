@@ -13,7 +13,7 @@ GtLSPDidCloseTextDocumentParamsStructure >> create [
 GtLSPDidCloseTextDocumentParamsStructure >> textDocument [
 	"The document that was closed."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

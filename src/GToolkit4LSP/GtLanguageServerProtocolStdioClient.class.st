@@ -121,7 +121,7 @@ GtLanguageServerProtocolStdioClient >> documentSymbolsIn: aFileReference do: aBl
 								collect: [ :each | 
 									((each includesKey: 'location')
 										ifTrue: [ GtLSPSymbolInformationStructure ]
-										ifFalse: [ GtLSPDocumentSymbolStructure ]) new data: each ] ]) ]
+										ifFalse: [ GtLSPDocumentSymbolStructure ]) on: each ] ]) ]
 ]
 
 { #category : #references }
@@ -139,8 +139,7 @@ GtLanguageServerProtocolStdioClient >> findReferencesIn: aFilename at: aPosition
 		with: params
 		do: [ :refs | 
 			aBlock
-				cull: (refs
-						ifNotNil: [ refs collect: [ :each | GtLSPLocationStructure new data: each ] ]) ]
+				cull: (refs ifNotNil: [ refs collect: [ :each | GtLSPLocationStructure on: each ] ]) ]
 ]
 
 { #category : #folding }
@@ -154,9 +153,7 @@ GtLanguageServerProtocolStdioClient >> foldingRangesIn: aFileReference do: aBloc
 	self
 		sendMessage: 'textDocument/foldingRange'
 		with: params
-		do: [ :array | 
-			aBlock
-				value: (array collect: [ :each | GtLSPFoldingRangeStructure new data: each ]) ]
+		do: [ :array | aBlock value: (array collect: [ :each | GtLSPFoldingRangeStructure on: each ]) ]
 ]
 
 { #category : #accessing }
@@ -271,13 +268,7 @@ GtLanguageServerProtocolStdioClient >> nextLineIn: aStream [
 
 { #category : #methods }
 GtLanguageServerProtocolStdioClient >> on: aString as: aClass do: aBlock [
-	self
-		on: aString
-		do: [ :dict | 
-			aBlock
-				value: (aClass new
-						data: dict;
-						yourself) ]
+	self on: aString do: [ :dict | aBlock value: (aClass on: dict) ]
 ]
 
 { #category : #methods }
@@ -358,6 +349,25 @@ GtLanguageServerProtocolStdioClient >> receiveHeadersFrom: aStream into: aDictio
 	^ true
 ]
 
+{ #category : #diagnostics }
+GtLanguageServerProtocolStdioClient >> requestDiagnosticsFor: aFilename [
+]
+
+{ #category : #diagnostics }
+GtLanguageServerProtocolStdioClient >> requestDiagnosticsFor: aFileReference do: aBlock [
+	| params file |
+	file := fileVersions
+			at: aFileReference asFileReference
+			ifAbsent: [ ^ aBlock cull: nil ].
+	params := GtLSPDocumentDiagnosticParamsStructure create.
+	params textDocument uri: file uri.
+	self
+		sendMessage: 'textDocument/diagnostic'
+		with: params
+		whenResult: GtLSPRelatedFullDocumentDiagnosticReportStructure
+		do: aBlock
+]
+
 { #category : #messages }
 GtLanguageServerProtocolStdioClient >> send: aString with: aStructure id: id [
 	| string data jsonData dict |
@@ -408,7 +418,7 @@ GtLanguageServerProtocolStdioClient >> sendMessage: aString with: aStructure whe
 	id := self getNextId.
 	resultHandlers
 		at: id
-		put: [ :data | aBlock cull: (aClass new data: (data at: 'result' ifAbsent: [ Dictionary new ])) ].
+		put: [ :data | aBlock cull: (aClass on: (data at: 'result' ifAbsent: [ Dictionary new ])) ].
 	self
 		send: aString
 		with: aStructure

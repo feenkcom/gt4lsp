@@ -8,7 +8,7 @@ Class {
 GtLSPColorInformationStructure >> color [
 	"The actual color value for this color range."
 
-	^ (data at: 'color') ifNotNil: [ :obj | GtLSPColorStructure new data: obj ]
+	^ (data at: 'color') ifNotNil: [ :obj | GtLSPColorStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -26,7 +26,7 @@ GtLSPColorInformationStructure >> create [
 GtLSPColorInformationStructure >> range [
 	"The range in the document where this color appears."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

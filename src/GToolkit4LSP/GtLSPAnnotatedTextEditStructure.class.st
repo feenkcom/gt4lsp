@@ -39,7 +39,7 @@ GtLSPAnnotatedTextEditStructure >> range [
 	"The range of the text document to be manipulated. To insert
 text into a document create a range where start === end."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

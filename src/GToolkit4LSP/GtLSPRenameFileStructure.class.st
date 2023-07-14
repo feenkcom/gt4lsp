@@ -58,7 +58,7 @@ GtLSPRenameFileStructure >> oldUri: anObject [
 GtLSPRenameFileStructure >> options [
 	"Rename options."
 
-	^ (data at: 'options' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRenameFileOptionsStructure new data: obj ]
+	^ (data at: 'options' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRenameFileOptionsStructure on: obj ]
 ]
 
 { #category : #accessing }

@@ -40,7 +40,7 @@ GtLSPFileOperationPatternStructure >> matches: anObject [
 GtLSPFileOperationPatternStructure >> options [
 	"Additional options used during matching."
 
-	^ (data at: 'options' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPFileOperationPatternOptionsStructure new data: obj ]
+	^ (data at: 'options' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPFileOperationPatternOptionsStructure on: obj ]
 ]
 
 { #category : #accessing }

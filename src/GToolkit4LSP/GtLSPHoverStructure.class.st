@@ -21,7 +21,7 @@ GtLSPHoverStructure >> range [
 	"An optional range inside the text document that is used to
 visualize the hover, e.g. by changing the background color."
 
-	^ (data at: 'range' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }
