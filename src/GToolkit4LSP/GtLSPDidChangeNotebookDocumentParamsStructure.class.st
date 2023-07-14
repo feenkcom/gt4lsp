@@ -20,7 +20,7 @@ To mirror the content of a notebook using change events use the following approa
 - apply the `NotebookChangeEvent`s in a single notification in the order
   you receive them."
 
-	^ (data at: 'change') ifNotNil: [ :obj | GtLSPNotebookDocumentChangeEventStructure new data: obj ]
+	^ (data at: 'change') ifNotNil: [ :obj | GtLSPNotebookDocumentChangeEventStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -41,7 +41,7 @@ to the version after all provided changes have been applied. If
 only the text document content of a cell changes the notebook version
 doesn't necessarily have to change."
 
-	^ (data at: 'notebookDocument') ifNotNil: [ :obj | GtLSPVersionedNotebookDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'notebookDocument') ifNotNil: [ :obj | GtLSPVersionedNotebookDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

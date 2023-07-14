@@ -15,7 +15,7 @@ GtLSPNotebookDocumentClientCapabilitiesStructure >> synchronization [
 
 @since 3.17.0"
 
-	^ (data at: 'synchronization') ifNotNil: [ :obj | GtLSPNotebookDocumentSyncClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'synchronization') ifNotNil: [ :obj | GtLSPNotebookDocumentSyncClientCapabilitiesStructure on: obj ]
 ]
 
 { #category : #accessing }

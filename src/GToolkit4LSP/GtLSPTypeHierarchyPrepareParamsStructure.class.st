@@ -16,7 +16,7 @@ GtLSPTypeHierarchyPrepareParamsStructure >> create [
 GtLSPTypeHierarchyPrepareParamsStructure >> position [
 	"The position inside the text document."
 
-	^ (data at: 'position') ifNotNil: [ :obj | GtLSPPositionStructure new data: obj ]
+	^ (data at: 'position') ifNotNil: [ :obj | GtLSPPositionStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -28,7 +28,7 @@ GtLSPTypeHierarchyPrepareParamsStructure >> position: anObject [
 GtLSPTypeHierarchyPrepareParamsStructure >> textDocument [
 	"The text document."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

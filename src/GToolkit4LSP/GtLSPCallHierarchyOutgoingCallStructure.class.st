@@ -28,7 +28,7 @@ GtLSPCallHierarchyOutgoingCallStructure >> fromRanges: anObject [
 GtLSPCallHierarchyOutgoingCallStructure >> to [
 	"The item that is called."
 
-	^ (data at: 'to') ifNotNil: [ :obj | GtLSPCallHierarchyItemStructure new data: obj ]
+	^ (data at: 'to') ifNotNil: [ :obj | GtLSPCallHierarchyItemStructure on: obj ]
 ]
 
 { #category : #accessing }

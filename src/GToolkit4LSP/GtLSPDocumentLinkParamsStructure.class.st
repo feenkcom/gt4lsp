@@ -26,7 +26,7 @@ GtLSPDocumentLinkParamsStructure >> partialResultToken: anObject [
 GtLSPDocumentLinkParamsStructure >> textDocument [
 	"The document to provide document links for."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

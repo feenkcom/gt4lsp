@@ -8,7 +8,7 @@ Class {
 GtLSPColorPresentationParamsStructure >> color [
 	"The color to request presentations for."
 
-	^ (data at: 'color') ifNotNil: [ :obj | GtLSPColorStructure new data: obj ]
+	^ (data at: 'color') ifNotNil: [ :obj | GtLSPColorStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ GtLSPColorPresentationParamsStructure >> partialResultToken: anObject [
 GtLSPColorPresentationParamsStructure >> range [
 	"The range where the color would be inserted. Serves as a context."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -52,7 +52,7 @@ GtLSPColorPresentationParamsStructure >> range: anObject [
 GtLSPColorPresentationParamsStructure >> textDocument [
 	"The text document."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

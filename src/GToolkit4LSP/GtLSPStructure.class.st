@@ -111,7 +111,7 @@ GtLSPStructure class >> converterForType: aDictionary variable: varName optional
 		, (aBoolean ifTrue: [ ' ifAbsent: [ ]' ] ifFalse: [ '' ])
 		, (refType
 				ifNil: [ '' ]
-				ifNotNil: [ ') ifNotNil: [ :obj | ' , refType name asString , ' new data: obj ]' ])
+				ifNotNil: [ ') ifNotNil: [ :obj | ' , refType name asString , ' on: obj ]' ])
 ]
 
 { #category : #'code generation' }
@@ -326,6 +326,13 @@ GtLSPStructure class >> mergeCreateFrom: cls into: class [
 		classified: #initialization
 ]
 
+{ #category : #'instance creation' }
+GtLSPStructure class >> on: aDictionary [
+	^ self new
+		setData: aDictionary;
+		yourself
+]
+
 { #category : #'code generation' }
 GtLSPStructure class >> removeSubclasses [
 	self subclasses do: [ :each | each removeFromSystem ]
@@ -371,16 +378,6 @@ GtLSPStructure >> create [
 ]
 
 { #category : #accessing }
-GtLSPStructure >> data [
-	^ data
-]
-
-{ #category : #accessing }
-GtLSPStructure >> data: anObject [
-	data := anObject
-]
-
-{ #category : #accessing }
 GtLSPStructure >> gtTreeFor: aView [
 	<gtView>
 	^ aView columnedTree
@@ -410,4 +407,9 @@ GtLSPStructure >> initialize [
 GtLSPStructure >> objectFor: anObject [
 	(anObject isKindOf: GtLSPStructure) ifTrue: [ ^ anObject asDictionary ].
 	^ anObject
+]
+
+{ #category : #accessing }
+GtLSPStructure >> setData: aDictionary [
+	data := aDictionary
 ]

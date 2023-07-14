@@ -29,7 +29,7 @@ GtLSPTextDocumentEditStructure >> edits: anObject [
 GtLSPTextDocumentEditStructure >> textDocument [
 	"The text document to change."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPOptionalVersionedTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPOptionalVersionedTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

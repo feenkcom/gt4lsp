@@ -8,7 +8,7 @@ Class {
 GtLSPInitializeParamsStructure >> capabilities [
 	"The capabilities provided by the client (editor or tool)"
 
-	^ (data at: 'capabilities') ifNotNil: [ :obj | GtLSPClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'capabilities') ifNotNil: [ :obj | GtLSPClientCapabilitiesStructure on: obj ]
 ]
 
 { #category : #accessing }

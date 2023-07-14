@@ -26,7 +26,7 @@ GtLSPDidSaveTextDocumentParamsStructure >> text: anObject [
 GtLSPDidSaveTextDocumentParamsStructure >> textDocument [
 	"The document that was saved."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

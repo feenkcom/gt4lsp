@@ -13,7 +13,7 @@ GtLSPApplyWorkspaceEditParamsStructure >> create [
 GtLSPApplyWorkspaceEditParamsStructure >> edit [
 	"The edits to apply."
 
-	^ (data at: 'edit') ifNotNil: [ :obj | GtLSPWorkspaceEditStructure new data: obj ]
+	^ (data at: 'edit') ifNotNil: [ :obj | GtLSPWorkspaceEditStructure on: obj ]
 ]
 
 { #category : #accessing }

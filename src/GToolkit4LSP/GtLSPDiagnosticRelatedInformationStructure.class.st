@@ -13,7 +13,7 @@ GtLSPDiagnosticRelatedInformationStructure >> create [
 GtLSPDiagnosticRelatedInformationStructure >> location [
 	"The location of this related diagnostic information."
 
-	^ (data at: 'location') ifNotNil: [ :obj | GtLSPLocationStructure new data: obj ]
+	^ (data at: 'location') ifNotNil: [ :obj | GtLSPLocationStructure on: obj ]
 ]
 
 { #category : #accessing }

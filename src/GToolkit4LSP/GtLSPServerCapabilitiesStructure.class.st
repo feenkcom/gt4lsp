@@ -36,7 +36,7 @@ GtLSPServerCapabilitiesStructure >> codeActionProvider: anObject [
 GtLSPServerCapabilitiesStructure >> codeLensProvider [
 	"The server provides code lens."
 
-	^ (data at: 'codeLensProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCodeLensOptionsStructure new data: obj ]
+	^ (data at: 'codeLensProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCodeLensOptionsStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -60,7 +60,7 @@ GtLSPServerCapabilitiesStructure >> colorProvider: anObject [
 GtLSPServerCapabilitiesStructure >> completionProvider [
 	"The server provides completion support."
 
-	^ (data at: 'completionProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCompletionOptionsStructure new data: obj ]
+	^ (data at: 'completionProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCompletionOptionsStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -134,7 +134,7 @@ GtLSPServerCapabilitiesStructure >> documentHighlightProvider: anObject [
 GtLSPServerCapabilitiesStructure >> documentLinkProvider [
 	"The server provides document link support."
 
-	^ (data at: 'documentLinkProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentLinkOptionsStructure new data: obj ]
+	^ (data at: 'documentLinkProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentLinkOptionsStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -146,7 +146,7 @@ GtLSPServerCapabilitiesStructure >> documentLinkProvider: anObject [
 GtLSPServerCapabilitiesStructure >> documentOnTypeFormattingProvider [
 	"The server provides document formatting on typing."
 
-	^ (data at: 'documentOnTypeFormattingProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentOnTypeFormattingOptionsStructure new data: obj ]
+	^ (data at: 'documentOnTypeFormattingProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentOnTypeFormattingOptionsStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -182,7 +182,7 @@ GtLSPServerCapabilitiesStructure >> documentSymbolProvider: anObject [
 GtLSPServerCapabilitiesStructure >> executeCommandProvider [
 	"The server provides execute command support."
 
-	^ (data at: 'executeCommandProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPExecuteCommandOptionsStructure new data: obj ]
+	^ (data at: 'executeCommandProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPExecuteCommandOptionsStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -399,7 +399,7 @@ GtLSPServerCapabilitiesStructure >> semanticTokensProvider: anObject [
 GtLSPServerCapabilitiesStructure >> signatureHelpProvider [
 	"The server provides signature help support."
 
-	^ (data at: 'signatureHelpProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSignatureHelpOptionsStructure new data: obj ]
+	^ (data at: 'signatureHelpProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSignatureHelpOptionsStructure on: obj ]
 ]
 
 { #category : #accessing }

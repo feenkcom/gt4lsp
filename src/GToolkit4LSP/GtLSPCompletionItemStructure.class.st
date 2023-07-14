@@ -28,7 +28,7 @@ GtLSPCompletionItemStructure >> command [
 additional modifications to the current document should be described with the
 {@link CompletionItem.additionalTextEdits additionalTextEdits}-property."
 
-	^ (data at: 'command' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCommandStructure new data: obj ]
+	^ (data at: 'command' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCommandStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -207,7 +207,7 @@ GtLSPCompletionItemStructure >> labelDetails [
 
 @since 3.17.0"
 
-	^ (data at: 'labelDetails' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCompletionItemLabelDetailsStructure new data: obj ]
+	^ (data at: 'labelDetails' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCompletionItemLabelDetailsStructure on: obj ]
 ]
 
 { #category : #accessing }

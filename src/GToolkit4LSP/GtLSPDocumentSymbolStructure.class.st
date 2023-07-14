@@ -79,7 +79,7 @@ GtLSPDocumentSymbolStructure >> range [
 like comments. This information is typically used to determine if the clients cursor is
 inside the symbol to reveal in the symbol in the UI."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -92,7 +92,7 @@ GtLSPDocumentSymbolStructure >> selectionRange [
 	"The range that should be selected and revealed when this symbol is being picked, e.g the name of a function.
 Must be contained by the `range`."
 
-	^ (data at: 'selectionRange') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'selectionRange') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

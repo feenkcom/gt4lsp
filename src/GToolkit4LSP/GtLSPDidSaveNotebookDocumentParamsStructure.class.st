@@ -13,7 +13,7 @@ GtLSPDidSaveNotebookDocumentParamsStructure >> create [
 GtLSPDidSaveNotebookDocumentParamsStructure >> notebookDocument [
 	"The notebook document that got saved."
 
-	^ (data at: 'notebookDocument') ifNotNil: [ :obj | GtLSPNotebookDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'notebookDocument') ifNotNil: [ :obj | GtLSPNotebookDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

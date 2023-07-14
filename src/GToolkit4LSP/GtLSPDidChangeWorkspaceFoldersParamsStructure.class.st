@@ -13,7 +13,7 @@ GtLSPDidChangeWorkspaceFoldersParamsStructure >> create [
 GtLSPDidChangeWorkspaceFoldersParamsStructure >> event [
 	"The actual workspace folder change event."
 
-	^ (data at: 'event') ifNotNil: [ :obj | GtLSPWorkspaceFoldersChangeEventStructure new data: obj ]
+	^ (data at: 'event') ifNotNil: [ :obj | GtLSPWorkspaceFoldersChangeEventStructure on: obj ]
 ]
 
 { #category : #accessing }

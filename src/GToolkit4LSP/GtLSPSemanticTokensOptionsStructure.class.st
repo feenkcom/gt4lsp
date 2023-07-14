@@ -25,7 +25,7 @@ GtLSPSemanticTokensOptionsStructure >> full: anObject [
 GtLSPSemanticTokensOptionsStructure >> legend [
 	"The legend used by the server"
 
-	^ (data at: 'legend') ifNotNil: [ :obj | GtLSPSemanticTokensLegendStructure new data: obj ]
+	^ (data at: 'legend') ifNotNil: [ :obj | GtLSPSemanticTokensLegendStructure on: obj ]
 ]
 
 { #category : #accessing }

@@ -23,7 +23,7 @@ Requires the code field (above) to be present/not null.
 
 @since 3.16.0"
 
-	^ (data at: 'codeDescription' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCodeDescriptionStructure new data: obj ]
+	^ (data at: 'codeDescription' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCodeDescriptionStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -67,7 +67,7 @@ GtLSPDiagnosticStructure >> message: anObject [
 GtLSPDiagnosticStructure >> range [
 	"The range at which the message applies"
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

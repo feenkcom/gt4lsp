@@ -62,7 +62,7 @@ The range doesn't have to denote a node range in the sense of an abstract
 syntax tree. It can therefore not be used to re-construct a hierarchy of
 the symbols."
 
-	^ (data at: 'location') ifNotNil: [ :obj | GtLSPLocationStructure new data: obj ]
+	^ (data at: 'location') ifNotNil: [ :obj | GtLSPLocationStructure on: obj ]
 ]
 
 { #category : #accessing }

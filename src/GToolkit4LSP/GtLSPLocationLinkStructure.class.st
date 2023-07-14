@@ -17,7 +17,7 @@ GtLSPLocationLinkStructure >> originSelectionRange [
 Used as the underlined span for mouse interaction. Defaults to the word range at
 the definition position."
 
-	^ (data at: 'originSelectionRange' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'originSelectionRange' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -31,7 +31,7 @@ GtLSPLocationLinkStructure >> targetRange [
 range enclosing this symbol not including leading/trailing whitespace but everything else
 like comments. This information is typically used to highlight the range in the editor."
 
-	^ (data at: 'targetRange') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'targetRange') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -44,7 +44,7 @@ GtLSPLocationLinkStructure >> targetSelectionRange [
 	"The range that should be selected and revealed when this link is being followed, e.g the name of a function.
 Must be contained by the `targetRange`. See also `DocumentSymbol#range`"
 
-	^ (data at: 'targetSelectionRange') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'targetSelectionRange') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

@@ -15,7 +15,7 @@ GtLSPDocumentRangesFormattingParamsStructure >> create [
 GtLSPDocumentRangesFormattingParamsStructure >> options [
 	"The format options"
 
-	^ (data at: 'options') ifNotNil: [ :obj | GtLSPFormattingOptionsStructure new data: obj ]
+	^ (data at: 'options') ifNotNil: [ :obj | GtLSPFormattingOptionsStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -39,7 +39,7 @@ GtLSPDocumentRangesFormattingParamsStructure >> ranges: anObject [
 GtLSPDocumentRangesFormattingParamsStructure >> textDocument [
 	"The document to format."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

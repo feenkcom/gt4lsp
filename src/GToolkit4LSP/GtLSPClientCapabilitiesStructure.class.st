@@ -22,7 +22,7 @@ GtLSPClientCapabilitiesStructure >> general [
 
 @since 3.16.0"
 
-	^ (data at: 'general' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPGeneralClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'general' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPGeneralClientCapabilitiesStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -36,7 +36,7 @@ GtLSPClientCapabilitiesStructure >> notebookDocument [
 
 @since 3.17.0"
 
-	^ (data at: 'notebookDocument' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPNotebookDocumentClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'notebookDocument' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPNotebookDocumentClientCapabilitiesStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -48,7 +48,7 @@ GtLSPClientCapabilitiesStructure >> notebookDocument: anObject [
 GtLSPClientCapabilitiesStructure >> textDocument [
 	"Text document specific client capabilities."
 
-	^ (data at: 'textDocument' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPTextDocumentClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'textDocument' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPTextDocumentClientCapabilitiesStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -60,7 +60,7 @@ GtLSPClientCapabilitiesStructure >> textDocument: anObject [
 GtLSPClientCapabilitiesStructure >> window [
 	"Window specific client capabilities."
 
-	^ (data at: 'window' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPWindowClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'window' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPWindowClientCapabilitiesStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -72,7 +72,7 @@ GtLSPClientCapabilitiesStructure >> window: anObject [
 GtLSPClientCapabilitiesStructure >> workspace [
 	"Workspace specific client capabilities."
 
-	^ (data at: 'workspace' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPWorkspaceClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'workspace' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPWorkspaceClientCapabilitiesStructure on: obj ]
 ]
 
 { #category : #accessing }

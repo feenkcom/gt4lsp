@@ -26,7 +26,7 @@ GtLSPInlineValueVariableLookupStructure >> range [
 	"The document range for which the inline value applies.
 The range is used to extract the variable name from the underlying document."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

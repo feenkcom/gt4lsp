@@ -25,7 +25,7 @@ document. Clients might ignore the property if an
 external program is started or the file is not a text
 file."
 
-	^ (data at: 'selection' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'selection' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

@@ -86,7 +86,7 @@ GtLSPInlayHintStructure >> paddingRight: anObject [
 GtLSPInlayHintStructure >> position [
 	"The position of this hint."
 
-	^ (data at: 'position') ifNotNil: [ :obj | GtLSPPositionStructure new data: obj ]
+	^ (data at: 'position') ifNotNil: [ :obj | GtLSPPositionStructure on: obj ]
 ]
 
 { #category : #accessing }

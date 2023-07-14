@@ -10,7 +10,7 @@ GtLSPCodeActionStructure >> command [
 provides an edit and a command, first the edit is
 executed and then the command."
 
-	^ (data at: 'command' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCommandStructure new data: obj ]
+	^ (data at: 'command' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCommandStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -75,7 +75,7 @@ GtLSPCodeActionStructure >> disabled: anObject [
 GtLSPCodeActionStructure >> edit [
 	"The workspace edit this code action performs."
 
-	^ (data at: 'edit' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPWorkspaceEditStructure new data: obj ]
+	^ (data at: 'edit' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPWorkspaceEditStructure on: obj ]
 ]
 
 { #category : #accessing }

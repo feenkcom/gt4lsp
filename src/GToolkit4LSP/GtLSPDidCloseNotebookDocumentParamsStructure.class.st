@@ -27,7 +27,7 @@ GtLSPDidCloseNotebookDocumentParamsStructure >> create [
 GtLSPDidCloseNotebookDocumentParamsStructure >> notebookDocument [
 	"The notebook document that got closed."
 
-	^ (data at: 'notebookDocument') ifNotNil: [ :obj | GtLSPNotebookDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'notebookDocument') ifNotNil: [ :obj | GtLSPNotebookDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

@@ -33,7 +33,13 @@ GtLSPFileModel >> diagnostics [
 
 { #category : #accessing }
 GtLSPFileModel >> diagnostics: anObject [
-	diagnostics := anObject.
+	diagnostics := anObject
+			ifNotNil: [ :diags | 
+				diags
+					collect: [ :each | 
+						each isDictionary
+							ifTrue: [ GtLSPDiagnosticStructure on: each ]
+							ifFalse: [ each ] ] ].
 	self announce: (GtLSPFileDiagnostics new lspFile: self)
 ]
 

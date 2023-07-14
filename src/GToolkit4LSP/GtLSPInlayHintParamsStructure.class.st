@@ -14,7 +14,7 @@ GtLSPInlayHintParamsStructure >> create [
 GtLSPInlayHintParamsStructure >> range [
 	"The document range for which inlay hints should be computed."
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -26,7 +26,7 @@ GtLSPInlayHintParamsStructure >> range: anObject [
 GtLSPInlayHintParamsStructure >> textDocument [
 	"The text document."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

@@ -28,7 +28,7 @@ GtLSPRenameParamsStructure >> newName: anObject [
 GtLSPRenameParamsStructure >> position [
 	"The position at which this request was sent."
 
-	^ (data at: 'position') ifNotNil: [ :obj | GtLSPPositionStructure new data: obj ]
+	^ (data at: 'position') ifNotNil: [ :obj | GtLSPPositionStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ GtLSPRenameParamsStructure >> position: anObject [
 GtLSPRenameParamsStructure >> textDocument [
 	"The document to rename."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

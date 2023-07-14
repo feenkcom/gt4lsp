@@ -14,7 +14,7 @@ GtLSPInsertReplaceEditStructure >> create [
 GtLSPInsertReplaceEditStructure >> insert [
 	"The range if the insert is requested"
 
-	^ (data at: 'insert') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'insert') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }
@@ -38,7 +38,7 @@ GtLSPInsertReplaceEditStructure >> newText: anObject [
 GtLSPInsertReplaceEditStructure >> replace [
 	"The range if the replace is requested."
 
-	^ (data at: 'replace') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ (data at: 'replace') ifNotNil: [ :obj | GtLSPRangeStructure on: obj ]
 ]
 
 { #category : #accessing }

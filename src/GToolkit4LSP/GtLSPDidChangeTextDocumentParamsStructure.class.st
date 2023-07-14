@@ -38,7 +38,7 @@ GtLSPDidChangeTextDocumentParamsStructure >> textDocument [
 to the version after all provided content changes have
 been applied."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPVersionedTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPVersionedTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }

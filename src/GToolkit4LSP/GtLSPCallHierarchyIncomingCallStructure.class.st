@@ -14,7 +14,7 @@ GtLSPCallHierarchyIncomingCallStructure >> create [
 GtLSPCallHierarchyIncomingCallStructure >> from [
 	"The item that makes the call."
 
-	^ (data at: 'from') ifNotNil: [ :obj | GtLSPCallHierarchyItemStructure new data: obj ]
+	^ (data at: 'from') ifNotNil: [ :obj | GtLSPCallHierarchyItemStructure on: obj ]
 ]
 
 { #category : #accessing }

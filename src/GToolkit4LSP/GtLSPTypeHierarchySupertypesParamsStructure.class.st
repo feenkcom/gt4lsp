@@ -11,7 +11,7 @@ GtLSPTypeHierarchySupertypesParamsStructure >> create [
 
 { #category : #accessing }
 GtLSPTypeHierarchySupertypesParamsStructure >> item [
-	^ (data at: 'item') ifNotNil: [ :obj | GtLSPTypeHierarchyItemStructure new data: obj ]
+	^ (data at: 'item') ifNotNil: [ :obj | GtLSPTypeHierarchyItemStructure on: obj ]
 ]
 
 { #category : #accessing }

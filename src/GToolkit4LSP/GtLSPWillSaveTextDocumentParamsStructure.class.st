@@ -25,7 +25,7 @@ GtLSPWillSaveTextDocumentParamsStructure >> reason: anObject [
 GtLSPWillSaveTextDocumentParamsStructure >> textDocument [
 	"The document that will be saved."
 
-	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
+	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure on: obj ]
 ]
 
 { #category : #accessing }
