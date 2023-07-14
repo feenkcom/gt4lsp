@@ -14,7 +14,7 @@ GtLSPInlayHintStructure >> data [
 	"A data entry field that is preserved on an inlay hint between
 a `textDocument/inlayHint` and a `inlayHint/resolve` request."
 
-	^ data at: 'data'
+	^ data at: 'data' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -27,7 +27,7 @@ GtLSPInlayHintStructure >> kind [
 	"The kind of this hint. Can be omitted in which case the client
 should fall back to a reasonable default."
 
-	^ data at: 'kind'
+	^ data at: 'kind' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -58,7 +58,7 @@ Note: Padding should use the editor's background color, not the
 background color of the hint itself. That means padding can be used
 to visually align/separate an inlay hint."
 
-	^ data at: 'paddingLeft'
+	^ data at: 'paddingLeft' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -74,7 +74,7 @@ Note: Padding should use the editor's background color, not the
 background color of the hint itself. That means padding can be used
 to visually align/separate an inlay hint."
 
-	^ data at: 'paddingRight'
+	^ data at: 'paddingRight' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -102,7 +102,7 @@ GtLSPInlayHintStructure >> textEdits [
 hint (or its nearest variant) is now part of the document and the inlay
 hint itself is now obsolete."
 
-	^ data at: 'textEdits'
+	^ data at: 'textEdits' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -114,7 +114,7 @@ GtLSPInlayHintStructure >> textEdits: anObject [
 GtLSPInlayHintStructure >> tooltip [
 	"The tooltip text when you hover over this item."
 
-	^ data at: 'tooltip'
+	^ data at: 'tooltip' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

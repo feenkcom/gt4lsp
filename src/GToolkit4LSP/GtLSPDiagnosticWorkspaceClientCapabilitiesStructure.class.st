@@ -14,7 +14,7 @@ pulled diagnostics currently shown. It should be used with absolute care and
 is useful for situation where a server for example detects a project wide
 change that requires such a calculation."
 
-	^ data at: 'refreshSupport'
+	^ data at: 'refreshSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -10,7 +10,7 @@ GtLSPCreateFileStructure >> annotationId [
 
 @since 3.16.0"
 
-	^ data at: 'annotationId'
+	^ data at: 'annotationId' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -34,7 +34,7 @@ GtLSPCreateFileStructure >> kind: anObject [
 GtLSPCreateFileStructure >> options [
 	"Additional options"
 
-	^ (data at: 'options') ifNotNil: [ :obj | GtLSPCreateFileOptionsStructure new data: obj ]
+	^ (data at: 'options' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCreateFileOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }

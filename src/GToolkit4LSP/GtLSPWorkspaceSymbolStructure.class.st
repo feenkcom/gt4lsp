@@ -11,7 +11,7 @@ user interface purposes (e.g. to render a qualifier in the user interface
 if necessary). It can't be used to re-infer a hierarchy for the document
 symbols."
 
-	^ data at: 'containerName'
+	^ data at: 'containerName' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -24,7 +24,7 @@ GtLSPWorkspaceSymbolStructure >> data [
 	"A data entry field that is preserved on a workspace symbol between a
 workspace symbol request and a workspace symbol resolve request."
 
-	^ data at: 'data'
+	^ data at: 'data' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -78,7 +78,7 @@ GtLSPWorkspaceSymbolStructure >> tags [
 
 @since 3.16.0"
 
-	^ data at: 'tags'
+	^ data at: 'tags' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

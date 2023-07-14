@@ -8,7 +8,7 @@ Class {
 GtLSPCreateFileOptionsStructure >> ignoreIfExists [
 	"Ignore if exists."
 
-	^ data at: 'ignoreIfExists'
+	^ data at: 'ignoreIfExists' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -20,7 +20,7 @@ GtLSPCreateFileOptionsStructure >> ignoreIfExists: anObject [
 GtLSPCreateFileOptionsStructure >> overwrite [
 	"Overwrite existing file. Overwrite wins over `ignoreIfExists`"
 
-	^ data at: 'overwrite'
+	^ data at: 'overwrite' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

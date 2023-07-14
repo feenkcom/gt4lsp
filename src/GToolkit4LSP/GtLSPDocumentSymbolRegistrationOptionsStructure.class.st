@@ -24,7 +24,7 @@ are shown for the same document.
 
 @since 3.16.0"
 
-	^ data at: 'label'
+	^ data at: 'label' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -34,7 +34,7 @@ GtLSPDocumentSymbolRegistrationOptionsStructure >> label: anObject [
 
 { #category : #accessing }
 GtLSPDocumentSymbolRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

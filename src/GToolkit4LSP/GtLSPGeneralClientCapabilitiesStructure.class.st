@@ -10,7 +10,7 @@ GtLSPGeneralClientCapabilitiesStructure >> markdown [
 
 @since 3.16.0"
 
-	^ (data at: 'markdown') ifNotNil: [ :obj | GtLSPMarkdownClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'markdown' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPMarkdownClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -39,7 +39,7 @@ side.
 
 @since 3.17.0"
 
-	^ data at: 'positionEncodings'
+	^ data at: 'positionEncodings' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -53,7 +53,7 @@ GtLSPGeneralClientCapabilitiesStructure >> regularExpressions [
 
 @since 3.16.0"
 
-	^ (data at: 'regularExpressions') ifNotNil: [ :obj | GtLSPRegularExpressionsClientCapabilitiesStructure new data: obj ]
+	^ (data at: 'regularExpressions' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRegularExpressionsClientCapabilitiesStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -70,7 +70,7 @@ anymore since the information is outdated).
 
 @since 3.17.0"
 
-	^ data at: 'staleRequestSupport'
+	^ data at: 'staleRequestSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

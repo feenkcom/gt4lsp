@@ -12,7 +12,7 @@ If provided, this is used in place of `SignatureHelp.activeParameter`.
 
 @since 3.16.0"
 
-	^ data at: 'activeParameter'
+	^ data at: 'activeParameter' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ GtLSPSignatureInformationStructure >> documentation [
 	"The human-readable doc-comment of this signature. Will be shown
 in the UI but can be omitted."
 
-	^ data at: 'documentation'
+	^ data at: 'documentation' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -50,7 +50,7 @@ GtLSPSignatureInformationStructure >> label: anObject [
 GtLSPSignatureInformationStructure >> parameters [
 	"The parameters of this signature."
 
-	^ data at: 'parameters'
+	^ data at: 'parameters' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

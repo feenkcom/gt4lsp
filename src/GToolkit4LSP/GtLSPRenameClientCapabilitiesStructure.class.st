@@ -8,7 +8,7 @@ Class {
 GtLSPRenameClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether rename supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -26,7 +26,7 @@ for confirmation.
 
 @since 3.16.0"
 
-	^ data at: 'honorsChangeAnnotations'
+	^ data at: 'honorsChangeAnnotations' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -41,7 +41,7 @@ before execution.
 
 @since 3.12.0"
 
-	^ data at: 'prepareSupport'
+	^ data at: 'prepareSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -58,7 +58,7 @@ client.
 
 @since 3.16.0"
 
-	^ data at: 'prepareSupportDefaultBehavior'
+	^ data at: 'prepareSupportDefaultBehavior' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

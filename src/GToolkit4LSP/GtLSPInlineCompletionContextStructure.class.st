@@ -8,7 +8,7 @@ Class {
 GtLSPInlineCompletionContextStructure >> selectedCompletionInfo [
 	"Provides information about the currently selected item in the autocomplete widget if it is visible."
 
-	^ (data at: 'selectedCompletionInfo') ifNotNil: [ :obj | GtLSPSelectedCompletionInfoStructure new data: obj ]
+	^ (data at: 'selectedCompletionInfo' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSelectedCompletionInfoStructure new data: obj ]
 ]
 
 { #category : #accessing }

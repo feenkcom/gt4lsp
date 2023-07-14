@@ -8,7 +8,7 @@ Class {
 GtLSPDocumentLinkOptionsStructure >> resolveProvider [
 	"Document links have a resolve provider as well."
 
-	^ data at: 'resolveProvider'
+	^ data at: 'resolveProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -18,7 +18,7 @@ GtLSPDocumentLinkOptionsStructure >> resolveProvider: anObject [
 
 { #category : #accessing }
 GtLSPDocumentLinkOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

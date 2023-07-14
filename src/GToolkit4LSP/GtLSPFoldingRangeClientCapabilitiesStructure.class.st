@@ -11,7 +11,7 @@ providers. If this is set to `true` the client supports the new
 `FoldingRangeRegistrationOptions` return value for the corresponding
 server capability as well."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ GtLSPFoldingRangeClientCapabilitiesStructure >> foldingRange [
 
 @since 3.17.0"
 
-	^ data at: 'foldingRange'
+	^ data at: 'foldingRange' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -39,7 +39,7 @@ GtLSPFoldingRangeClientCapabilitiesStructure >> foldingRangeKind [
 
 @since 3.17.0"
 
-	^ data at: 'foldingRangeKind'
+	^ data at: 'foldingRangeKind' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -53,7 +53,7 @@ GtLSPFoldingRangeClientCapabilitiesStructure >> lineFoldingOnly [
 If set, client will ignore specified `startCharacter` and `endCharacter`
 properties in a FoldingRange."
 
-	^ data at: 'lineFoldingOnly'
+	^ data at: 'lineFoldingOnly' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -67,7 +67,7 @@ GtLSPFoldingRangeClientCapabilitiesStructure >> rangeLimit [
 per document. The value serves as a hint, servers are free to follow the
 limit."
 
-	^ data at: 'rangeLimit'
+	^ data at: 'rangeLimit' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

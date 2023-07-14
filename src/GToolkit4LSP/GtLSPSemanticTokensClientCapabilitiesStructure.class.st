@@ -17,7 +17,7 @@ specified.
 
 @since 3.17.0"
 
-	^ data at: 'augmentsSyntaxTokens'
+	^ data at: 'augmentsSyntaxTokens' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -38,7 +38,7 @@ GtLSPSemanticTokensClientCapabilitiesStructure >> dynamicRegistration [
 the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
 return value for the corresponding server capability as well."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -62,7 +62,7 @@ GtLSPSemanticTokensClientCapabilitiesStructure >> formats: anObject [
 GtLSPSemanticTokensClientCapabilitiesStructure >> multilineTokenSupport [
 	"Whether the client supports tokens that can span multiple lines."
 
-	^ data at: 'multilineTokenSupport'
+	^ data at: 'multilineTokenSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -74,7 +74,7 @@ GtLSPSemanticTokensClientCapabilitiesStructure >> multilineTokenSupport: anObjec
 GtLSPSemanticTokensClientCapabilitiesStructure >> overlappingTokenSupport [
 	"Whether the client supports tokens that can overlap each other."
 
-	^ data at: 'overlappingTokenSupport'
+	^ data at: 'overlappingTokenSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -110,7 +110,7 @@ needs to retrigger the request.
 
 @since 3.17.0"
 
-	^ data at: 'serverCancelSupport'
+	^ data at: 'serverCancelSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

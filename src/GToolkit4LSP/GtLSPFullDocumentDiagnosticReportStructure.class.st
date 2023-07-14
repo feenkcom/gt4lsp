@@ -39,7 +39,7 @@ GtLSPFullDocumentDiagnosticReportStructure >> resultId [
 be sent on the next diagnostic request for the
 same document."
 
-	^ data at: 'resultId'
+	^ data at: 'resultId' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

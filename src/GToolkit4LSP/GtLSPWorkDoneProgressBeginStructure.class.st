@@ -10,7 +10,7 @@ GtLSPWorkDoneProgressBeginStructure >> cancellable [
 long running operation. Clients that don't support cancellation are allowed
 to ignore the setting."
 
-	^ data at: 'cancellable'
+	^ data at: 'cancellable' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -36,7 +36,7 @@ complementary information to the `title`.
 Examples: ""3/25 files"", ""project/src/module2"", ""node_modules/some_dep"".
 If unset, the previous progress message (if any) is still valid."
 
-	^ data at: 'message'
+	^ data at: 'message' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -53,7 +53,7 @@ to ignore the `percentage` value in subsequent in report notifications.
 The value should be steadily rising. Clients are free to ignore values
 that are not following this rule. The value range is [0, 100]."
 
-	^ data at: 'percentage'
+	^ data at: 'percentage' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -26,7 +26,7 @@ GtLSPNotebookDocumentSyncOptionsStructure >> save [
 	"Whether save notification should be forwarded to
 the server. Will only be honored if mode === `notebook`."
 
-	^ data at: 'save'
+	^ data at: 'save' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -8,7 +8,7 @@ Class {
 GtLSPDefinitionClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether definition supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -22,7 +22,7 @@ GtLSPDefinitionClientCapabilitiesStructure >> linkSupport [
 
 @since 3.14.0"
 
-	^ data at: 'linkSupport'
+	^ data at: 'linkSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

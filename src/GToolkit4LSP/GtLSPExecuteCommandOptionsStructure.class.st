@@ -23,7 +23,7 @@ GtLSPExecuteCommandOptionsStructure >> create [
 
 { #category : #accessing }
 GtLSPExecuteCommandOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

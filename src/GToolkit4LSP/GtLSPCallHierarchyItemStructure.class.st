@@ -15,7 +15,7 @@ GtLSPCallHierarchyItemStructure >> data [
 	"A data entry field that is preserved between a call hierarchy prepare and
 incoming calls or outgoing calls requests."
 
-	^ data at: 'data'
+	^ data at: 'data' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -27,7 +27,7 @@ GtLSPCallHierarchyItemStructure >> data: anObject [
 GtLSPCallHierarchyItemStructure >> detail [
 	"More detail for this item, e.g. the signature of a function."
 
-	^ data at: 'detail'
+	^ data at: 'detail' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -88,7 +88,7 @@ GtLSPCallHierarchyItemStructure >> selectionRange: anObject [
 GtLSPCallHierarchyItemStructure >> tags [
 	"Tags for this item."
 
-	^ data at: 'tags'
+	^ data at: 'tags' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

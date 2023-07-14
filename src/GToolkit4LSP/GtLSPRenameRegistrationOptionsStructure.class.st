@@ -23,7 +23,7 @@ GtLSPRenameRegistrationOptionsStructure >> prepareProvider [
 
 @since version 3.12.0"
 
-	^ data at: 'prepareProvider'
+	^ data at: 'prepareProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -33,7 +33,7 @@ GtLSPRenameRegistrationOptionsStructure >> prepareProvider: anObject [
 
 { #category : #accessing }
 GtLSPRenameRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

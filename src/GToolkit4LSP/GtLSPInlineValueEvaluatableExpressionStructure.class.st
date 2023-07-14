@@ -13,7 +13,7 @@ GtLSPInlineValueEvaluatableExpressionStructure >> create [
 GtLSPInlineValueEvaluatableExpressionStructure >> expression [
 	"If specified the expression overrides the extracted expression."
 
-	^ data at: 'expression'
+	^ data at: 'expression' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

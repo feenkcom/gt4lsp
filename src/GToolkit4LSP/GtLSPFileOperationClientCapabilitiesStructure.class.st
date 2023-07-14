@@ -8,7 +8,7 @@ Class {
 GtLSPFileOperationClientCapabilitiesStructure >> didCreate [
 	"The client has support for sending didCreateFiles notifications."
 
-	^ data at: 'didCreate'
+	^ data at: 'didCreate' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -20,7 +20,7 @@ GtLSPFileOperationClientCapabilitiesStructure >> didCreate: anObject [
 GtLSPFileOperationClientCapabilitiesStructure >> didDelete [
 	"The client has support for sending didDeleteFiles notifications."
 
-	^ data at: 'didDelete'
+	^ data at: 'didDelete' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -32,7 +32,7 @@ GtLSPFileOperationClientCapabilitiesStructure >> didDelete: anObject [
 GtLSPFileOperationClientCapabilitiesStructure >> didRename [
 	"The client has support for sending didRenameFiles notifications."
 
-	^ data at: 'didRename'
+	^ data at: 'didRename' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -44,7 +44,7 @@ GtLSPFileOperationClientCapabilitiesStructure >> didRename: anObject [
 GtLSPFileOperationClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether the client supports dynamic registration for file requests/notifications."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -56,7 +56,7 @@ GtLSPFileOperationClientCapabilitiesStructure >> dynamicRegistration: anObject [
 GtLSPFileOperationClientCapabilitiesStructure >> willCreate [
 	"The client has support for sending willCreateFiles requests."
 
-	^ data at: 'willCreate'
+	^ data at: 'willCreate' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -68,7 +68,7 @@ GtLSPFileOperationClientCapabilitiesStructure >> willCreate: anObject [
 GtLSPFileOperationClientCapabilitiesStructure >> willDelete [
 	"The client has support for sending willDeleteFiles requests."
 
-	^ data at: 'willDelete'
+	^ data at: 'willDelete' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -80,7 +80,7 @@ GtLSPFileOperationClientCapabilitiesStructure >> willDelete: anObject [
 GtLSPFileOperationClientCapabilitiesStructure >> willRename [
 	"The client has support for sending willRenameFiles requests."
 
-	^ data at: 'willRename'
+	^ data at: 'willRename' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

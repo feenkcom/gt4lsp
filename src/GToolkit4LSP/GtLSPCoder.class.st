@@ -90,22 +90,13 @@ GtLSPCoder >> findReferencesIn: textEditor [
 		at: (textEditor editor positionFor: index)
 		do: [ :items | 
 			items
-				ifNotNil: [ | fileMappings caseSensitive uriBlock |
-					caseSensitive := self lspFile filename fileSystem isCaseSensitive.
-					uriBlock := caseSensitive
-							ifTrue: [ [ :each | each ] ]
-							ifFalse: [ [ :each | each asLowercase ] ].
-					fileMappings := Dictionary new.
-					self lspDirectory files
-						do: [ :each | fileMappings at: (uriBlock value: each filename uri printString) put: each ].
-					textEditor
+				ifNotNil: [ textEditor
 						inUIProcessDo: [ textEditor phlow
 								spawnObject: (GtLSPReferenceList new
 										references: ((items
 												collect: [ :each | 
-													fileMappings
-														at: (uriBlock value: each uri)
-														ifPresent: [ :file | 
+													(self lspDirectory fileForUri: each uri)
+														ifNotNil: [ :file | 
 															GtLSPReference new
 																lspFile: file;
 																startPosition: each range start;
@@ -134,8 +125,7 @@ GtLSPCoder >> initializeContent [
 									paint: (self theme default primaryBorderColor alpha: 0.4) gtOpaqueColorOnWhite
 									width: 1 ]);
 			margin: (BlInsets all: 5);
-			hMatchParent;
-			vFitContentLimited
+			matchParent
 ]
 
 { #category : #initialization }
@@ -228,6 +218,9 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 			to: self;
 		when: GtLSPFileSourceChanged
 			send: #updateChangeStatus
+			to: self;
+		when: GtLSPFileDiagnostics
+			send: #updateDiagnostics
 			to: self.
 	self lspDirectory announcer weak
 		when: GtLSPFileAdded
@@ -300,6 +293,10 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 	content addChild: toolbar as: #toolbar.
 	contentElement addChild: content.
 	self updateChangeStatus
+]
+
+{ #category : #updating }
+GtLSPCoder >> updateDiagnostics [
 ]
 
 { #category : #updating }

@@ -8,7 +8,7 @@ Class {
 GtLSPShowMessageRequestParamsStructure >> actions [
 	"The message action items to present."
 
-	^ data at: 'actions'
+	^ data at: 'actions' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

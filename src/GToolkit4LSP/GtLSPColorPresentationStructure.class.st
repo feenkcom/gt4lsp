@@ -9,7 +9,7 @@ GtLSPColorPresentationStructure >> additionalTextEdits [
 	"An optional array of additional {@link TextEdit text edits} that are applied when
 selecting this color presentation. Edits must not overlap with the main {@link ColorPresentation.textEdit edit} nor with themselves."
 
-	^ data at: 'additionalTextEdits'
+	^ data at: 'additionalTextEdits' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -37,7 +37,7 @@ GtLSPColorPresentationStructure >> textEdit [
 this presentation for the color.  When `falsy` the {@link ColorPresentation.label label}
 is used."
 
-	^ (data at: 'textEdit') ifNotNil: [ :obj | GtLSPTextEditStructure new data: obj ]
+	^ (data at: 'textEdit' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPTextEditStructure new data: obj ]
 ]
 
 { #category : #accessing }

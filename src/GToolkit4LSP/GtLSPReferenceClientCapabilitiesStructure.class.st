@@ -8,7 +8,7 @@ Class {
 GtLSPReferenceClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether references supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

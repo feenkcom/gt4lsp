@@ -28,7 +28,7 @@ GtLSPFileOperationPatternStructure >> matches [
 
 Matches both if undefined."
 
-	^ data at: 'matches'
+	^ data at: 'matches' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ GtLSPFileOperationPatternStructure >> matches: anObject [
 GtLSPFileOperationPatternStructure >> options [
 	"Additional options used during matching."
 
-	^ (data at: 'options') ifNotNil: [ :obj | GtLSPFileOperationPatternOptionsStructure new data: obj ]
+	^ (data at: 'options' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPFileOperationPatternOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }

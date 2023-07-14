@@ -17,7 +17,7 @@ supertypes or subtypes requests. It could also be used to identify the
 type hierarchy in the server, helping improve the performance on
 resolving supertypes and subtypes."
 
-	^ data at: 'data'
+	^ data at: 'data' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -29,7 +29,7 @@ GtLSPTypeHierarchyItemStructure >> data: anObject [
 GtLSPTypeHierarchyItemStructure >> detail [
 	"More detail for this item, e.g. the signature of a function."
 
-	^ data at: 'detail'
+	^ data at: 'detail' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -92,7 +92,7 @@ GtLSPTypeHierarchyItemStructure >> selectionRange: anObject [
 GtLSPTypeHierarchyItemStructure >> tags [
 	"Tags for this item."
 
-	^ data at: 'tags'
+	^ data at: 'tags' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

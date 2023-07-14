@@ -11,7 +11,7 @@ GtLSPInlayHintLabelPartStructure >> command [
 Depending on the client capability `inlayHint.resolveSupport` clients
 might resolve this property late using the resolve request."
 
-	^ (data at: 'command') ifNotNil: [ :obj | GtLSPCommandStructure new data: obj ]
+	^ (data at: 'command' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCommandStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -33,7 +33,7 @@ and it shows a context menu with further code navigation commands.
 Depending on the client capability `inlayHint.resolveSupport` clients
 might resolve this property late using the resolve request."
 
-	^ (data at: 'location') ifNotNil: [ :obj | GtLSPLocationStructure new data: obj ]
+	^ (data at: 'location' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPLocationStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -47,7 +47,7 @@ GtLSPInlayHintLabelPartStructure >> tooltip [
 the client capability `inlayHint.resolveSupport` clients might resolve
 this property late using the resolve request."
 
-	^ data at: 'tooltip'
+	^ data at: 'tooltip' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

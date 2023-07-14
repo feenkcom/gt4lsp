@@ -8,7 +8,7 @@ Class {
 GtLSPDeleteFileOptionsStructure >> ignoreIfNotExists [
 	"Ignore the operation if the file doesn't exist."
 
-	^ data at: 'ignoreIfNotExists'
+	^ data at: 'ignoreIfNotExists' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -20,7 +20,7 @@ GtLSPDeleteFileOptionsStructure >> ignoreIfNotExists: anObject [
 GtLSPDeleteFileOptionsStructure >> recursive [
 	"Delete the content recursively if a folder is denoted."
 
-	^ data at: 'recursive'
+	^ data at: 'recursive' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -1,60 +1,60 @@
 Class {
-	#name : #GtLSPDocumentRangeFormattingParamsStructure,
+	#name : #GtLSPDocumentRangesFormattingParamsStructure,
 	#superclass : #GtLSPStructure,
 	#category : #'GToolkit4LSP-Structures'
 }
 
 { #category : #initialization }
-GtLSPDocumentRangeFormattingParamsStructure >> create [
+GtLSPDocumentRangesFormattingParamsStructure >> create [
 	data at: 'textDocument' put: GtLSPTextDocumentIdentifierStructure create  asDictionary.
-	data at: 'range' put: GtLSPRangeStructure create  asDictionary.
+	data at: 'ranges' put: #().
 	data at: 'options' put: GtLSPFormattingOptionsStructure create  asDictionary
 ]
 
 { #category : #accessing }
-GtLSPDocumentRangeFormattingParamsStructure >> options [
+GtLSPDocumentRangesFormattingParamsStructure >> options [
 	"The format options"
 
 	^ (data at: 'options') ifNotNil: [ :obj | GtLSPFormattingOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }
-GtLSPDocumentRangeFormattingParamsStructure >> options: anObject [
+GtLSPDocumentRangesFormattingParamsStructure >> options: anObject [
 	data at: 'options' put:  (self objectFor: anObject)
 ]
 
 { #category : #accessing }
-GtLSPDocumentRangeFormattingParamsStructure >> range [
-	"The range to format"
+GtLSPDocumentRangesFormattingParamsStructure >> ranges [
+	"The ranges to format"
 
-	^ (data at: 'range') ifNotNil: [ :obj | GtLSPRangeStructure new data: obj ]
+	^ data at: 'ranges'
 ]
 
 { #category : #accessing }
-GtLSPDocumentRangeFormattingParamsStructure >> range: anObject [
-	data at: 'range' put:  (self objectFor: anObject)
+GtLSPDocumentRangesFormattingParamsStructure >> ranges: anObject [
+	data at: 'ranges' put:  (self objectFor: anObject)
 ]
 
 { #category : #accessing }
-GtLSPDocumentRangeFormattingParamsStructure >> textDocument [
+GtLSPDocumentRangesFormattingParamsStructure >> textDocument [
 	"The document to format."
 
 	^ (data at: 'textDocument') ifNotNil: [ :obj | GtLSPTextDocumentIdentifierStructure new data: obj ]
 ]
 
 { #category : #accessing }
-GtLSPDocumentRangeFormattingParamsStructure >> textDocument: anObject [
+GtLSPDocumentRangesFormattingParamsStructure >> textDocument: anObject [
 	data at: 'textDocument' put:  (self objectFor: anObject)
 ]
 
 { #category : #accessing }
-GtLSPDocumentRangeFormattingParamsStructure >> workDoneToken [
+GtLSPDocumentRangesFormattingParamsStructure >> workDoneToken [
 	"An optional token that a server can use to report work done progress."
 
 	^ data at: 'workDoneToken' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
-GtLSPDocumentRangeFormattingParamsStructure >> workDoneToken: anObject [
+GtLSPDocumentRangesFormattingParamsStructure >> workDoneToken: anObject [
 	data at: 'workDoneToken' put:  (self objectFor: anObject)
 ]

@@ -55,3 +55,13 @@ GtLSPRustModel class >> languageType [
 GtLSPRustModel class >> styler [
 	^ RustParser gtStyler
 ]
+
+{ #category : #private }
+GtLSPRustModel >> installMessageHandlers [
+	lspClient
+		on: 'textDocument/publishDiagnostics'
+		as: GtLSPPublishDiagnosticsParamsStructure
+		do: [ :each | 
+			(self fileForUri: each uri)
+				ifNotNil: [ :file | file diagnostics: each diagnostics ] ]
+]

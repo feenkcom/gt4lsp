@@ -22,7 +22,7 @@ GtLSP_InitializeParamsStructure >> clientInfo [
 
 @since 3.15.0"
 
-	^ data at: 'clientInfo'
+	^ data at: 'clientInfo' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -39,7 +39,7 @@ GtLSP_InitializeParamsStructure >> create [
 GtLSP_InitializeParamsStructure >> initializationOptions [
 	"User provided initialization options."
 
-	^ data at: 'initializationOptions'
+	^ data at: 'initializationOptions' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -58,7 +58,7 @@ Uses IETF language tags as the value's syntax
 
 @since 3.16.0"
 
-	^ data at: 'locale'
+	^ data at: 'locale' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -89,7 +89,7 @@ if no folder is open.
 
 @deprecated in favour of rootUri."
 
-	^ data at: 'rootPath'
+	^ data at: 'rootPath' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -117,7 +117,7 @@ GtLSP_InitializeParamsStructure >> rootUri: anObject [
 GtLSP_InitializeParamsStructure >> trace [
 	"The initial trace setting. If omitted trace is disabled ('off')."
 
-	^ data at: 'trace'
+	^ data at: 'trace' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -129,7 +129,7 @@ GtLSP_InitializeParamsStructure >> trace: anObject [
 GtLSP_InitializeParamsStructure >> workDoneToken [
 	"An optional token that a server can use to report work done progress."
 
-	^ data at: 'workDoneToken'
+	^ data at: 'workDoneToken' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

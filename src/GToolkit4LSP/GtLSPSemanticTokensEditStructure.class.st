@@ -8,7 +8,7 @@ Class {
 GtLSPSemanticTokensEditStructure >> data [
 	"The elements to insert."
 
-	^ data at: 'data'
+	^ data at: 'data' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

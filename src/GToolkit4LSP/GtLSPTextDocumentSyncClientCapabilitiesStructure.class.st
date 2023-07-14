@@ -8,7 +8,7 @@ Class {
 GtLSPTextDocumentSyncClientCapabilitiesStructure >> didSave [
 	"The client supports did save notifications."
 
-	^ data at: 'didSave'
+	^ data at: 'didSave' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -20,7 +20,7 @@ GtLSPTextDocumentSyncClientCapabilitiesStructure >> didSave: anObject [
 GtLSPTextDocumentSyncClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether text document synchronization supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -32,7 +32,7 @@ GtLSPTextDocumentSyncClientCapabilitiesStructure >> dynamicRegistration: anObjec
 GtLSPTextDocumentSyncClientCapabilitiesStructure >> willSave [
 	"The client supports sending will save notifications."
 
-	^ data at: 'willSave'
+	^ data at: 'willSave' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -46,7 +46,7 @@ GtLSPTextDocumentSyncClientCapabilitiesStructure >> willSaveWaitUntil [
 waits for a response providing text edits which will
 be applied to the document before it is saved."
 
-	^ data at: 'willSaveWaitUntil'
+	^ data at: 'willSaveWaitUntil' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

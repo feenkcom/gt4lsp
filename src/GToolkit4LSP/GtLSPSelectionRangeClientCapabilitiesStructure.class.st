@@ -10,7 +10,7 @@ GtLSPSelectionRangeClientCapabilitiesStructure >> dynamicRegistration [
 the client supports the new `SelectionRangeRegistrationOptions` return value for the corresponding server
 capability as well."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -14,7 +14,7 @@ under which the notification is registered on the client
 side. The ID can be used to unregister for these events
 using the `client/unregisterCapability` request."
 
-	^ data at: 'changeNotifications'
+	^ data at: 'changeNotifications' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -26,7 +26,7 @@ GtLSPWorkspaceFoldersServerCapabilitiesStructure >> changeNotifications: anObjec
 GtLSPWorkspaceFoldersServerCapabilitiesStructure >> supported [
 	"The server has support for workspace folders"
 
-	^ data at: 'supported'
+	^ data at: 'supported' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

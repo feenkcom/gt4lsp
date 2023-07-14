@@ -9,7 +9,7 @@ GtLSPCompletionParamsStructure >> context [
 	"The completion context. This is only available it the client specifies
 to send this using the client capability `textDocument.completion.contextSupport === true`"
 
-	^ (data at: 'context') ifNotNil: [ :obj | GtLSPCompletionContextStructure new data: obj ]
+	^ (data at: 'context' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCompletionContextStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -30,7 +30,7 @@ GtLSPCompletionParamsStructure >> partialResultToken [
 	"An optional token that a server can use to report partial results (e.g. streaming) to
 the client."
 
-	^ data at: 'partialResultToken'
+	^ data at: 'partialResultToken' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -66,7 +66,7 @@ GtLSPCompletionParamsStructure >> textDocument: anObject [
 GtLSPCompletionParamsStructure >> workDoneToken [
 	"An optional token that a server can use to report work done progress."
 
-	^ data at: 'workDoneToken'
+	^ data at: 'workDoneToken' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

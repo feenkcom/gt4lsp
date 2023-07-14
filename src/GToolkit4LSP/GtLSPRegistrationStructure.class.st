@@ -33,7 +33,7 @@ GtLSPRegistrationStructure >> method: anObject [
 GtLSPRegistrationStructure >> registerOptions [
 	"Options necessary for the registration."
 
-	^ data at: 'registerOptions'
+	^ data at: 'registerOptions' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

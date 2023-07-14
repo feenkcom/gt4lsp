@@ -14,7 +14,7 @@ GtLSPDidSaveTextDocumentParamsStructure >> text [
 	"Optional the content when saved. Depends on the includeText value
 when the save notification was requested."
 
-	^ data at: 'text'
+	^ data at: 'text' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

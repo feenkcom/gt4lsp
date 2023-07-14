@@ -23,7 +23,7 @@ GtLSPSemanticTokensDeltaStructure >> edits: anObject [
 
 { #category : #accessing }
 GtLSPSemanticTokensDeltaStructure >> resultId [
-	^ data at: 'resultId'
+	^ data at: 'resultId' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

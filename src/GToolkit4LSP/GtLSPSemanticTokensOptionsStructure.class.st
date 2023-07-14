@@ -13,7 +13,7 @@ GtLSPSemanticTokensOptionsStructure >> create [
 GtLSPSemanticTokensOptionsStructure >> full [
 	"Server supports providing semantic tokens for a full document."
 
-	^ data at: 'full'
+	^ data at: 'full' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -38,7 +38,7 @@ GtLSPSemanticTokensOptionsStructure >> range [
 	"Server supports providing semantic tokens for a specific range
 of a document."
 
-	^ data at: 'range'
+	^ data at: 'range' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -48,7 +48,7 @@ GtLSPSemanticTokensOptionsStructure >> range: anObject [
 
 { #category : #accessing }
 GtLSPSemanticTokensOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

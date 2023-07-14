@@ -10,7 +10,7 @@ GtLSPDiagnosticClientCapabilitiesStructure >> dynamicRegistration [
 the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
 return value for the corresponding server capability as well."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -22,7 +22,7 @@ GtLSPDiagnosticClientCapabilitiesStructure >> dynamicRegistration: anObject [
 GtLSPDiagnosticClientCapabilitiesStructure >> relatedDocumentSupport [
 	"Whether the clients supports related documents for document diagnostic pulls."
 
-	^ data at: 'relatedDocumentSupport'
+	^ data at: 'relatedDocumentSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -11,7 +11,7 @@ set to `true` the client supports the new
 `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
 return value for the corresponding server capability as well."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -23,7 +23,7 @@ GtLSPNotebookDocumentSyncClientCapabilitiesStructure >> dynamicRegistration: anO
 GtLSPNotebookDocumentSyncClientCapabilitiesStructure >> executionSummarySupport [
 	"The client supports sending execution summary data per cell."
 
-	^ data at: 'executionSummarySupport'
+	^ data at: 'executionSummarySupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

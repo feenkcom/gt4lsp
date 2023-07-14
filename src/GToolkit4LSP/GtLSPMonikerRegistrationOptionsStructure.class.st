@@ -19,7 +19,7 @@ GtLSPMonikerRegistrationOptionsStructure >> documentSelector: anObject [
 
 { #category : #accessing }
 GtLSPMonikerRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

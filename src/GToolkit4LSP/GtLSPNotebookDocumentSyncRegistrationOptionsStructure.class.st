@@ -14,7 +14,7 @@ GtLSPNotebookDocumentSyncRegistrationOptionsStructure >> id [
 	"The id used to register the request. The id can be used to deregister
 the request again. See also Registration#id."
 
-	^ data at: 'id'
+	^ data at: 'id' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -39,7 +39,7 @@ GtLSPNotebookDocumentSyncRegistrationOptionsStructure >> save [
 	"Whether save notification should be forwarded to
 the server. Will only be honored if mode === `notebook`."
 
-	^ data at: 'save'
+	^ data at: 'save' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

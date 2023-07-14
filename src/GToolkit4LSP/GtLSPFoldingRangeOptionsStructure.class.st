@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 GtLSPFoldingRangeOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

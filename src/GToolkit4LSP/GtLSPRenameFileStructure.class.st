@@ -10,7 +10,7 @@ GtLSPRenameFileStructure >> annotationId [
 
 @since 3.16.0"
 
-	^ data at: 'annotationId'
+	^ data at: 'annotationId' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -58,7 +58,7 @@ GtLSPRenameFileStructure >> oldUri: anObject [
 GtLSPRenameFileStructure >> options [
 	"Rename options."
 
-	^ (data at: 'options') ifNotNil: [ :obj | GtLSPRenameFileOptionsStructure new data: obj ]
+	^ (data at: 'options' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPRenameFileOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }

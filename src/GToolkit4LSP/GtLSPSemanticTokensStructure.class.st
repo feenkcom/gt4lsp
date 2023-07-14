@@ -28,7 +28,7 @@ the client will include the result id in the next semantic token request.
 A server can then instead of computing all semantic tokens again simply
 send a delta."
 
-	^ data at: 'resultId'
+	^ data at: 'resultId' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

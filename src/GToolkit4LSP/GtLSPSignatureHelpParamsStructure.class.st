@@ -11,7 +11,7 @@ to send this using the client capability `textDocument.signatureHelp.contextSupp
 
 @since 3.15.0"
 
-	^ (data at: 'context') ifNotNil: [ :obj | GtLSPSignatureHelpContextStructure new data: obj ]
+	^ (data at: 'context' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSignatureHelpContextStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -55,7 +55,7 @@ GtLSPSignatureHelpParamsStructure >> textDocument: anObject [
 GtLSPSignatureHelpParamsStructure >> workDoneToken [
 	"An optional token that a server can use to report work done progress."
 
-	^ data at: 'workDoneToken'
+	^ data at: 'workDoneToken' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

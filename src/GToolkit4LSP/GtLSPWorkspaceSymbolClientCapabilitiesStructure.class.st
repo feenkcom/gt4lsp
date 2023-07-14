@@ -8,7 +8,7 @@ Class {
 GtLSPWorkspaceSymbolClientCapabilitiesStructure >> dynamicRegistration [
 	"Symbol request supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -24,7 +24,7 @@ properties.
 
 @since 3.17.0"
 
-	^ data at: 'resolveSupport'
+	^ data at: 'resolveSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -36,7 +36,7 @@ GtLSPWorkspaceSymbolClientCapabilitiesStructure >> resolveSupport: anObject [
 GtLSPWorkspaceSymbolClientCapabilitiesStructure >> symbolKind [
 	"Specific capabilities for the `SymbolKind` in the `workspace/symbol` request."
 
-	^ data at: 'symbolKind'
+	^ data at: 'symbolKind' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -51,7 +51,7 @@ Clients supporting tags have to handle unknown tags gracefully.
 
 @since 3.16.0"
 
-	^ data at: 'tagSupport'
+	^ data at: 'tagSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

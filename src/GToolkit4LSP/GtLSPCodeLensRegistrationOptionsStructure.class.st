@@ -21,7 +21,7 @@ GtLSPCodeLensRegistrationOptionsStructure >> documentSelector: anObject [
 GtLSPCodeLensRegistrationOptionsStructure >> resolveProvider [
 	"Code lens has a resolve provider as well."
 
-	^ data at: 'resolveProvider'
+	^ data at: 'resolveProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -31,7 +31,7 @@ GtLSPCodeLensRegistrationOptionsStructure >> resolveProvider: anObject [
 
 { #category : #accessing }
 GtLSPCodeLensRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -24,7 +24,7 @@ GtLSPFileSystemWatcherStructure >> kind [
 to WatchKind.Create | WatchKind.Change | WatchKind.Delete
 which is 7."
 
-	^ data at: 'kind'
+	^ data at: 'kind' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

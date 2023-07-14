@@ -9,7 +9,7 @@ GtLSPChangeAnnotationStructure >> description [
 	"A human-readable string which is rendered less prominent in
 the user interface."
 
-	^ data at: 'description'
+	^ data at: 'description' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -35,7 +35,7 @@ GtLSPChangeAnnotationStructure >> needsConfirmation [
 	"A flag which indicates that user confirmation is needed
 before applying the change."
 
-	^ data at: 'needsConfirmation'
+	^ data at: 'needsConfirmation' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

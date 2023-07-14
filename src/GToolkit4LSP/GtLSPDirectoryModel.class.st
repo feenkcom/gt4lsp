@@ -8,7 +8,8 @@ Class {
 		'fileWatcher',
 		'files',
 		'styler',
-		'filename'
+		'filename',
+		'fileMappings'
 	],
 	#classVars : [
 		'Registry'
@@ -41,7 +42,7 @@ GtLSPDirectoryModel class >> languageType [
 
 { #category : #'instance creation' }
 GtLSPDirectoryModel class >> onDirectory: aDirectory [
-	| client dir semaphore |
+	| client dir semaphore model |
 	semaphore := Semaphore new.
 	dir := aDirectory asFileReference.
 	client := GtLanguageServerProtocolStdioClient new
@@ -49,14 +50,15 @@ GtLSPDirectoryModel class >> onDirectory: aDirectory [
 			defaultLanguageType: self languageType;
 			start;
 			yourself.
+	model := self new
+			filename: dir;
+			extensions: self extensions;
+			lspClient: client;
+			styler: self styler.
 	client initializeIn: {dir} do: [ semaphore signal ].
 	semaphore wait.
-	^ self registry
-		add: (GtLSPDirectoryModel new
-				filename: dir;
-				extensions: self extensions;
-				lspClient: client;
-				styler: self styler)
+	self registry add: model.
+	^ model
 ]
 
 { #category : #accessing }
@@ -92,6 +94,33 @@ GtLSPDirectoryModel >> fileDeleted: aFileReference [
 { #category : #accessing }
 GtLSPDirectoryModel >> fileFor: aFileReference [
 	^ files detect: [ :each | each filename = aFileReference ] ifNone: [  ]
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel >> fileForUri: aString [
+	^ self fileMappings
+		at: (self fileSystemIsCaseSensitive
+				ifTrue: [ aString ]
+				ifFalse: [ aString asLowercase ])
+		ifAbsent: [  ]
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel >> fileMappings [
+	^ fileMappings
+		ifNil: [ | uriBlock |
+			uriBlock := self fileSystemIsCaseSensitive
+					ifTrue: [ [ :each | each ] ]
+					ifFalse: [ [ :each | each asLowercase ] ].
+			fileMappings := Dictionary new.
+			self lspDirectory files
+				do: [ :each | fileMappings at: (uriBlock value: each filename uri printString) put: each ].
+			fileMappings ]
+]
+
+{ #category : #testing }
+GtLSPDirectoryModel >> fileSystemIsCaseSensitive [
+	^ self filename fileSystem isCaseSensitive
 ]
 
 { #category : #'file watcher' }
@@ -149,6 +178,10 @@ GtLSPDirectoryModel >> gtFileSearch: aSearch [
 		filterBySubstring
 ]
 
+{ #category : #private }
+GtLSPDirectoryModel >> installMessageHandlers [
+]
+
 { #category : #testing }
 GtLSPDirectoryModel >> isLSPDirectory [
 	^ true
@@ -171,7 +204,8 @@ GtLSPDirectoryModel >> lspClient [
 
 { #category : #accessing }
 GtLSPDirectoryModel >> lspClient: aLSPClient [
-	lspClient := aLSPClient
+	lspClient := aLSPClient.
+	self installMessageHandlers
 ]
 
 { #category : #accessing }

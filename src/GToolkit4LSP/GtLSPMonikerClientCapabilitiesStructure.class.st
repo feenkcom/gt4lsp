@@ -10,7 +10,7 @@ GtLSPMonikerClientCapabilitiesStructure >> dynamicRegistration [
 the client supports the new `MonikerRegistrationOptions` return value
 for the corresponding server capability as well."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -27,7 +27,7 @@ GtLSPApplyWorkspaceEditParamsStructure >> label [
 presented in the user interface for example on an undo
 stack to undo the workspace edit."
 
-	^ data at: 'label'
+	^ data at: 'label' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

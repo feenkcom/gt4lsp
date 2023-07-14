@@ -8,7 +8,7 @@ Class {
 GtLSPFileOperationPatternOptionsStructure >> ignoreCase [
 	"The pattern should be matched ignoring casing."
 
-	^ data at: 'ignoreCase'
+	^ data at: 'ignoreCase' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

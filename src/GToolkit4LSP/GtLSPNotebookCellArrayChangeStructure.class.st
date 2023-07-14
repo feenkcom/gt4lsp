@@ -8,7 +8,7 @@ Class {
 GtLSPNotebookCellArrayChangeStructure >> cells [
 	"The new cells, if any"
 
-	^ data at: 'cells'
+	^ data at: 'cells' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

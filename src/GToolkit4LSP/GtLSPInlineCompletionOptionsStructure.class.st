@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 GtLSPInlineCompletionOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

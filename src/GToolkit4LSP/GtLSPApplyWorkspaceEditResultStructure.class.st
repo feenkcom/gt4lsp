@@ -22,7 +22,7 @@ GtLSPApplyWorkspaceEditResultStructure >> failedChange [
 contain the index of the change that failed. This property is only available
 if the client signals a `failureHandlingStrategy` in its client capabilities."
 
-	^ data at: 'failedChange'
+	^ data at: 'failedChange' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -36,7 +36,7 @@ GtLSPApplyWorkspaceEditResultStructure >> failureReason [
 This may be used by the server for diagnostic logging or to provide
 a suitable error for a request that triggered the edit."
 
-	^ data at: 'failureReason'
+	^ data at: 'failureReason' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

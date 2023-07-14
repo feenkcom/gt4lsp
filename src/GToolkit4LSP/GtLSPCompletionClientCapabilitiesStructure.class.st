@@ -9,7 +9,7 @@ GtLSPCompletionClientCapabilitiesStructure >> completionItem [
 	"The client supports the following `CompletionItem` specific
 capabilities."
 
-	^ data at: 'completionItem'
+	^ data at: 'completionItem' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -19,7 +19,7 @@ GtLSPCompletionClientCapabilitiesStructure >> completionItem: anObject [
 
 { #category : #accessing }
 GtLSPCompletionClientCapabilitiesStructure >> completionItemKind [
-	^ data at: 'completionItemKind'
+	^ data at: 'completionItemKind' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -34,7 +34,7 @@ capabilities.
 
 @since 3.17.0"
 
-	^ data at: 'completionList'
+	^ data at: 'completionList' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -47,7 +47,7 @@ GtLSPCompletionClientCapabilitiesStructure >> contextSupport [
 	"The client supports to send additional context information for a
 `textDocument/completion` request."
 
-	^ data at: 'contextSupport'
+	^ data at: 'contextSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -59,7 +59,7 @@ GtLSPCompletionClientCapabilitiesStructure >> contextSupport: anObject [
 GtLSPCompletionClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether completion supports dynamic registration."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -75,7 +75,7 @@ text in either `insertText` or `textEdit`.
 
 @since 3.17.0"
 
-	^ data at: 'insertTextMode'
+	^ data at: 'insertTextMode' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -9,7 +9,7 @@ GtLSPDiagnosticOptionsStructure >> identifier [
 	"An optional identifier under which the diagnostics are
 managed by the client."
 
-	^ data at: 'identifier'
+	^ data at: 'identifier' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -34,7 +34,7 @@ GtLSPDiagnosticOptionsStructure >> interFileDependencies: anObject [
 
 { #category : #accessing }
 GtLSPDiagnosticOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

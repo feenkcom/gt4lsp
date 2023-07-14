@@ -56,7 +56,7 @@ GtLSPInlineCompletionParamsStructure >> textDocument: anObject [
 GtLSPInlineCompletionParamsStructure >> workDoneToken [
 	"An optional token that a server can use to report work done progress."
 
-	^ data at: 'workDoneToken'
+	^ data at: 'workDoneToken' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

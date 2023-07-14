@@ -8,7 +8,7 @@ Class {
 GtLSPSaveOptionsStructure >> includeText [
 	"The client is supposed to include the content on save."
 
-	^ data at: 'includeText'
+	^ data at: 'includeText' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 GtLSPSelectionRangeOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

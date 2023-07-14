@@ -21,7 +21,7 @@ GtLSPDocumentLinkRegistrationOptionsStructure >> documentSelector: anObject [
 GtLSPDocumentLinkRegistrationOptionsStructure >> resolveProvider [
 	"Document links have a resolve provider as well."
 
-	^ data at: 'resolveProvider'
+	^ data at: 'resolveProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -31,7 +31,7 @@ GtLSPDocumentLinkRegistrationOptionsStructure >> resolveProvider: anObject [
 
 { #category : #accessing }
 GtLSPDocumentLinkRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

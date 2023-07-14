@@ -15,7 +15,7 @@ completion item the ones on the completion item win.
 
 @since 3.2.0"
 
-	^ data at: 'allCommitCharacters'
+	^ data at: 'allCommitCharacters' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -30,7 +30,7 @@ capabilities.
 
 @since 3.17.0"
 
-	^ data at: 'completionItem'
+	^ data at: 'completionItem' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -43,7 +43,7 @@ GtLSPCompletionOptionsStructure >> resolveProvider [
 	"The server provides support to resolve additional
 information for a completion item."
 
-	^ data at: 'resolveProvider'
+	^ data at: 'resolveProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -62,7 +62,7 @@ completion item. Characters that make up identifiers don't need to be listed her
 If code complete should automatically be trigger on characters not being valid inside
 an identifier (for example `.` in JavaScript) list them in `triggerCharacters`."
 
-	^ data at: 'triggerCharacters'
+	^ data at: 'triggerCharacters' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -72,7 +72,7 @@ GtLSPCompletionOptionsStructure >> triggerCharacters: anObject [
 
 { #category : #accessing }
 GtLSPCompletionOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

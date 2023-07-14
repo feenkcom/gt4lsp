@@ -10,7 +10,7 @@ GtLSPServerCapabilitiesStructure >> callHierarchyProvider [
 
 @since 3.16.0"
 
-	^ data at: 'callHierarchyProvider'
+	^ data at: 'callHierarchyProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -24,7 +24,7 @@ GtLSPServerCapabilitiesStructure >> codeActionProvider [
 specified if the client states that it supports
 `codeActionLiteralSupport` in its initial `initialize` request."
 
-	^ data at: 'codeActionProvider'
+	^ data at: 'codeActionProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -36,7 +36,7 @@ GtLSPServerCapabilitiesStructure >> codeActionProvider: anObject [
 GtLSPServerCapabilitiesStructure >> codeLensProvider [
 	"The server provides code lens."
 
-	^ (data at: 'codeLensProvider') ifNotNil: [ :obj | GtLSPCodeLensOptionsStructure new data: obj ]
+	^ (data at: 'codeLensProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCodeLensOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -48,7 +48,7 @@ GtLSPServerCapabilitiesStructure >> codeLensProvider: anObject [
 GtLSPServerCapabilitiesStructure >> colorProvider [
 	"The server provides color provider support."
 
-	^ data at: 'colorProvider'
+	^ data at: 'colorProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -60,7 +60,7 @@ GtLSPServerCapabilitiesStructure >> colorProvider: anObject [
 GtLSPServerCapabilitiesStructure >> completionProvider [
 	"The server provides completion support."
 
-	^ (data at: 'completionProvider') ifNotNil: [ :obj | GtLSPCompletionOptionsStructure new data: obj ]
+	^ (data at: 'completionProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPCompletionOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -72,7 +72,7 @@ GtLSPServerCapabilitiesStructure >> completionProvider: anObject [
 GtLSPServerCapabilitiesStructure >> declarationProvider [
 	"The server provides Goto Declaration support."
 
-	^ data at: 'declarationProvider'
+	^ data at: 'declarationProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -84,7 +84,7 @@ GtLSPServerCapabilitiesStructure >> declarationProvider: anObject [
 GtLSPServerCapabilitiesStructure >> definitionProvider [
 	"The server provides goto definition support."
 
-	^ data at: 'definitionProvider'
+	^ data at: 'definitionProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -98,7 +98,7 @@ GtLSPServerCapabilitiesStructure >> diagnosticProvider [
 
 @since 3.17.0"
 
-	^ data at: 'diagnosticProvider'
+	^ data at: 'diagnosticProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -110,7 +110,7 @@ GtLSPServerCapabilitiesStructure >> diagnosticProvider: anObject [
 GtLSPServerCapabilitiesStructure >> documentFormattingProvider [
 	"The server provides document formatting."
 
-	^ data at: 'documentFormattingProvider'
+	^ data at: 'documentFormattingProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -122,7 +122,7 @@ GtLSPServerCapabilitiesStructure >> documentFormattingProvider: anObject [
 GtLSPServerCapabilitiesStructure >> documentHighlightProvider [
 	"The server provides document highlight support."
 
-	^ data at: 'documentHighlightProvider'
+	^ data at: 'documentHighlightProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -134,7 +134,7 @@ GtLSPServerCapabilitiesStructure >> documentHighlightProvider: anObject [
 GtLSPServerCapabilitiesStructure >> documentLinkProvider [
 	"The server provides document link support."
 
-	^ (data at: 'documentLinkProvider') ifNotNil: [ :obj | GtLSPDocumentLinkOptionsStructure new data: obj ]
+	^ (data at: 'documentLinkProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentLinkOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -146,7 +146,7 @@ GtLSPServerCapabilitiesStructure >> documentLinkProvider: anObject [
 GtLSPServerCapabilitiesStructure >> documentOnTypeFormattingProvider [
 	"The server provides document formatting on typing."
 
-	^ (data at: 'documentOnTypeFormattingProvider') ifNotNil: [ :obj | GtLSPDocumentOnTypeFormattingOptionsStructure new data: obj ]
+	^ (data at: 'documentOnTypeFormattingProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPDocumentOnTypeFormattingOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -158,7 +158,7 @@ GtLSPServerCapabilitiesStructure >> documentOnTypeFormattingProvider: anObject [
 GtLSPServerCapabilitiesStructure >> documentRangeFormattingProvider [
 	"The server provides document range formatting."
 
-	^ data at: 'documentRangeFormattingProvider'
+	^ data at: 'documentRangeFormattingProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -170,7 +170,7 @@ GtLSPServerCapabilitiesStructure >> documentRangeFormattingProvider: anObject [
 GtLSPServerCapabilitiesStructure >> documentSymbolProvider [
 	"The server provides document symbol support."
 
-	^ data at: 'documentSymbolProvider'
+	^ data at: 'documentSymbolProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -182,7 +182,7 @@ GtLSPServerCapabilitiesStructure >> documentSymbolProvider: anObject [
 GtLSPServerCapabilitiesStructure >> executeCommandProvider [
 	"The server provides execute command support."
 
-	^ (data at: 'executeCommandProvider') ifNotNil: [ :obj | GtLSPExecuteCommandOptionsStructure new data: obj ]
+	^ (data at: 'executeCommandProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPExecuteCommandOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -194,7 +194,7 @@ GtLSPServerCapabilitiesStructure >> executeCommandProvider: anObject [
 GtLSPServerCapabilitiesStructure >> experimental [
 	"Experimental server capabilities."
 
-	^ data at: 'experimental'
+	^ data at: 'experimental' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -206,7 +206,7 @@ GtLSPServerCapabilitiesStructure >> experimental: anObject [
 GtLSPServerCapabilitiesStructure >> foldingRangeProvider [
 	"The server provides folding provider support."
 
-	^ data at: 'foldingRangeProvider'
+	^ data at: 'foldingRangeProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -218,7 +218,7 @@ GtLSPServerCapabilitiesStructure >> foldingRangeProvider: anObject [
 GtLSPServerCapabilitiesStructure >> hoverProvider [
 	"The server provides hover support."
 
-	^ data at: 'hoverProvider'
+	^ data at: 'hoverProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -230,7 +230,7 @@ GtLSPServerCapabilitiesStructure >> hoverProvider: anObject [
 GtLSPServerCapabilitiesStructure >> implementationProvider [
 	"The server provides Goto Implementation support."
 
-	^ data at: 'implementationProvider'
+	^ data at: 'implementationProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -244,7 +244,7 @@ GtLSPServerCapabilitiesStructure >> inlayHintProvider [
 
 @since 3.17.0"
 
-	^ data at: 'inlayHintProvider'
+	^ data at: 'inlayHintProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -259,7 +259,7 @@ GtLSPServerCapabilitiesStructure >> inlineCompletionProvider [
 @since 3.18.0
 @proposed"
 
-	^ data at: 'inlineCompletionProvider'
+	^ data at: 'inlineCompletionProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -273,7 +273,7 @@ GtLSPServerCapabilitiesStructure >> inlineValueProvider [
 
 @since 3.17.0"
 
-	^ data at: 'inlineValueProvider'
+	^ data at: 'inlineValueProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -287,7 +287,7 @@ GtLSPServerCapabilitiesStructure >> linkedEditingRangeProvider [
 
 @since 3.16.0"
 
-	^ data at: 'linkedEditingRangeProvider'
+	^ data at: 'linkedEditingRangeProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -301,7 +301,7 @@ GtLSPServerCapabilitiesStructure >> monikerProvider [
 
 @since 3.16.0"
 
-	^ data at: 'monikerProvider'
+	^ data at: 'monikerProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -315,7 +315,7 @@ GtLSPServerCapabilitiesStructure >> notebookDocumentSync [
 
 @since 3.17.0"
 
-	^ data at: 'notebookDocumentSync'
+	^ data at: 'notebookDocumentSync' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -335,7 +335,7 @@ If omitted it defaults to 'utf-16'.
 
 @since 3.17.0"
 
-	^ data at: 'positionEncoding'
+	^ data at: 'positionEncoding' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -347,7 +347,7 @@ GtLSPServerCapabilitiesStructure >> positionEncoding: anObject [
 GtLSPServerCapabilitiesStructure >> referencesProvider [
 	"The server provides find references support."
 
-	^ data at: 'referencesProvider'
+	^ data at: 'referencesProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -361,7 +361,7 @@ GtLSPServerCapabilitiesStructure >> renameProvider [
 specified if the client states that it supports
 `prepareSupport` in its initial `initialize` request."
 
-	^ data at: 'renameProvider'
+	^ data at: 'renameProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -373,7 +373,7 @@ GtLSPServerCapabilitiesStructure >> renameProvider: anObject [
 GtLSPServerCapabilitiesStructure >> selectionRangeProvider [
 	"The server provides selection range support."
 
-	^ data at: 'selectionRangeProvider'
+	^ data at: 'selectionRangeProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -387,7 +387,7 @@ GtLSPServerCapabilitiesStructure >> semanticTokensProvider [
 
 @since 3.16.0"
 
-	^ data at: 'semanticTokensProvider'
+	^ data at: 'semanticTokensProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -399,7 +399,7 @@ GtLSPServerCapabilitiesStructure >> semanticTokensProvider: anObject [
 GtLSPServerCapabilitiesStructure >> signatureHelpProvider [
 	"The server provides signature help support."
 
-	^ (data at: 'signatureHelpProvider') ifNotNil: [ :obj | GtLSPSignatureHelpOptionsStructure new data: obj ]
+	^ (data at: 'signatureHelpProvider' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSignatureHelpOptionsStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -413,7 +413,7 @@ GtLSPServerCapabilitiesStructure >> textDocumentSync [
 defining each notification or for backwards compatibility the
 TextDocumentSyncKind number."
 
-	^ data at: 'textDocumentSync'
+	^ data at: 'textDocumentSync' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -425,7 +425,7 @@ GtLSPServerCapabilitiesStructure >> textDocumentSync: anObject [
 GtLSPServerCapabilitiesStructure >> typeDefinitionProvider [
 	"The server provides Goto Type Definition support."
 
-	^ data at: 'typeDefinitionProvider'
+	^ data at: 'typeDefinitionProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -439,7 +439,7 @@ GtLSPServerCapabilitiesStructure >> typeHierarchyProvider [
 
 @since 3.17.0"
 
-	^ data at: 'typeHierarchyProvider'
+	^ data at: 'typeHierarchyProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -451,7 +451,7 @@ GtLSPServerCapabilitiesStructure >> typeHierarchyProvider: anObject [
 GtLSPServerCapabilitiesStructure >> workspace [
 	"Workspace specific server capabilities."
 
-	^ data at: 'workspace'
+	^ data at: 'workspace' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -463,7 +463,7 @@ GtLSPServerCapabilitiesStructure >> workspace: anObject [
 GtLSPServerCapabilitiesStructure >> workspaceSymbolProvider [
 	"The server provides workspace symbol support."
 
-	^ data at: 'workspaceSymbolProvider'
+	^ data at: 'workspaceSymbolProvider' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

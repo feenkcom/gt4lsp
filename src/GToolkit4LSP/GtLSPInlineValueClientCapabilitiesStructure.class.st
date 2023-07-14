@@ -8,7 +8,7 @@ Class {
 GtLSPInlineValueClientCapabilitiesStructure >> dynamicRegistration [
 	"Whether implementation supports dynamic registration for inline value providers."
 
-	^ data at: 'dynamicRegistration'
+	^ data at: 'dynamicRegistration' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

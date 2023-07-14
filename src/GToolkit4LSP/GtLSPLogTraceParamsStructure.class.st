@@ -16,7 +16,7 @@ GtLSPLogTraceParamsStructure >> message: anObject [
 
 { #category : #accessing }
 GtLSPLogTraceParamsStructure >> verbose [
-	^ data at: 'verbose'
+	^ data at: 'verbose' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

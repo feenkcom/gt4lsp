@@ -10,7 +10,7 @@ GtLSPFormattingOptionsStructure >> insertFinalNewline [
 
 @since 3.15.0"
 
-	^ data at: 'insertFinalNewline'
+	^ data at: 'insertFinalNewline' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -48,7 +48,7 @@ GtLSPFormattingOptionsStructure >> trimFinalNewlines [
 
 @since 3.15.0"
 
-	^ data at: 'trimFinalNewlines'
+	^ data at: 'trimFinalNewlines' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -62,7 +62,7 @@ GtLSPFormattingOptionsStructure >> trimTrailingWhitespace [
 
 @since 3.15.0"
 
-	^ data at: 'trimTrailingWhitespace'
+	^ data at: 'trimTrailingWhitespace' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

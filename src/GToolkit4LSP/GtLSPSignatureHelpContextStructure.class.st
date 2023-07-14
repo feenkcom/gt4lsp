@@ -11,7 +11,7 @@ GtLSPSignatureHelpContextStructure >> activeSignatureHelp [
 The `activeSignatureHelp` has its `SignatureHelp.activeSignature` field updated based on
 the user navigating through available signatures."
 
-	^ (data at: 'activeSignatureHelp') ifNotNil: [ :obj | GtLSPSignatureHelpStructure new data: obj ]
+	^ (data at: 'activeSignatureHelp' ifAbsent: [ ]) ifNotNil: [ :obj | GtLSPSignatureHelpStructure new data: obj ]
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ GtLSPSignatureHelpContextStructure >> triggerCharacter [
 
 This is undefined when `triggerKind !== SignatureHelpTriggerKind.TriggerCharacter`"
 
-	^ data at: 'triggerCharacter'
+	^ data at: 'triggerCharacter' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

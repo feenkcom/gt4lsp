@@ -13,7 +13,7 @@ GtLSPDocumentHighlightStructure >> create [
 GtLSPDocumentHighlightStructure >> kind [
 	"The highlight kind, default is {@link DocumentHighlightKind.Text text}."
 
-	^ data at: 'kind'
+	^ data at: 'kind' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

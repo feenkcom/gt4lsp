@@ -14,7 +14,7 @@ GtLSPDocumentLinkStructure >> data [
 	"A data entry field that is preserved on a document link between a
 DocumentLinkRequest and a DocumentLinkResolveRequest."
 
-	^ data at: 'data'
+	^ data at: 'data' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -38,7 +38,7 @@ GtLSPDocumentLinkStructure >> range: anObject [
 GtLSPDocumentLinkStructure >> target [
 	"The uri this link points to. If missing a resolve request is sent later."
 
-	^ data at: 'target'
+	^ data at: 'target' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -56,7 +56,7 @@ user settings, and localization.
 
 @since 3.15.0"
 
-	^ data at: 'tooltip'
+	^ data at: 'tooltip' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

@@ -11,7 +11,7 @@ create file, rename file and delete file changes.
 
 @since 3.16.0"
 
-	^ data at: 'changeAnnotationSupport'
+	^ data at: 'changeAnnotationSupport' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -23,7 +23,7 @@ GtLSPWorkspaceEditClientCapabilitiesStructure >> changeAnnotationSupport: anObje
 GtLSPWorkspaceEditClientCapabilitiesStructure >> documentChanges [
 	"The client supports versioned document changes in `WorkspaceEdit`s"
 
-	^ data at: 'documentChanges'
+	^ data at: 'documentChanges' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -38,7 +38,7 @@ fails.
 
 @since 3.13.0"
 
-	^ data at: 'failureHandling'
+	^ data at: 'failureHandling' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -56,7 +56,7 @@ character.
 
 @since 3.16.0"
 
-	^ data at: 'normalizesLineEndings'
+	^ data at: 'normalizesLineEndings' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -71,7 +71,7 @@ support 'create', 'rename' and 'delete' files and folders.
 
 @since 3.13.0"
 
-	^ data at: 'resourceOperations'
+	^ data at: 'resourceOperations' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

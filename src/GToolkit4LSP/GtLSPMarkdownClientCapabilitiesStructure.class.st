@@ -11,7 +11,7 @@ Markdown.
 
 @since 3.17.0"
 
-	^ data at: 'allowedTags'
+	^ data at: 'allowedTags' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -35,7 +35,7 @@ GtLSPMarkdownClientCapabilitiesStructure >> parser: anObject [
 GtLSPMarkdownClientCapabilitiesStructure >> version [
 	"The version of the parser."
 
-	^ data at: 'version'
+	^ data at: 'version' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

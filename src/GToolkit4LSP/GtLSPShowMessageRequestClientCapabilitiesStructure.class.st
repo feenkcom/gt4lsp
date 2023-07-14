@@ -8,7 +8,7 @@ Class {
 GtLSPShowMessageRequestClientCapabilitiesStructure >> messageActionItem [
 	"Capabilities specific to the `MessageActionItem` type."
 
-	^ data at: 'messageActionItem'
+	^ data at: 'messageActionItem' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

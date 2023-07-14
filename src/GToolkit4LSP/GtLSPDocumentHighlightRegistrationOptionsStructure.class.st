@@ -19,7 +19,7 @@ GtLSPDocumentHighlightRegistrationOptionsStructure >> documentSelector: anObject
 
 { #category : #accessing }
 GtLSPDocumentHighlightRegistrationOptionsStructure >> workDoneProgress [
-	^ data at: 'workDoneProgress'
+	^ data at: 'workDoneProgress' ifAbsent: [ ]
 ]
 
 { #category : #accessing }

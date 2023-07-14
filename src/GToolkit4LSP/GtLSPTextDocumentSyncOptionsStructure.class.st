@@ -9,7 +9,7 @@ GtLSPTextDocumentSyncOptionsStructure >> change [
 	"Change notifications are sent to the server. See TextDocumentSyncKind.None, TextDocumentSyncKind.Full
 and TextDocumentSyncKind.Incremental. If omitted it defaults to TextDocumentSyncKind.None."
 
-	^ data at: 'change'
+	^ data at: 'change' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -22,7 +22,7 @@ GtLSPTextDocumentSyncOptionsStructure >> openClose [
 	"Open and close notifications are sent to the server. If omitted open close notification should not
 be sent."
 
-	^ data at: 'openClose'
+	^ data at: 'openClose' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -35,7 +35,7 @@ GtLSPTextDocumentSyncOptionsStructure >> save [
 	"If present save notifications are sent to the server. If omitted the notification should not be
 sent."
 
-	^ data at: 'save'
+	^ data at: 'save' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -48,7 +48,7 @@ GtLSPTextDocumentSyncOptionsStructure >> willSave [
 	"If present will save notifications are sent to the server. If omitted the notification should not be
 sent."
 
-	^ data at: 'willSave'
+	^ data at: 'willSave' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
@@ -61,7 +61,7 @@ GtLSPTextDocumentSyncOptionsStructure >> willSaveWaitUntil [
 	"If present will save wait until requests are sent to the server. If omitted the request should not be
 sent."
 
-	^ data at: 'willSaveWaitUntil'
+	^ data at: 'willSaveWaitUntil' ifAbsent: [ ]
 ]
 
 { #category : #accessing }
