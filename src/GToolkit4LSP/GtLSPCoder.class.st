@@ -10,6 +10,17 @@ Class {
 	#category : #'GToolkit4LSP-View'
 }
 
+{ #category : #private }
+GtLSPCoder >> actionsFor: aLSPObject [
+	| pragmas |
+	pragmas := Pragma
+			allNamed: #gtLSPToolbarAction
+			from: aLSPObject class
+			to: GtLSPModel.
+	^ (pragmas collect: [ :each | aLSPObject perform: each method selector ])
+		reject: #isNil
+]
+
 { #category : #sidebar }
 GtLSPCoder >> buildSidebarFor: obj [
 	^ BrTabGroup new
@@ -23,6 +34,20 @@ GtLSPCoder >> buildSidebarFor: obj [
 				aptitude: BrGlamorousToolbarAptitude new;
 				addItem: (self searchButtonFor: obj);
 				yourself ]
+]
+
+{ #category : #updating }
+GtLSPCoder >> buildToolbarFor: aLSPObject [
+	| toolbar actions |
+	actions := Set withAll: (self actionsFor: aLSPObject).
+	actions addAll: (self actionsFor: aLSPObject lspDirectory).
+	actions := actions asSortedCollection: [ :a :b | a order < b order ].
+	toolbar := BrToolbar new
+			aptitude: (BrGlamorousToolbarAptitude new spacing: 5);
+			fitContent;
+			margin: (BlInsets bottom: 5).
+	actions do: [ :each | each buildToolbarElementIn: toolbar ].
+	^ toolbar
 ]
 
 { #category : #sidebar }
@@ -236,7 +261,6 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 				constraintsDo: [ :c | c vertical matchParent ];
 				yourself)
 		as: #modificationBar.
-
 	textEditor := lspObject editor.
 	textEditor
 		addShortcut: (BlShortcutWithAction new
@@ -270,26 +294,7 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 				text: aLSPObject filename basename)
 		as: #filename.
 	content addChild: textEditor as: #editor.
-	toolbar := BrToolbar new
-			aptitude: (BrGlamorousToolbarAptitude new spacing: 5);
-			fitContent;
-			margin: (BlInsets bottom: 5).
-	toolbar
-		addChild: (BrButton new
-				aptitude: BrGlamorousButtonWithIconAptitude;
-				beSmallSize;
-				icon: BrGlamorousVectorIcons accept;
-				label: 'Save';
-				action: [ aLSPObject lspFile saveFile ])
-		as: #saveButton.
-	toolbar
-		addChild: (BrButton new
-				aptitude: BrGlamorousButtonWithIconAptitude;
-				beSmallSize;
-				icon: BrGlamorousVectorIcons cancel;
-				label: 'Cancel';
-				action: [ aLSPObject lspFile cancel ])
-		as: #cancelButton.
+	toolbar := self buildToolbarFor: aLSPObject.
 	content addChild: toolbar as: #toolbar.
 	contentElement addChild: content.
 	self updateChangeStatus.

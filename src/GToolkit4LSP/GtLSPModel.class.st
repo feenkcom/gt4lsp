@@ -32,6 +32,30 @@ GtLSPModel >> gtDefaultInspectorTool [
 		valuable: [ GtLSPCoder new object: self ]
 ]
 
+{ #category : #actions }
+GtLSPModel >> gtLSPCancelAction [
+	<gtLSPToolbarAction>
+	self lspFile ifNil: [ ^ nil ].
+	^ GtLSPCoderAction new
+		id: #cancelAction;
+		action: [ self lspFile cancel ];
+		title: 'Cancel';
+		icon: BrGlamorousVectorIcons cancel;
+		order: 11
+]
+
+{ #category : #actions }
+GtLSPModel >> gtLSPSaveAction [
+	<gtLSPToolbarAction>
+	self lspFile ifNil: [ ^ nil ].
+	^ GtLSPCoderAction new
+		id: #saveAction;
+		action: [ self lspFile saveFile ];
+		title: 'Save';
+		icon: BrGlamorousVectorIcons accept;
+		order: 10
+]
+
 { #category : #comparing }
 GtLSPModel >> hash [
 	^ self class hash bitXor: self filename hash
