@@ -56,6 +56,30 @@ GtLSPRustModel class >> styler [
 	^ RustParser gtStyler
 ]
 
+{ #category : #accessing }
+GtLSPRustModel >> build [
+	| process |
+	process := GtSubprocessWithInMemoryOutput new.
+	process command: 'cargo'.
+	process addArgument: 'build'.
+	process workingDirectory: './libclipboard' asFileReference.
+	process runAndWait.
+	process exitCode ~= 0 ifTrue: [ self inform: process stderr ]
+]
+
+{ #category : #accessing }
+GtLSPRustModel >> gtLSPBuildAction [
+	<gtLSPToolbarAction>
+	^ GtLSPCoderAction new
+		id: #buildAction;
+		action: [ :button | 
+			button disable.
+			[ [ self build ] ensure: [ button inUIProcessDo: [ button enable ] ] ] fork ];
+		title: 'Build';
+		icon: BrGlamorousVectorIcons rustLogo;
+		order: 20
+]
+
 { #category : #private }
 GtLSPRustModel >> installMessageHandlers [
 	lspClient
