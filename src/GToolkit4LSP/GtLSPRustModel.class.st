@@ -62,7 +62,7 @@ GtLSPRustModel >> build [
 	process := GtSubprocessWithInMemoryOutput new.
 	process command: 'cargo'.
 	process addArgument: 'build'.
-	process workingDirectory: './libclipboard' asFileReference.
+	process workingDirectory: self filename.
 	process runAndWait.
 	process exitCode ~= 0 ifTrue: [ self inform: process stderr ]
 ]
