@@ -23,6 +23,7 @@ Class {
 { #category : #accessing }
 GtLSPDirectoryModel class >> executable [
 	^ executable
+		ifNil: [ self ~~ GtLSPDirectoryModel ifTrue: [ superclass executable ] ]
 ]
 
 { #category : #accessing }
