@@ -6,8 +6,12 @@ Class {
 
 { #category : #private }
 GtLSPRustAddOnModel class >> addUserFinderDirectory: aString [
-	FFILibraryFinder
-		allSubclassesDo: [ :each | each current userPaths: {aString} , each current userPaths ]
+	| method |
+	method := (FFILibraryFinder >> #userPaths) copy.
+	(method literalAt: 1) = #()
+		ifFalse: [ self error: '#userPaths method modified' ].
+	method literalAt: 1 put: {aString}.
+	FFILibraryFinder addSelector: #userPaths withMethod: method
 ]
 
 { #category : #accessing }
