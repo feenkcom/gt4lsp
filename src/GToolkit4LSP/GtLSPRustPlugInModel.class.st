@@ -1,11 +1,11 @@
 Class {
-	#name : #GtLSPRustAddOnModel,
+	#name : #GtLSPRustPlugInModel,
 	#superclass : #GtLSPRustModel,
 	#category : #'GToolkit4LSP-Model'
 }
 
 { #category : #private }
-GtLSPRustAddOnModel class >> addUserFinderDirectory: aString [
+GtLSPRustPlugInModel class >> addUserFinderDirectory: aString [
 	| method |
 	method := (FFILibraryFinder >> #userPaths) copy.
 	(method literalAt: 1) = #()
@@ -15,14 +15,14 @@ GtLSPRustAddOnModel class >> addUserFinderDirectory: aString [
 ]
 
 { #category : #accessing }
-GtLSPRustAddOnModel class >> commandLine [
+GtLSPRustPlugInModel class >> commandLine [
 	<commandline>
 	^ self commandLineCommand
 		meaning: [ :args | self processCommandLineArgs: args ]
 ]
 
 { #category : #accessing }
-GtLSPRustAddOnModel class >> commandLineCommand [
+GtLSPRustPlugInModel class >> commandLineCommand [
 	^ (ClapCommand id: #addOnTestImage)
 		description: 'Run the add-on test image';
 		add: ClapFlag forHelp;
@@ -39,7 +39,7 @@ GtLSPRustAddOnModel class >> commandLineCommand [
 ]
 
 { #category : #private }
-GtLSPRustAddOnModel class >> processCommandLineArgs: args [
+GtLSPRustPlugInModel class >> processCommandLineArgs: args [
 	| worker serverSocketAddress |
 	args
 		at: #help
@@ -59,7 +59,7 @@ GtLSPRustAddOnModel class >> processCommandLineArgs: args [
 ]
 
 { #category : #accessing }
-GtLSPRustAddOnModel >> gtSpawnAddOnAction [
+GtLSPRustPlugInModel >> gtSpawnTestImageAction [
 	<gtLSPToolbarAction>
 	^ GtLSPCoderAction new
 		action: [ :button | 
@@ -72,7 +72,7 @@ GtLSPRustAddOnModel >> gtSpawnAddOnAction [
 ]
 
 { #category : #accessing }
-GtLSPRustAddOnModel >> spawnImage [
+GtLSPRustPlugInModel >> spawnImage [
 	| process runner |
 	runner := GtRemoteRunner new
 			managerStartupAndShutdown: GtRrManualManagerStartupAndShutdown new;

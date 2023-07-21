@@ -21,6 +21,11 @@ GtLSPCoder >> actionsFor: aLSPObject [
 		reject: #isNil
 ]
 
+{ #category : #updating }
+GtLSPCoder >> buildDirectoryToolbarFor: aLSPObject [
+	^ self buildToolbarFor: aLSPObject lspDirectory
+]
+
 { #category : #sidebar }
 GtLSPCoder >> buildSidebarFor: obj [
 	^ BrTabGroup new
@@ -39,9 +44,8 @@ GtLSPCoder >> buildSidebarFor: obj [
 { #category : #updating }
 GtLSPCoder >> buildToolbarFor: aLSPObject [
 	| toolbar actions |
-	actions := Set withAll: (self actionsFor: aLSPObject).
-	actions addAll: (self actionsFor: aLSPObject lspDirectory).
-	actions := actions asSortedCollection: [ :a :b | a order < b order ].
+	actions := (self actionsFor: aLSPObject)
+			asSortedCollection: [ :a :b | a order < b order ].
 	toolbar := BrToolbar new
 			aptitude: (BrGlamorousToolbarAptitude new spacing: 5);
 			fitContent;
@@ -231,7 +235,7 @@ GtLSPCoder >> updateChangeStatus [
 
 { #category : #updating }
 GtLSPCoder >> updateContentsTo: aLSPObject [
-	| textEditor content toolbar |
+	| textEditor content fileToolbar directoryToolbar titleContent |
 	(lspObject notNil
 		and: [ lspObject isLSPReference and: [ lspObject lspFile = aLSPObject ] ])
 		ifTrue: [ ^ self ].
@@ -278,24 +282,37 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 			do: [ :event | self editorChangedTo: event source text asString ].
 	content := BrVerticalPane new.
 	content matchParent.
-	content
-		addChild: (BrLabel new
-				aptitude: (BrGlamorousLabelAptitude new glamorousRegularFontAndSize
-						foreground: Color gray;
-						fontSize: 12);
-				text: 'Lexicon file';
-				yourself)
-		as: #label.
-	content
-		addChild: (BrLabel new
-				aptitude: (BrGlamorousLabelAptitude new
-						bold;
-						fontSize: 18);
-				text: aLSPObject filename basename)
-		as: #filename.
+	titleContent := BrHorizontalPane new.
+	titleContent hMatchParent.
+	titleContent vFitContent.
+	titleContent
+		addChild: (BrVerticalPane new
+				fitContent;
+				addChild: (BrLabel new
+							aptitude: (BrGlamorousLabelAptitude new glamorousRegularFontAndSize
+									foreground: Color gray;
+									fontSize: 12);
+							text: 'Lexicon file';
+							yourself)
+					as: #label;
+				addChild: (BrLabel new
+							aptitude: (BrGlamorousLabelAptitude new
+									bold;
+									fontSize: 18);
+							text: aLSPObject filename basename)
+					as: #filename;
+				yourself);
+		addChild: ((self buildDirectoryToolbarFor: lspObject)
+				padding: (BlInsets top: 5);
+				constraintsDo: [ :c | 
+					c ignoreByLayout.
+					c ignored horizontal alignRight.
+					c ignored vertical alignTop ];
+				yourself).
+	content addChild: titleContent.
 	content addChild: textEditor as: #editor.
-	toolbar := self buildToolbarFor: aLSPObject.
-	content addChild: toolbar as: #toolbar.
+	fileToolbar := self buildToolbarFor: aLSPObject.
+	content addChild: fileToolbar as: #toolbar.
 	contentElement addChild: content.
 	self updateChangeStatus.
 	self lspFile diagnostics
