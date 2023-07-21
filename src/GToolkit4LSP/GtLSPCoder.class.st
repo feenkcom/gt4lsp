@@ -292,7 +292,7 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 							aptitude: (BrGlamorousLabelAptitude new glamorousRegularFontAndSize
 									foreground: Color gray;
 									fontSize: 12);
-							text: 'Lexicon file';
+							text: 'Rust file';
 							yourself)
 					as: #label;
 				addChild: (BrLabel new
