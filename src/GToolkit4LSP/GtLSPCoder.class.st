@@ -145,14 +145,6 @@ GtLSPCoder >> initialize [
 { #category : #initialization }
 GtLSPCoder >> initializeContent [
 	contentElement := BrHorizontalPane new
-			background: Color white;
-			aptitude: BrShadowAptitude new
-					+ (BrStyleCommonAptitude new
-							default: [ :aStyle | BlBorder paint: self theme default lightBorderColor width: 1 ];
-							focused: [ :aStyle | 
-								BlBorder
-									paint: (self theme default primaryBorderColor alpha: 0.4) gtOpaqueColorOnWhite
-									width: 1 ]);
 			margin: (BlInsets all: 5);
 			matchParent
 ]
@@ -235,7 +227,7 @@ GtLSPCoder >> updateChangeStatus [
 
 { #category : #updating }
 GtLSPCoder >> updateContentsTo: aLSPObject [
-	| textEditor content fileToolbar directoryToolbar titleContent |
+	| textEditor content fileToolbar titleContent |
 	(lspObject notNil
 		and: [ lspObject isLSPReference and: [ lspObject lspFile = aLSPObject ] ])
 		ifTrue: [ ^ self ].
@@ -292,7 +284,7 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 							aptitude: (BrGlamorousLabelAptitude new glamorousRegularFontAndSize
 									foreground: Color gray;
 									fontSize: 12);
-							text: 'Rust file';
+							text: 'File';
 							yourself)
 					as: #label;
 				addChild: (BrLabel new
@@ -339,8 +331,8 @@ GtLSPCoder >> updateDiagnostics [
 							(diagnostics select: [ :each | (each severity ifNil: [ 0 ]) <= 2 ])
 								ifNotEmpty: [ :diags | 
 									source := text asString.
-									diags
-										do: [ :each | 
+									(diags
+										groupedBy: [ :each | 
 											(source gtIndexOfLineNumber: each range end line + 1)
 												ifNotNil: [ :location | 
 													| end index |
@@ -349,12 +341,16 @@ GtLSPCoder >> updateDiagnostics [
 													[ end > 0 and: [ index <= source size ] ]
 														whileTrue: [ end := end - (editor editor characterSizeOf: (source at: index)).
 															index := index + 1 ].
-													text
-														attributes: {(GtSourceCoderErrorAttribute for: each message)
-																	openOnFirstShow: false;
-																	beNotOverwritableByStyler}
-														from: index - 1
-														to: index - 1 ] ] ] ] ] ]
+													index ] ])
+										keysAndValuesDo: [ :index :items | 
+											text
+												attributes: {(GtSourceCoderErrorAttribute
+															for: (String
+																	streamContents: [ :stream | items do: [ :each | stream << each message ] separatedBy: [ stream cr ] ]))
+															openOnFirstShow: false;
+															beNotOverwritableByStyler}
+												from: index - 1
+												to: index - 1 ] ] ] ] ]
 ]
 
 { #category : #updating }

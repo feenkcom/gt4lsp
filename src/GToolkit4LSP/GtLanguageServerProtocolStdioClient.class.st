@@ -272,6 +272,14 @@ GtLanguageServerProtocolStdioClient >> on: aString as: aClass do: aBlock [
 ]
 
 { #category : #methods }
+GtLanguageServerProtocolStdioClient >> on: aString as: aClass send: aSelector to: anObject [
+	self
+		on: aString
+		as: aClass
+		do: (WeakMessageSend receiver: anObject selector: aSelector)
+]
+
+{ #category : #methods }
 GtLanguageServerProtocolStdioClient >> on: aString do: aBlock [
 	aBlock
 		ifNil: [ methodHandlers removeKey: aString ifAbsent: [  ] ]
