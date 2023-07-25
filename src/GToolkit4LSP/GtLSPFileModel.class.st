@@ -143,10 +143,12 @@ GtLSPFileModel >> originalSource: aString [
 { #category : #actions }
 GtLSPFileModel >> saveFile [
 	self isModified ifFalse: [ ^ self ].
+	self lspClient willSave: self filename.
 	filename
 		ensureDelete;
 		writeStreamDo: [ :stream | stream nextPutAll: source ].
 	originalSource := self source.
+	self lspClient didSave: self filename.
 	self announce: (GtLSPFileSaved new lspFile: self)
 ]
 

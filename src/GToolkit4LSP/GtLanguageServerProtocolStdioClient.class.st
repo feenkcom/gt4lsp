@@ -103,6 +103,15 @@ GtLanguageServerProtocolStdioClient >> didOpen: aFilename withContents: contents
 		withContents: contents
 ]
 
+{ #category : #'document synchronization' }
+GtLanguageServerProtocolStdioClient >> didSave: aFileReference [
+	| params file |
+	file := fileVersions at: aFileReference asFileReference ifAbsent: [ ^ self ].
+	params := GtLSPDidSaveTextDocumentParamsStructure create.
+	params textDocument uri: file uri.
+	self sendNotification: 'textDocument/didSave' with: params
+]
+
 { #category : #symbols }
 GtLanguageServerProtocolStdioClient >> documentSymbolsIn: aFileReference do: aBlock [
 	| params file |
@@ -535,4 +544,14 @@ GtLanguageServerProtocolStdioClient >> terminate [
 		ifNotNil: [ stdin release.
 			stdin := nil ].
 	resultHandlers := Dictionary new
+]
+
+{ #category : #'document synchronization' }
+GtLanguageServerProtocolStdioClient >> willSave: aFileReference [
+	| params file |
+	file := fileVersions at: aFileReference asFileReference ifAbsent: [ ^ self ].
+	params := GtLSPWillSaveTextDocumentParamsStructure create.
+	params textDocument uri: file uri.
+	params reason: (GtLSPTextDocumentSaveReasonEnum enum: 'Manual') value.
+	self sendNotification: 'textDocument/willSave' with: params
 ]
