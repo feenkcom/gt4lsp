@@ -1,5 +1,5 @@
 Class {
-	#name : #GtLSPReference,
+	#name : #GtLSPFileLocation,
 	#superclass : #GtLSPModel,
 	#instVars : [
 		'lspFile',
@@ -10,14 +10,14 @@ Class {
 }
 
 { #category : #comparing }
-GtLSPReference >> = anObject [
+GtLSPFileLocation >> = anObject [
 	^ super = anObject
 		and: [ startPosition = anObject startPosition
 				and: [ endPosition = anObject endPosition ] ]
 ]
 
 { #category : #accessing }
-GtLSPReference >> editor [
+GtLSPFileLocation >> editor [
 	| editor |
 	editor := lspFile editor.
 	editor
@@ -34,58 +34,58 @@ GtLSPReference >> editor [
 ]
 
 { #category : #accessing }
-GtLSPReference >> endPosition [
+GtLSPFileLocation >> endPosition [
 	^ endPosition
 ]
 
 { #category : #accessing }
-GtLSPReference >> endPosition: anObject [
+GtLSPFileLocation >> endPosition: anObject [
 	endPosition := anObject
 ]
 
 { #category : #accessing }
-GtLSPReference >> filename [
+GtLSPFileLocation >> filename [
 	^ lspFile filename
 ]
 
 { #category : #testing }
-GtLSPReference >> isLSPReference [
+GtLSPFileLocation >> isLSPReference [
 	^ true
 ]
 
 { #category : #accessing }
-GtLSPReference >> lspClient [
+GtLSPFileLocation >> lspClient [
 	^ lspFile lspClient
 ]
 
 { #category : #accessing }
-GtLSPReference >> lspDirectory [
+GtLSPFileLocation >> lspDirectory [
 	^ lspFile lspDirectory
 ]
 
 { #category : #accessing }
-GtLSPReference >> lspFile [
+GtLSPFileLocation >> lspFile [
 	^ lspFile
 ]
 
 { #category : #accessing }
-GtLSPReference >> lspFile: anObject [
+GtLSPFileLocation >> lspFile: anObject [
 	lspFile := anObject
 ]
 
 { #category : #accessing }
-GtLSPReference >> printOn: aStream [
+GtLSPFileLocation >> printOn: aStream [
 	aStream << lspFile gtDisplayString << ' (L'
 		<< (startPosition line + 1) printString << ':C'
 		<< (startPosition character + 1) printString << ')'
 ]
 
 { #category : #accessing }
-GtLSPReference >> startPosition [
+GtLSPFileLocation >> startPosition [
 	^ startPosition
 ]
 
 { #category : #accessing }
-GtLSPReference >> startPosition: anObject [
+GtLSPFileLocation >> startPosition: anObject [
 	startPosition := anObject
 ]

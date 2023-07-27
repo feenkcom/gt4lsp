@@ -7,7 +7,8 @@ Class {
 		'isOpen',
 		'directory',
 		'filename',
-		'diagnostics'
+		'diagnostics',
+		'symbolStream'
 	],
 	#category : #'GToolkit4LSP-Model'
 }
@@ -163,6 +164,7 @@ GtLSPFileModel >> source: aString [
 	source = aString ifTrue: [ ^ self ].
 	oldSource := source.
 	source := aString.
+	symbolStream := nil.
 	self
 		announce: (GtLSPFileSourceChanged new
 				lspFile: self;
@@ -173,6 +175,26 @@ GtLSPFileModel >> source: aString [
 { #category : #accessing }
 GtLSPFileModel >> styler [
 	^ directory styler
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> symbolStream [
+	symbolStream
+		ifNil: [ symbolStream := ((AsyncSequenceStream
+					forCollection: [ | semaphore values |
+						semaphore := Semaphore new.
+						self lspClient
+							documentSymbolsIn: self filename
+							do: [ :items | 
+								values := items.
+								semaphore signal ].
+						semaphore wait.
+						values ] asAsyncFuture)
+					collect: [ :each | 
+						GtLSPDocumentSymbol new
+							lspFile: self;
+							symbolInformation: each ]) cached ].
+	^ symbolStream asyncSimilarCopy
 ]
 
 { #category : #accessing }

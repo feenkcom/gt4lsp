@@ -57,6 +57,11 @@ GtLSPRustModel class >> styler [
 ]
 
 { #category : #accessing }
+GtLSPRustModel >> allSymbolsStream [
+	^ self files asAsyncStream flatCollect: [ :each | each symbolStream ]
+]
+
+{ #category : #accessing }
 GtLSPRustModel >> build [
 	| process |
 	process := GtSubprocessWithInMemoryOutput new.
@@ -65,6 +70,34 @@ GtLSPRustModel >> build [
 	process workingDirectory: self filename.
 	process runAndWait.
 	process exitCode ~= 0 ifTrue: [ self inform: process stderr ]
+]
+
+{ #category : #accessing }
+GtLSPRustModel >> gtFieldSearch: aSearch [
+	<gtSearch>
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Field') value.
+	^ aSearch list
+		priority: 13;
+		title: 'Fields';
+		items: [ self allSymbolsStream select: [ :each | each kind = kind ] ];
+		itemName: [ :item | item symbolName ];
+		wantsToDisplayOnEmptyQuery: false;
+		filterBySubstring
+]
+
+{ #category : #accessing }
+GtLSPRustModel >> gtFunctionSearch: aSearch [
+	<gtSearch>
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Function') value.
+	^ aSearch list
+		priority: 12;
+		title: 'Functions';
+		items: [ self allSymbolsStream select: [ :each | each kind = kind ] ];
+		itemName: [ :item | item symbolName ];
+		wantsToDisplayOnEmptyQuery: false;
+		filterBySubstring
 ]
 
 { #category : #accessing }
@@ -78,6 +111,20 @@ GtLSPRustModel >> gtLSPBuildAction [
 		title: 'Build';
 		icon: BrGlamorousVectorIcons rustLogo;
 		order: 20
+]
+
+{ #category : #accessing }
+GtLSPRustModel >> gtStructureSearch: aSearch [
+	<gtSearch>
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Struct') value.
+	^ aSearch list
+		priority: 11;
+		title: 'Structures';
+		items: [ self allSymbolsStream select: [ :each | each kind = kind ] ];
+		itemName: [ :item | item symbolName ];
+		wantsToDisplayOnEmptyQuery: false;
+		filterBySubstring
 ]
 
 { #category : #private }

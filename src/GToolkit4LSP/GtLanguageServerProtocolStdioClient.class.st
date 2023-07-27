@@ -114,12 +114,9 @@ GtLanguageServerProtocolStdioClient >> didSave: aFileReference [
 
 { #category : #symbols }
 GtLanguageServerProtocolStdioClient >> documentSymbolsIn: aFileReference do: aBlock [
-	| params file |
-	file := fileVersions
-			at: aFileReference asFileReference
-			ifAbsent: [ ^ aBlock cull: nil ].
+	| params |
 	params := GtLSPDocumentSymbolParamsStructure create.
-	params textDocument uri: file uri.
+	params textDocument uri: aFileReference asFileReference asUrl printString.
 	self
 		sendMessage: 'textDocument/documentSymbol'
 		with: params
