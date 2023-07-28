@@ -126,7 +126,7 @@ GtLSPCoder >> findReferencesIn: textEditor [
 												collect: [ :each | 
 													(self lspDirectory fileForUri: each uri)
 														ifNotNil: [ :file | 
-															GtLSPReference new
+															GtLSPFileLocation new
 																lspFile: file;
 																startPosition: each range start;
 																endPosition: each range end ] ]) select: #notNil)) ] ] ]
@@ -199,8 +199,8 @@ GtLSPCoder >> searchButtonFor: obj [
 		tooltip: 'Search';
 		icon: BrGlamorousVectorIcons search;
 		objectActOn: [ :anActOnEvent :anItem | 
-			self updateFilesTo: anItem.
 			self updateContentsTo: anItem.
+			self updateFilesTo: anItem.
 			anActOnEvent beActed ]) asElement
 ]
 
