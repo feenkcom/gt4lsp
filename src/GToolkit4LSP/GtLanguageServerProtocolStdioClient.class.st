@@ -241,6 +241,20 @@ GtLanguageServerProtocolStdioClient >> initializeParameters [
 	^ GtLSPInitializeParamsStructure create
 ]
 
+{ #category : #refactoring }
+GtLanguageServerProtocolStdioClient >> linkedEditingRangesFor: aFileReference at: aPosition do: aBlock onError: errorBlock [
+	| params |
+	params := GtLSPLinkedEditingRangeParamsStructure create.
+	params textDocument uri: aFileReference asFileReference asUrl printString.
+	params position: aPosition.
+	self
+		sendMessage: 'textDocument/linkedEditingRange'
+		with: params
+		whenResult: GtLSPLinkedEditingRangesStructure
+		do: aBlock
+		onError: errorBlock
+]
+
 { #category : #running }
 GtLanguageServerProtocolStdioClient >> loadJsonFrom: aStream [
 	| jsonObjects headers |
@@ -290,6 +304,18 @@ GtLanguageServerProtocolStdioClient >> on: aString do: aBlock [
 	aBlock
 		ifNil: [ methodHandlers removeKey: aString ifAbsent: [  ] ]
 		ifNotNil: [ methodHandlers at: aString put: aBlock ]
+]
+
+{ #category : #refactoring }
+GtLanguageServerProtocolStdioClient >> prepareRenameFor: aFileReference at: aPosition do: aBlock [
+	| params |
+	params := GtLSPPrepareRenameParamsStructure create.
+	params textDocument uri: aFileReference asFileReference asUrl printString.
+	params position: aPosition.
+	self
+		sendMessage: 'textDocument/prepareRename'
+		with: params
+		do: aBlock
 ]
 
 { #category : #running }
@@ -363,6 +389,20 @@ GtLanguageServerProtocolStdioClient >> receiveHeadersFrom: aStream into: aDictio
 	^ true
 ]
 
+{ #category : #refactoring }
+GtLanguageServerProtocolStdioClient >> renameFor: aFileReference at: aPosition to: aString do: aBlock [
+	| params |
+	params := GtLSPRenameParamsStructure create.
+	params textDocument uri: aFileReference asFileReference asUrl printString.
+	params position: aPosition.
+	params newName: aString.
+	self
+		sendMessage: 'textDocument/rename'
+		with: params
+		whenResult: GtLSPWorkspaceEditStructure
+		do: aBlock
+]
+
 { #category : #diagnostics }
 GtLanguageServerProtocolStdioClient >> requestDiagnosticsFor: aFilename [
 ]
@@ -427,12 +467,40 @@ GtLanguageServerProtocolStdioClient >> sendMessage: aString with: aStructure do:
 ]
 
 { #category : #messages }
+GtLanguageServerProtocolStdioClient >> sendMessage: aString with: aStructure do: aBlock onError: errorBlock [
+	| id |
+	id := self getNextId.
+	resultHandlers
+		at: id
+		put: [ :data | aBlock cull: (data at: 'result' ifAbsent: [ Dictionary new ]) ].
+	errorHandlers at: id put: errorBlock.
+	self
+		send: aString
+		with: aStructure
+		id: id
+]
+
+{ #category : #messages }
 GtLanguageServerProtocolStdioClient >> sendMessage: aString with: aStructure whenResult: aClass do: aBlock [
 	| id |
 	id := self getNextId.
 	resultHandlers
 		at: id
 		put: [ :data | aBlock cull: (aClass on: (data at: 'result' ifAbsent: [ Dictionary new ])) ].
+	self
+		send: aString
+		with: aStructure
+		id: id
+]
+
+{ #category : #messages }
+GtLanguageServerProtocolStdioClient >> sendMessage: aString with: aStructure whenResult: aClass do: aBlock onError: errorBlock [
+	| id |
+	id := self getNextId.
+	resultHandlers
+		at: id
+		put: [ :data | aBlock cull: (aClass on: (data at: 'result' ifAbsent: [ Dictionary new ])) ].
+	errorHandlers at: id put: errorBlock.
 	self
 		send: aString
 		with: aStructure

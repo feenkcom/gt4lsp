@@ -72,6 +72,19 @@ GtLSPDirectoryModel class >> styler [
 	^ nil
 ]
 
+{ #category : #refactoring }
+GtLSPDirectoryModel >> applyChange: change [
+	| file |
+	(change includesKey: 'kind') ifTrue: [ self error: 'Not yet supported' ].
+	file := self fileForUri: ((change at: 'textDocument') at: 'uri').
+	file applyEdits: (change at: 'edits')
+]
+
+{ #category : #refactoring }
+GtLSPDirectoryModel >> applyChanges: changes [
+	changes do: [ :each | self applyChange: each ]
+]
+
 { #category : #accessing }
 GtLSPDirectoryModel >> extensions [
 	^ extensions

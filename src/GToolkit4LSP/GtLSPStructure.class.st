@@ -397,6 +397,11 @@ GtLSPStructure >> gtTreeFor: aView [
 		send: [ :each | each last ]
 ]
 
+{ #category : #accessing }
+GtLSPStructure >> includesKey: aString [
+	^ data includesKey: aString
+]
+
 { #category : #initialization }
 GtLSPStructure >> initialize [
 	super initialize.

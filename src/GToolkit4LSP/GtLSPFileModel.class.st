@@ -13,6 +13,22 @@ Class {
 	#category : #'GToolkit4LSP-Model'
 }
 
+{ #category : #refactoring }
+GtLSPFileModel >> applyEdits: aCollection [
+	| editedSource |
+	editedSource := SmaCCString on: self source.
+	aCollection
+		do: [ :each | 
+			| interval |
+			interval := self source gtLSPIntervalForRange: (each at: 'range').
+			editedSource
+				replaceFrom: interval first
+				to: interval last
+				with: (each at: 'newText') ].
+	self source: editedSource asString.
+	self updateServerSource
+]
+
 { #category : #accessing }
 GtLSPFileModel >> cancel [
 	self isModified ifFalse: [ ^ self ].
@@ -141,6 +157,15 @@ GtLSPFileModel >> originalSource: aString [
 	originalSource := aString
 ]
 
+{ #category : #refactoring }
+GtLSPFileModel >> renameAt: aPosition to: aString [
+	self lspClient
+		renameFor: self filename
+		at: aPosition
+		to: aString
+		do: [ :changes | self lspDirectory applyChanges: changes documentChanges ]
+]
+
 { #category : #actions }
 GtLSPFileModel >> saveFile [
 	self isModified ifFalse: [ ^ self ].
@@ -170,6 +195,20 @@ GtLSPFileModel >> source: aString [
 				lspFile: self;
 				oldSource: oldSource;
 				yourself)
+]
+
+{ #category : #refactoring }
+GtLSPFileModel >> startRenameAt: aPosition do: aBlock [
+	self lspClient
+		prepareRenameFor: self filename
+		at: aPosition
+		do: [ :obj | 
+			obj
+				ifNotNil: [ self lspClient
+						linkedEditingRangesFor: self filename
+						at: aPosition
+						do: [ :ranges | aBlock value: ranges ranges ]
+						onError: [ :error | (obj includesKey: 'start') ifTrue: [ aBlock value: {obj} ] ] ] ]
 ]
 
 { #category : #accessing }
