@@ -162,6 +162,29 @@ GtLSPCoder >> initializeSidebar [
 	sidebarElement hide
 ]
 
+{ #category : #refactoring }
+GtLSPCoder >> installRenameActionFor: textEditor at: aPosition intervals: intervals [
+	| action |
+	action := GtLSPRenameAction
+			locations: (self locationsForRanges: intervals in: textEditor)
+			element: textEditor.
+	action selectAll: true.
+	action
+		when: GtRenameActionAnnouncement
+		do: [ :ann | 
+			ann eventType = #accept
+				ifTrue: [ self performRenameAt: aPosition to: action newName ] ].
+	textEditor inUIProcessDo: [ action install ]
+]
+
+{ #category : #refactoring }
+GtLSPCoder >> locationsForRanges: intervals in: textEditor [
+	^ intervals
+		collect: [ :each | 
+			(textEditor editor indexForPosition: (each at: 'start')) + 1
+				to: (textEditor editor indexForPosition: (each at: 'end')) ]
+]
+
 { #category : #updating }
 GtLSPCoder >> lspClient [
 	^ self lspFile lspClient
@@ -192,6 +215,12 @@ GtLSPCoder >> object: anObject [
 	sidebarElement contentStencil: [ self buildSidebarFor: lspObject ]
 ]
 
+{ #category : #refactoring }
+GtLSPCoder >> performRenameAt: aPosition to: aString [
+	aString isEmpty ifTrue: [ ^ self ].
+	self lspFile renameAt: aPosition to: aString
+]
+
 { #category : #search }
 GtLSPCoder >> searchButtonFor: obj [
 	^ (GtSpotterDropdownButtonStencil new
@@ -202,6 +231,22 @@ GtLSPCoder >> searchButtonFor: obj [
 			self updateContentsTo: anItem.
 			self updateFilesTo: anItem.
 			anActOnEvent beActed ]) asElement
+]
+
+{ #category : #refactoring }
+GtLSPCoder >> startRenameIn: textEditor [
+	| cursor |
+	textEditor cursors do: [ :each | cursor := each position ].
+	cursor
+		ifNotNil: [ | position |
+			position := textEditor editor positionFor: cursor.
+			self lspFile
+				startRenameAt: position
+				do: [ :intervals | 
+					self
+						installRenameActionFor: textEditor
+						at: position
+						intervals: intervals ] ]
 ]
 
 { #category : #updating }
@@ -264,7 +309,10 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 				action: [ aLSPObject saveFile ]);
 		addShortcut: (BlShortcutWithAction new
 				combination: BlKeyCombination primaryN;
-				action: [ self findReferencesIn: textEditor ]).
+				action: [ self findReferencesIn: textEditor ]);
+		addShortcut: (BlShortcutWithAction new
+				combination: BlKeyCombination primaryR;
+				action: [ self startRenameIn: textEditor ]).
 	textEditor editor
 		when: BrTextEditorInsertedEvent
 			do: [ :event | self editorChangedTo: event source text asString ];
