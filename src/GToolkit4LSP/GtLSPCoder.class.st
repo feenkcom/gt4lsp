@@ -164,16 +164,27 @@ GtLSPCoder >> initializeSidebar [
 
 { #category : #refactoring }
 GtLSPCoder >> installRenameActionFor: textEditor at: aPosition intervals: intervals [
-	| action |
-	action := GtLSPRenameAction
-			locations: (self locationsForRanges: intervals in: textEditor)
-			element: textEditor.
+	| action locations |
+	locations := self locationsForRanges: intervals in: textEditor.
+	action := GtLSPRenameAction locations: locations element: textEditor.
 	action selectAll: true.
 	action
 		when: GtRenameActionAnnouncement
 		do: [ :ann | 
 			ann eventType = #accept
-				ifTrue: [ self performRenameAt: aPosition to: action newName ] ].
+				ifTrue: [ | refactoring |
+					refactoring := (GtLSPRenameRefactoring on: self lspDirectory)
+							lspFile: self lspFile;
+							location: aPosition;
+							newName: action newName.
+					textEditor editor text
+						attribute: (GtRefactoringChangesAttribute new
+								refactoring: refactoring;
+								completionAction: [  ];
+								cancelAction: [  ];
+								showWhenCreated: true)
+						from: locations first last
+						to: locations first last ] ].
 	textEditor inUIProcessDo: [ action install ]
 ]
 
@@ -213,12 +224,6 @@ GtLSPCoder >> object: anObject [
 			ifTrue: [ anObject files isEmpty ifTrue: [ anObject ] ifFalse: [ anObject files first ] ]
 			ifFalse: [ anObject ].
 	sidebarElement contentStencil: [ self buildSidebarFor: lspObject ]
-]
-
-{ #category : #refactoring }
-GtLSPCoder >> performRenameAt: aPosition to: aString [
-	aString isEmpty ifTrue: [ ^ self ].
-	self lspFile renameAt: aPosition to: aString
 ]
 
 { #category : #search }
