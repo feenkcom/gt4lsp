@@ -164,6 +164,7 @@ GtLSPFileModel >> renameAt: aPosition to: aString [
 		at: aPosition
 		to: aString
 		do: [ :changes | self lspDirectory applyChanges: changes documentChanges ]
+		onError: [ :error |  ]
 ]
 
 { #category : #actions }

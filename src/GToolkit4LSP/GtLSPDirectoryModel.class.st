@@ -86,6 +86,16 @@ GtLSPDirectoryModel >> applyChanges: changes [
 ]
 
 { #category : #accessing }
+GtLSPDirectoryModel >> diffSplitter [
+	^ GtLineDiffSplitter new
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel >> diffStyler [
+	^ BlTextNullStyler new
+]
+
+{ #category : #accessing }
 GtLSPDirectoryModel >> extensions [
 	^ extensions
 ]

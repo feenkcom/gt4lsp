@@ -73,6 +73,16 @@ GtLSPRustModel >> build [
 ]
 
 { #category : #accessing }
+GtLSPRustModel >> diffSplitter [
+	^ GtSmaCCDiffSplitter new scannerClass: RustScanner
+]
+
+{ #category : #accessing }
+GtLSPRustModel >> diffStyler [
+	^ RustParser gtStyler
+]
+
+{ #category : #accessing }
 GtLSPRustModel >> gtFieldSearch: aSearch [
 	<gtSearch>
 	| kind |

@@ -390,7 +390,7 @@ GtLanguageServerProtocolStdioClient >> receiveHeadersFrom: aStream into: aDictio
 ]
 
 { #category : #refactoring }
-GtLanguageServerProtocolStdioClient >> renameFor: aFileReference at: aPosition to: aString do: aBlock [
+GtLanguageServerProtocolStdioClient >> renameFor: aFileReference at: aPosition to: aString do: aBlock onError: errorBlock [
 	| params |
 	params := GtLSPRenameParamsStructure create.
 	params textDocument uri: aFileReference asFileReference asUrl printString.
@@ -401,6 +401,7 @@ GtLanguageServerProtocolStdioClient >> renameFor: aFileReference at: aPosition t
 		with: params
 		whenResult: GtLSPWorkspaceEditStructure
 		do: aBlock
+		onError: errorBlock
 ]
 
 { #category : #diagnostics }
