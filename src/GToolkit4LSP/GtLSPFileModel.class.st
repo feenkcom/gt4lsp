@@ -157,16 +157,6 @@ GtLSPFileModel >> originalSource: aString [
 	originalSource := aString
 ]
 
-{ #category : #refactoring }
-GtLSPFileModel >> renameAt: aPosition to: aString [
-	self lspClient
-		renameFor: self filename
-		at: aPosition
-		to: aString
-		do: [ :changes | self lspDirectory applyChanges: changes documentChanges ]
-		onError: [ :error |  ]
-]
-
 { #category : #actions }
 GtLSPFileModel >> saveFile [
 	self isModified ifFalse: [ ^ self ].
