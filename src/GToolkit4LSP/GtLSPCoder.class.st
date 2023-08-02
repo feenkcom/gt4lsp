@@ -162,40 +162,6 @@ GtLSPCoder >> initializeSidebar [
 	sidebarElement hide
 ]
 
-{ #category : #refactoring }
-GtLSPCoder >> installRenameActionFor: textEditor at: aPosition intervals: intervals [
-	| action locations |
-	locations := self locationsForRanges: intervals in: textEditor.
-	action := GtLSPRenameAction locations: locations element: textEditor.
-	action selectAll: true.
-	action
-		when: GtRenameActionAnnouncement
-		do: [ :ann | 
-			ann eventType = #accept
-				ifTrue: [ | refactoring |
-					refactoring := (GtLSPRenameRefactoring on: self lspDirectory)
-							lspFile: self lspFile;
-							location: aPosition;
-							newName: action newName.
-					textEditor editor text
-						attribute: (GtRefactoringChangesAttribute new
-								refactoring: refactoring;
-								completionAction: [  ];
-								cancelAction: [  ];
-								showWhenCreated: true)
-						from: locations first last
-						to: locations first last ] ].
-	textEditor inUIProcessDo: [ action install ]
-]
-
-{ #category : #refactoring }
-GtLSPCoder >> locationsForRanges: intervals in: textEditor [
-	^ intervals
-		collect: [ :each | 
-			(textEditor editor indexForPosition: (each at: 'start')) + 1
-				to: (textEditor editor indexForPosition: (each at: 'end')) ]
-]
-
 { #category : #updating }
 GtLSPCoder >> lspClient [
 	^ self lspFile lspClient
@@ -240,18 +206,10 @@ GtLSPCoder >> searchButtonFor: obj [
 
 { #category : #refactoring }
 GtLSPCoder >> startRenameIn: textEditor [
-	| cursor |
-	textEditor cursors do: [ :each | cursor := each position ].
-	cursor
-		ifNotNil: [ | position |
-			position := textEditor editor positionFor: cursor.
-			self lspFile
-				startRenameAt: position
-				do: [ :intervals | 
-					self
-						installRenameActionFor: textEditor
-						at: position
-						intervals: intervals ] ]
+	GtLSPRenameRefactoringController new
+		editor: textEditor;
+		lspFile: self lspFile;
+		execute
 ]
 
 { #category : #updating }

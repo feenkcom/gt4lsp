@@ -9,7 +9,7 @@ GtLSPRenameAction >> undoChanges [
 	self removeAttributes
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 GtLSPRenameAction >> updateSource [
 	self removeAttributes
 ]
