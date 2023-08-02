@@ -16,10 +16,21 @@ Class {
 		'isInitialized',
 		'resultHandlers',
 		'methodHandlers',
-		'errorHandlers'
+		'errorHandlers',
+		'arguments'
 	],
 	#category : #'GToolkit4LSP-Client'
 }
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> arguments [
+	^ arguments ifNil: [ #() ]
+]
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> arguments: anObject [
+	arguments := anObject
+]
 
 { #category : #completion }
 GtLanguageServerProtocolStdioClient >> completeFile: aFileName at: aPosition do: aBlock [
@@ -545,6 +556,7 @@ GtLanguageServerProtocolStdioClient >> shutdown [
 GtLanguageServerProtocolStdioClient >> start [
 	| currentOutput previous |
 	externalProcess := (GtExternalProcessBuilder new: program)
+			args: self arguments;
 			pipeStdin;
 			pipeStdout;
 			pipeStderr;

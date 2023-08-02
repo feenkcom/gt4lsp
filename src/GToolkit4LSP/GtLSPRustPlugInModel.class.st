@@ -1,7 +1,7 @@
 Class {
 	#name : #GtLSPRustPlugInModel,
 	#superclass : #GtLSPRustModel,
-	#category : #'GToolkit4LSP-Model'
+	#category : #'GToolkit4LSP-Model-Rust'
 }
 
 { #category : #private }

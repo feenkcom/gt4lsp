@@ -10,11 +10,43 @@ Class {
 }
 
 { #category : #accessing }
-GtLSPCompletionStrategy >> buildCompletionResultsFrom: aDictionary for: aText [
+GtLSPCompletionStrategy >> buildCompletionResultsFrom: aDictionary for: aText at: anInteger [
+	| nonDeprecatedItems |
+	nonDeprecatedItems := (aDictionary at: 'items' ifAbsent: [ #() ])
+			reject: [ :each | each at: 'deprecated' ifAbsent: [ false ] ].
+	nonDeprecatedItems isEmpty ifTrue: [ ^ #() ].
+	(nonDeprecatedItems first includesKey: 'textEdit')
+		ifTrue: [ ^ self buildTextEditCompletionResultsFrom: nonDeprecatedItems for: aText ].
+	(nonDeprecatedItems first includesKey: 'insertText')
+		ifTrue: [ ^ self buildInsertTextCompletionResultsFrom: nonDeprecatedItems for: aText at: anInteger ].
+	^ #()
+]
+
+{ #category : #accessing }
+GtLSPCompletionStrategy >> buildInsertTextCompletionResultsFrom: aCollection for: aText at: anInteger [
+	^ (((aCollection
+		collectWithIndex: [ :each :index | 
+			| text completionText insert |
+			text := each at: 'insertText'.
+			completionText := self
+					completionTextFrom: text
+					for: aText
+					at: anInteger.
+			insert := GtInsertTextCompletionAction
+					labeled: text asRopedText glamorousCodeFontAndSize
+					completion: completionText
+					position: anInteger
+					from: anInteger - text size + completionText size.
+			insert -> (each at: 'sortText' ifAbsent: [ index ]) ])
+		reject: [ :each | each value isNil ])
+		asSortedCollection: [ :a :b | a value < b value or: [ a value = b value and: [ a key label < b key label ] ] ])
+		collect: #key
+]
+
+{ #category : #accessing }
+GtLSPCompletionStrategy >> buildTextEditCompletionResultsFrom: aCollection for: aText [
 	| items |
-	items := ((aDictionary at: 'items' ifAbsent: [ #() ])
-			reject: [ :each | each at: 'deprecated' ifAbsent: [ false ] ])
-			collect: [ :each | each at: 'textEdit' ].
+	items := aCollection collect: [ :each | each at: 'textEdit' ].
 	^ (((items
 		collect: [ :each | 
 			| start end text deleteAction insert textToDelete sortIndex |
@@ -60,8 +92,22 @@ GtLSPCompletionStrategy >> completionResultFor: aText at: anInteger requested: a
 			stream
 				completionResults: (results
 						ifNil: [ #() ]
-						ifNotNil: [ self buildCompletionResultsFrom: results for: aText ]) ].
+						ifNotNil: [ self
+								buildCompletionResultsFrom: results
+								for: aText
+								at: anInteger ]) ].
 	^ GtStreamedCompletionResult onStream: stream
+]
+
+{ #category : #accessing }
+GtLSPCompletionStrategy >> completionTextFrom: completionString for: aText at: anInteger [
+	^ completionString
+		allButFirst: ((completionString size to: 1 by: -1)
+				detect: [ :i | 
+					anInteger >= i
+						and: [ (1 to: i)
+								allSatisfy: [ :j | (completionString at: j) = (aText at: anInteger - i + j) ] ] ]
+				ifNone: [ 0 ])
 ]
 
 { #category : #accessing }

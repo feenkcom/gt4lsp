@@ -15,10 +15,21 @@ Class {
 		'Registry'
 	],
 	#classInstVars : [
-		'executable'
+		'executable',
+		'arguments'
 	],
 	#category : #'GToolkit4LSP-Model'
 }
+
+{ #category : #'instance creation' }
+GtLSPDirectoryModel class >> arguments [
+	^ arguments ifNil: [ #() ]
+]
+
+{ #category : #'instance creation' }
+GtLSPDirectoryModel class >> arguments: aCollection [
+	arguments := aCollection
+]
 
 { #category : #accessing }
 GtLSPDirectoryModel class >> executable [
@@ -48,6 +59,7 @@ GtLSPDirectoryModel class >> onDirectory: aDirectory [
 	dir := aDirectory asFileReference.
 	client := GtLanguageServerProtocolStdioClient new
 			program: self executable;
+			arguments: self arguments;
 			defaultLanguageType: self languageType;
 			start;
 			yourself.

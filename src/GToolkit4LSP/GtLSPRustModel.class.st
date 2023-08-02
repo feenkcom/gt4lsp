@@ -1,7 +1,7 @@
 Class {
 	#name : #GtLSPRustModel,
 	#superclass : #GtLSPDirectoryModel,
-	#category : #'GToolkit4LSP-Model'
+	#category : #'GToolkit4LSP-Model-Rust'
 }
 
 { #category : #accessing }
