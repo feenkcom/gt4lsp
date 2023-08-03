@@ -70,7 +70,9 @@ GtLSPDirectoryModel class >> onDirectory: aDirectory [
 			styler: self styler.
 	client initializeIn: {dir} do: [ semaphore signal ].
 	semaphore wait.
-	self registry add: model.
+	self registry
+		add: model
+		executor: (ObjectFinalizer receiver: client selector: #terminate).
 	^ model
 ]
 
