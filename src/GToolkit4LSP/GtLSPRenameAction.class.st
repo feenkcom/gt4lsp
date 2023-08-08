@@ -4,9 +4,21 @@ Class {
 	#category : #'GToolkit4LSP-Refactoring'
 }
 
+{ #category : #accessing }
+GtLSPRenameAction >> lostFocus [
+]
+
+{ #category : #accessing }
+GtLSPRenameAction >> processReturnFor: renameEditor in: anEditorElement [
+	anEditorElement
+		allChildrenBreadthFirstDo: [ :each | (each isKindOf: GtRefactoringsPreviewButton) ifTrue: [ ^ each openPreview ] ].
+	^ super processReturnFor: renameEditor in: anEditorElement
+]
+
 { #category : #private }
 GtLSPRenameAction >> undoChanges [
-	self removeAttributes
+	self removeAttributes.
+	super undoChanges
 ]
 
 { #category : #accessing }

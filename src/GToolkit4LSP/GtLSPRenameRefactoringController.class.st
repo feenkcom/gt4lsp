@@ -2,43 +2,55 @@ Class {
 	#name : #GtLSPRenameRefactoringController,
 	#superclass : #GtLSPRefactoringController,
 	#instVars : [
-		'renameAction',
 		'position',
 		'lspFile',
-		'locations'
+		'locations',
+		'renameAction'
 	],
 	#category : #'GToolkit4LSP-Refactoring'
 }
 
 { #category : #accessing }
-GtLSPRenameRefactoringController >> addRefactoringPreview: action [
+GtLSPRenameRefactoringController >> addRefactoringPreview [
 	| refactoring |
-	refactoring := (GtLSPRenameRefactoring on: self lspDirectory)
-			lspFile: self lspFile;
-			location: position;
-			newName: action newName.
+	self removeRefactoringAttribute.
+	refactoring := self refactoring.
 	editor editor text
 		attribute: (GtRefactoringChangesAttribute new
 				refactoring: refactoring;
 				completionAction: [ self cleanUp ];
 				cancelAction: [ self cancelRefactoring ];
-				showWhenCreated: true)
+				showWhenCreated: false)
 		from: locations first last
 		to: locations first last
 ]
 
 { #category : #accessing }
+GtLSPRenameRefactoringController >> cancelRefactoring [
+	self cleanUp.
+	super cancelRefactoring
+]
+
+{ #category : #accessing }
+GtLSPRenameRefactoringController >> cleanUp [
+	editor inUIProcessDo: [ renameAction ifNotNil: [ renameAction uninstall ] ].
+	super cleanUp
+]
+
+{ #category : #accessing }
 GtLSPRenameRefactoringController >> installRenameAction: intervals [
-	| action |
 	locations := self locationsForRanges: intervals.
-	action := GtLSPRenameAction locations: locations element: editor.
-	action selectAll: true.
-	action
+	renameAction := GtLSPRenameAction locations: locations element: editor.
+	renameAction selectAll: true.
+	renameAction
 		when: GtRenameActionAnnouncement
 		do: [ :ann | 
-			ann eventType = #accept ifTrue: [ self addRefactoringPreview: action ].
+			(#(#textUpdated #accept) includes: ann eventType)
+				ifTrue: [ self addRefactoringPreview ].
 			ann eventType = #cancel ifTrue: [ self cancelRefactoring ] ].
-	editor inUIProcessDo: [ action install ]
+	editor
+		inUIProcessDo: [ renameAction install.
+			self addRefactoringPreview ]
 ]
 
 { #category : #accessing }
@@ -75,6 +87,18 @@ GtLSPRenameRefactoringController >> refactoring [
 { #category : #accessing }
 GtLSPRenameRefactoringController >> refactoringName [
 	^ 'Rename refactoring'
+]
+
+{ #category : #accessing }
+GtLSPRenameRefactoringController >> removeRefactoringAttribute [
+	editor editor text
+		clearAttributes: [ :each | each class = GtRefactoringChangesAttribute ]
+]
+
+{ #category : #accessing }
+GtLSPRenameRefactoringController >> restoreText [
+	super restoreText.
+	lspFile updateServerSource
 ]
 
 { #category : #accessing }
