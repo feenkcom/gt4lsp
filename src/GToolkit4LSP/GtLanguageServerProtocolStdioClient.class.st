@@ -377,11 +377,13 @@ GtLanguageServerProtocolStdioClient >> program: aString [
 
 { #category : #running }
 GtLanguageServerProtocolStdioClient >> receiveContentFrom: aStream using: headers [
-	| bytes length data |
+	| bytes length data json |
 	length := (headers at: 'content-length' ifAbsent: [ 0 ]) asNumber.
 	bytes := aStream next: length.
 	bytes size = length ifFalse: [ ^ false ].
-	data := (GtJson forJsonString: bytes utf8Decoded) jsonObject.
+	json := bytes utf8Decoded.
+	(GtLSPServerOutputSignal new message: json) emit.
+	data := (GtJson forJsonString: json) jsonObject.
 	self processMessage: data.
 	^ true
 ]
@@ -445,6 +447,7 @@ GtLanguageServerProtocolStdioClient >> send: aString with: aStructure id: id [
 	aStructure ifNotNil: [ dict at: 'params' put: aStructure asDictionary ].
 	data := GtJson forJsonObject: dict.
 	jsonData := data asJsonString.
+	(GtLSPServerInputSignal new message: jsonData) emit.
 	string := 'Content-Length: ' , jsonData utf8Encoded size printString
 			, String crlf , String crlf , jsonData.
 	mutex critical: [ stdin nextPutAll: string ]
