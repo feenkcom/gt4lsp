@@ -53,6 +53,31 @@ GtLSPDirectoryModel class >> languageType [
 ]
 
 { #category : #'instance creation' }
+GtLSPDirectoryModel class >> local [
+	| client dir semaphore model |
+	semaphore := Semaphore new.
+	dir := FileSystem memory / self name.
+	dir ensureCreateDirectory.
+	client := GtLanguageServerProtocolStdioClient new
+			program: self executable;
+			arguments: self arguments;
+			defaultLanguageType: self languageType;
+			start;
+			yourself.
+	model := self new
+			filename: dir;
+			extensions: self extensions;
+			lspClient: client;
+			styler: self styler.
+	client initializeIn: #() do: [ semaphore signal ].
+	semaphore wait.
+	self registry
+		add: model
+		executor: (ObjectFinalizer receiver: client selector: #terminate).
+	^ model
+]
+
+{ #category : #'instance creation' }
 GtLSPDirectoryModel class >> onDirectory: aDirectory [
 	| client dir semaphore model |
 	semaphore := Semaphore new.
@@ -84,6 +109,24 @@ GtLSPDirectoryModel class >> registry [
 { #category : #accessing }
 GtLSPDirectoryModel class >> styler [
 	^ nil
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel >> createFile: aString [
+	| file fileRef |
+	fileRef := filename / aString.
+	fileRef writeStreamDo: [ :stream |  ].
+	file := GtLSPFileModel new
+			filename: fileRef;
+			directory: self;
+			yourself.
+	fileMappings
+		ifNotNil: [ fileMappings
+				at: (self fileSystemIsCaseSensitive
+						ifTrue: [ file filename uri ]
+						ifFalse: [ file filename uri asLowercase ])
+				put: file ].
+	^ file
 ]
 
 { #category : #accessing }

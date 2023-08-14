@@ -10,74 +10,122 @@ Class {
 }
 
 { #category : #accessing }
+GtLSPCompletionStrategy >> buildCompletionResult: anItem for: aText at: anInteger [
+	(anItem includesKey: 'textEdit')
+		ifTrue: [ ^ self
+				buildTextEditCompletionResult: anItem
+				for: aText
+				at: anInteger ].
+	(anItem includesKey: 'insertText')
+		ifTrue: [ ^ self
+				buildInsertTextCompletionResult: anItem
+				for: aText
+				at: anInteger ].
+	^ self
+		buildLabelCompletionResult: anItem
+		for: aText
+		at: anInteger
+]
+
+{ #category : #accessing }
 GtLSPCompletionStrategy >> buildCompletionResultsFrom: aDictionary for: aText at: anInteger [
 	| nonDeprecatedItems |
 	nonDeprecatedItems := (aDictionary at: 'items' ifAbsent: [ #() ])
 			reject: [ :each | each at: 'deprecated' ifAbsent: [ false ] ].
 	nonDeprecatedItems isEmpty ifTrue: [ ^ #() ].
-	(nonDeprecatedItems first includesKey: 'textEdit')
-		ifTrue: [ ^ self buildTextEditCompletionResultsFrom: nonDeprecatedItems for: aText ].
-	(nonDeprecatedItems first includesKey: 'insertText')
-		ifTrue: [ ^ self buildInsertTextCompletionResultsFrom: nonDeprecatedItems for: aText at: anInteger ].
-	^ #()
-]
-
-{ #category : #accessing }
-GtLSPCompletionStrategy >> buildInsertTextCompletionResultsFrom: aCollection for: aText at: anInteger [
-	^ (((aCollection
-		collectWithIndex: [ :each :index | 
-			| text completionText insert |
-			text := each at: 'insertText'.
-			completionText := self
-					completionTextFrom: text
-					for: aText
-					at: anInteger.
-			insert := GtInsertTextCompletionAction
-					labeled: text asRopedText glamorousCodeFontAndSize
-					completion: completionText
-					position: anInteger
-					from: anInteger - text size + completionText size.
-			insert -> (each at: 'sortText' ifAbsent: [ index ]) ])
-		reject: [ :each | each value isNil ])
-		asSortedCollection: [ :a :b | a value < b value or: [ a value = b value and: [ a key label < b key label ] ] ])
-		collect: #key
-]
-
-{ #category : #accessing }
-GtLSPCompletionStrategy >> buildTextEditCompletionResultsFrom: aCollection for: aText [
-	| items |
-	items := aCollection collect: [ :each | each at: 'textEdit' ].
-	^ (((items
+	^ (((nonDeprecatedItems
 		collect: [ :each | 
-			| start end text deleteAction insert textToDelete sortIndex |
-			text := each at: 'newText'.
-			start := (editorModel indexForPosition: ((each at: 'range') at: 'start')) + 1.
-			end := editorModel indexForPosition: ((each at: 'range') at: 'end').
-			textToDelete := (aText from: start to: end) asString.
-			deleteAction := GtDeleteTextCompletionAction
-					labeled: ''
-					from: start
-					to: end.
-			insert := GtInsertTextCompletionAction
-					labeled: text asRopedText glamorousCodeFontAndSize
-					completion: text
-					position: start - 1
-					from: start.
-			sortIndex := (textToDelete isEmpty or: [ text beginsWith: textToDelete ])
-					ifTrue: [ 0 ]
-					ifFalse: [ (text beginsWith: textToDelete caseSensitive: false)
-							ifTrue: [ 1 ]
-							ifFalse: [ (text
-									findString: textToDelete
-									startingAt: 1
-									caseSensitive: false) > 0 ifTrue: [ 2 ] ifFalse: [ nil ] ] ].
-			((GtCompositeCompletionAction
-				labeled: text asRopedText glamorousCodeFontAndSize)
-				addAction: deleteAction;
-				addAction: insert;
-				yourself) -> sortIndex ]) reject: [ :each | each value isNil ])
-		asSortedCollection: [ :a :b | a value < b value or: [ a value = b value and: [ a key label < b key label ] ] ])
-		collect: #key
+			self
+				buildCompletionResult: each
+				for: aText
+				at: anInteger ]) reject: #isNil)
+		sort: [ :a :b | a value < b value or: [ a value = b value and: [ a key label < b key label ] ] ])
+		collect: [ :each | each key ]
+]
+
+{ #category : #accessing }
+GtLSPCompletionStrategy >> buildInsertTextCompletionResult: anItem for: aText at: anInteger [
+	| text completionText insert |
+	text := anItem at: 'insertText'.
+	completionText := self
+			completionTextFrom: text
+			for: aText
+			at: anInteger.
+	insert := GtInsertTextCompletionAction
+			labeled: text asRopedText glamorousCodeFontAndSize
+			completion: completionText
+			position: anInteger
+			from: anInteger - text size + completionText size.
+	^ insert -> 0
+]
+
+{ #category : #accessing }
+GtLSPCompletionStrategy >> buildLabelCompletionResult: anItem for: aText at: anInteger [
+	| start end text deleteAction insert textToDelete sortIndex char |
+	text := anItem at: 'label'.
+	start := anInteger.
+	[ start > 0
+		and: [ (char := aText at: start) isLetter
+				or: [ char isDigit or: [ '-_' includes: char ] ] ] ]
+		whileTrue: [ start := start - 1 ].
+	start := start + 1.
+	end := anInteger.
+	textToDelete := (aText from: start to: end) asString.
+	deleteAction := GtDeleteTextCompletionAction
+			labeled: ''
+			from: start
+			to: end.
+	insert := GtInsertTextCompletionAction
+			labeled: text asRopedText glamorousCodeFontAndSize
+			completion: text
+			position: start - 1
+			from: start.
+	sortIndex := (textToDelete isEmpty or: [ text beginsWith: textToDelete ])
+			ifTrue: [ 0 ]
+			ifFalse: [ (text beginsWith: textToDelete caseSensitive: false)
+					ifTrue: [ 1 ]
+					ifFalse: [ (text
+							findString: textToDelete
+							startingAt: 1
+							caseSensitive: false) > 0 ifTrue: [ 2 ] ifFalse: [ 3 ] ] ].
+	^ ((GtCompositeCompletionAction
+		labeled: text asRopedText glamorousCodeFontAndSize)
+		addAction: deleteAction;
+		addAction: insert;
+		yourself) -> sortIndex
+]
+
+{ #category : #accessing }
+GtLSPCompletionStrategy >> buildTextEditCompletionResult: anItem for: aText at: anInteger [
+	| start end text deleteAction insert textToDelete sortIndex textEdit |
+	textEdit := anItem at: 'textEdit'.
+	text := textEdit at: 'newText'.
+	start := (editorModel indexForPosition: ((textEdit at: 'range') at: 'start'))
+			+ 1.
+	end := editorModel indexForPosition: ((textEdit at: 'range') at: 'end').
+	textToDelete := (aText from: start to: end) asString.
+	deleteAction := GtDeleteTextCompletionAction
+			labeled: ''
+			from: start
+			to: end.
+	insert := GtInsertTextCompletionAction
+			labeled: text asRopedText glamorousCodeFontAndSize
+			completion: text
+			position: start - 1
+			from: start.
+	sortIndex := (textToDelete isEmpty or: [ text beginsWith: textToDelete ])
+			ifTrue: [ 0 ]
+			ifFalse: [ (text beginsWith: textToDelete caseSensitive: false)
+					ifTrue: [ 1 ]
+					ifFalse: [ (text
+							findString: textToDelete
+							startingAt: 1
+							caseSensitive: false) > 0 ifTrue: [ 2 ] ifFalse: [ 3 ] ] ].
+	^ ((GtCompositeCompletionAction
+		labeled: text asRopedText glamorousCodeFontAndSize)
+		addAction: deleteAction;
+		addAction: insert;
+		yourself) -> sortIndex
 ]
 
 { #category : #accessing }
@@ -92,10 +140,10 @@ GtLSPCompletionStrategy >> completionResultFor: aText at: anInteger requested: a
 			stream
 				completionResults: (results
 						ifNil: [ #() ]
-						ifNotNil: [ self
+						ifNotNil: [ [ self
 								buildCompletionResultsFrom: results
 								for: aText
-								at: anInteger ]) ].
+								at: anInteger ] on: Error do: [ :ex | ex return: #() ] ]) ].
 	^ GtStreamedCompletionResult onStream: stream
 ]
 

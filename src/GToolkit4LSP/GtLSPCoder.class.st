@@ -169,7 +169,7 @@ GtLSPCoder >> lspClient [
 
 { #category : #updating }
 GtLSPCoder >> lspDirectory [
-	^ self lspFile lspDirectory
+	^ lspObject lspDirectory
 ]
 
 { #category : #accessing }
