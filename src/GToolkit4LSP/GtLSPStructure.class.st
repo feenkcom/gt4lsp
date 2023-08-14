@@ -394,7 +394,8 @@ GtLSPStructure >> gtTreeFor: aView [
 				ifFalse: [ #() ] ];
 		column: 'Name' text: [ :each | each first ];
 		column: 'Value' text: [ :each | each last gtDisplayString ];
-		send: [ :each | each last ]
+		send: [ :each | each last ];
+		expandOneLevel
 ]
 
 { #category : #accessing }

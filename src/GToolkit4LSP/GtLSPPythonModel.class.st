@@ -24,3 +24,8 @@ GtLSPPythonModel class >> languageType [
 GtLSPPythonModel class >> styler [
 	^ PythonParser gtStyler
 ]
+
+{ #category : #accessing }
+GtLSPPythonModel >> diffSplitter [
+	^ GtSmaCCDiffSplitter new scannerClass: PythonScanner
+]

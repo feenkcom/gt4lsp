@@ -78,11 +78,6 @@ GtLSPRustModel >> diffSplitter [
 ]
 
 { #category : #accessing }
-GtLSPRustModel >> diffStyler [
-	^ RustParser gtStyler
-]
-
-{ #category : #accessing }
 GtLSPRustModel >> gtFieldSearch: aSearch [
 	<gtSearch>
 	| kind |

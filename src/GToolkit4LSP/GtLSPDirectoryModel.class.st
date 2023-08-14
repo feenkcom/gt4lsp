@@ -93,7 +93,7 @@ GtLSPDirectoryModel >> diffSplitter [
 
 { #category : #accessing }
 GtLSPDirectoryModel >> diffStyler [
-	^ BlTextNullStyler new
+	^ self styler ifNil: [ BlTextNullStyler new ]
 ]
 
 { #category : #accessing }
