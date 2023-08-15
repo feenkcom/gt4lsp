@@ -10,6 +10,30 @@ Class {
 }
 
 { #category : #accessing }
+GtLSPCompletionStrategy >> actionForTextEdit: textEdit [
+	| start insert end text range |
+	text := textEdit at: 'newText'.
+	range := textEdit at: 'range'.
+	start := (editorModel indexForPosition: (range at: 'start')) + 1.
+	end := editorModel indexForPosition: (range at: 'end').
+	insert := GtInsertTextCompletionAction
+			labeled: text asRopedText glamorousCodeFontAndSize
+			completion: text
+			position: start - 1
+			from: start.
+	^ start > end
+		ifTrue: [ insert ]
+		ifFalse: [ (GtCompositeCompletionAction
+				labeled: text asRopedText glamorousCodeFontAndSize)
+				addAction: (GtDeleteTextCompletionAction
+						labeled: ''
+						from: start
+						to: end);
+				addAction: insert;
+				yourself ]
+]
+
+{ #category : #accessing }
 GtLSPCompletionStrategy >> buildCompletionResult: anItem for: aText at: anInteger [
 	(anItem includesKey: 'textEdit')
 		ifTrue: [ ^ self
@@ -97,35 +121,39 @@ GtLSPCompletionStrategy >> buildLabelCompletionResult: anItem for: aText at: anI
 
 { #category : #accessing }
 GtLSPCompletionStrategy >> buildTextEditCompletionResult: anItem for: aText at: anInteger [
-	| start end text deleteAction insert textToDelete sortIndex textEdit |
+	| textToDelete sortIndex textEdit additionalEdits action start end range newText additionalEditActions offset index compositeAction |
 	textEdit := anItem at: 'textEdit'.
-	text := textEdit at: 'newText'.
-	start := (editorModel indexForPosition: ((textEdit at: 'range') at: 'start'))
-			+ 1.
-	end := editorModel indexForPosition: ((textEdit at: 'range') at: 'end').
+	additionalEdits := (anItem at: 'additionalTextEdits' ifAbsent: [ #() ])
+			asSortedCollection: [ :a :b | self isEdit: b before: a ].
+	additionalEditActions := additionalEdits
+			collect: [ :each | self actionForTextEdit: each ].
+	offset := 0.
+	index := additionalEdits size.
+	[ index > 0 and: [ self isEdit: (additionalEdits at: index) before: textEdit ] ]
+		whileTrue: [ offset := offset + (self offsetForEdit: (additionalEdits at: index)).
+			index := index - 1 ].
+	action := self actionForTextEdit: textEdit.
+	range := textEdit at: 'range'.
+	start := (editorModel indexForPosition: (range at: 'start')) + 1.
+	end := editorModel indexForPosition: (range at: 'end').
 	textToDelete := (aText from: start to: end) asString.
-	deleteAction := GtDeleteTextCompletionAction
-			labeled: ''
-			from: start
-			to: end.
-	insert := GtInsertTextCompletionAction
-			labeled: text asRopedText glamorousCodeFontAndSize
-			completion: text
-			position: start - 1
-			from: start.
-	sortIndex := (textToDelete isEmpty or: [ text beginsWith: textToDelete ])
+	newText := textEdit at: 'newText'.
+	sortIndex := (textToDelete isEmpty or: [ newText beginsWith: textToDelete ])
 			ifTrue: [ 0 ]
-			ifFalse: [ (text beginsWith: textToDelete caseSensitive: false)
+			ifFalse: [ (newText beginsWith: textToDelete caseSensitive: false)
 					ifTrue: [ 1 ]
-					ifFalse: [ (text
+					ifFalse: [ (newText
 							findString: textToDelete
 							startingAt: 1
 							caseSensitive: false) > 0 ifTrue: [ 2 ] ifFalse: [ 3 ] ] ].
-	^ ((GtCompositeCompletionAction
-		labeled: text asRopedText glamorousCodeFontAndSize)
-		addAction: deleteAction;
-		addAction: insert;
-		yourself) -> sortIndex
+	additionalEditActions notEmpty
+		ifTrue: [ action translateBy: offset.
+			compositeAction := GtCompositeCompletionAction
+					labeled: action label asRopedText glamorousCodeFontAndSize.
+			additionalEditActions do: [ :each | compositeAction addAction: each ].
+			compositeAction addAction: action.
+			action := compositeAction ].
+	^ action -> sortIndex
 ]
 
 { #category : #accessing }
@@ -169,6 +197,20 @@ GtLSPCompletionStrategy >> editorModel: anObject [
 ]
 
 { #category : #accessing }
+GtLSPCompletionStrategy >> isEdit: aTextEdit before: bTextEdit [
+	| aRange bRange aPos bPos aLine bLine |
+	aRange := aTextEdit at: 'range'.
+	bRange := bTextEdit at: 'range'.
+	aPos := aRange at: 'start'.
+	bPos := bRange at: 'start'.
+	aLine := aPos at: 'line'.
+	bLine := bPos at: 'line'.
+	aLine < bLine ifTrue: [ ^ true ].
+	bLine > aLine ifTrue: [ ^ false ].
+	^ (aPos at: 'character') < (bPos at: 'character')
+]
+
+{ #category : #accessing }
 GtLSPCompletionStrategy >> lspClient [
 	^ lspClient
 ]
@@ -186,4 +228,13 @@ GtLSPCompletionStrategy >> lspFile [
 { #category : #accessing }
 GtLSPCompletionStrategy >> lspFile: anObject [
 	lspFile := anObject
+]
+
+{ #category : #accessing }
+GtLSPCompletionStrategy >> offsetForEdit: textEdit [
+	| range start end |
+	range := textEdit at: 'range'.
+	start := editorModel indexForPosition: (range at: 'start').
+	end := editorModel indexForPosition: (range at: 'end').
+	^ (textEdit at: 'newText') size - (end - start)
 ]
