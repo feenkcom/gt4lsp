@@ -373,6 +373,11 @@ GtLSPStructure >> at: aString [
 ]
 
 { #category : #accessing }
+GtLSPStructure >> at: aString ifAbsent: aBlock [
+	^ data at: aString ifAbsent: aBlock
+]
+
+{ #category : #accessing }
 GtLSPStructure >> create [
 	
 ]
