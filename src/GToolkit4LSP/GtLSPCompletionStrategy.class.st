@@ -207,7 +207,7 @@ GtLSPCompletionStrategy >> isEdit: aTextEdit before: bTextEdit [
 	bLine := bPos at: 'line'.
 	aLine < bLine ifTrue: [ ^ true ].
 	bLine > aLine ifTrue: [ ^ false ].
-	^ (aPos at: 'character') < (bPos at: 'character')
+	^ (aPos at: 'character') <= (bPos at: 'character')
 ]
 
 { #category : #accessing }
