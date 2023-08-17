@@ -2,7 +2,6 @@ Class {
 	#name : #GtLSPCompletionStrategy,
 	#superclass : #GtCompletionStrategy,
 	#instVars : [
-		'lspClient',
 		'editorModel',
 		'lspFile'
 	],
@@ -159,9 +158,9 @@ GtLSPCompletionStrategy >> buildTextEditCompletionResult: anItem for: aText at: 
 { #category : #accessing }
 GtLSPCompletionStrategy >> completionResultFor: aText at: anInteger requested: aBoolean [
 	| stream |
-	(lspClient isNil or: [ lspFile isNil ]) ifTrue: [ ^ GtCompletionResult empty ].
+	lspFile ifNil: [ ^ GtCompletionResult empty ].
 	stream := GtLSPCompletionStream new.
-	lspClient
+	self lspClient
 		completeFile: lspFile filename
 		at: (editorModel positionFor: anInteger)
 		do: [ :results | 
@@ -212,12 +211,7 @@ GtLSPCompletionStrategy >> isEdit: aTextEdit before: bTextEdit [
 
 { #category : #accessing }
 GtLSPCompletionStrategy >> lspClient [
-	^ lspClient
-]
-
-{ #category : #accessing }
-GtLSPCompletionStrategy >> lspClient: anObject [
-	lspClient := anObject
+	^ lspFile ifNotNil: [ lspFile lspClient ]
 ]
 
 { #category : #accessing }

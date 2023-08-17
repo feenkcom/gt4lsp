@@ -76,7 +76,6 @@ GtLSPFileModel >> editor [
 	self open.
 	editor := GtLSPEditor new.
 	aptitude := GtLSPEditorAptitude new.
-	aptitude lspClient: self lspClient.
 	aptitude lspFile: self.
 	self styler ifNotNil: [ :styler | aptitude styler: styler ].
 	editor aptitude: aptitude.

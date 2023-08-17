@@ -2,7 +2,6 @@ Class {
 	#name : #GtLSPEditorAptitude,
 	#superclass : #BrGlamorousCodeEditorAptitude,
 	#instVars : [
-		'lspClient',
 		'lspFile'
 	],
 	#category : #'GToolkit4LSP-Aptitudes'
@@ -30,8 +29,7 @@ GtLSPEditorAptitude >> initialize [
 					completion := GtLSPCompletionStrategy new.
 					completion
 						editorModel: widget editor;
-						lspFile: lspFile;
-						lspClient: lspClient.
+						lspFile: lspFile.
 					controller := GtCompletionController on: widget strategy: completion.
 					controller install ];
 				down: [ :e | 
@@ -43,12 +41,7 @@ GtLSPEditorAptitude >> initialize [
 
 { #category : #accessing }
 GtLSPEditorAptitude >> lspClient [
-	^ lspClient
-]
-
-{ #category : #accessing }
-GtLSPEditorAptitude >> lspClient: anObject [
-	lspClient := anObject
+	^ lspFile ifNotNil: [ lspFile lspClient ]
 ]
 
 { #category : #accessing }
@@ -64,7 +57,8 @@ GtLSPEditorAptitude >> lspFile: aLSPFile [
 
 { #category : #initialization }
 GtLSPEditorAptitude >> updateServerWith: anArray [
-	lspClient didChange: lspFile filename with: anArray
+	self lspClient
+		ifNotNil: [ :client | client didChange: self filename with: anArray ]
 ]
 
 { #category : #accessing }
