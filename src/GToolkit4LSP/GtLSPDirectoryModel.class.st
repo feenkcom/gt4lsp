@@ -21,9 +21,10 @@ Class {
 	#category : #'GToolkit4LSP-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : #accessing }
 GtLSPDirectoryModel class >> arguments [
-	^ arguments ifNil: [ #() ]
+	^ arguments
+		ifNil: [ self ~~ GtLSPDirectoryModel ifTrue: [ superclass arguments ] ifFalse: [ #() ] ]
 ]
 
 { #category : #'instance creation' }
