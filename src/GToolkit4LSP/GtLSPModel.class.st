@@ -58,6 +58,15 @@ GtLSPModel >> gtLSPSaveAction [
 		order: 10
 ]
 
+{ #category : #accessing }
+GtLSPModel >> gtLiveFor: aView [
+	<gtView>
+	^ aView explicit 
+		title: 'Live';
+		priority: 1;
+		stencil: [ GtLSPCoder new object: self ]
+]
+
 { #category : #comparing }
 GtLSPModel >> hash [
 	^ self class hash bitXor: self filename hash
