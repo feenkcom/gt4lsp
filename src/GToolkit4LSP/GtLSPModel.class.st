@@ -27,9 +27,11 @@ GtLSPModel >> filename [
 
 { #category : #accessing }
 GtLSPModel >> gtDefaultInspectorTool [
-	^ GtPhlowValuableTool new
-		name: self gtDisplayString;
-		valuable: [ GtLSPCoder new object: self ]
+	^ GtPhlowCompositeTool new
+		addTool: (GtPhlowValuableTool new
+				name: self gtDisplayString;
+				valuable: [ GtLSPCoder new object: self ]);
+		addTool: super gtDefaultInspectorTool
 ]
 
 { #category : #actions }
@@ -54,6 +56,15 @@ GtLSPModel >> gtLSPSaveAction [
 		title: 'Save';
 		icon: BrGlamorousVectorIcons accept;
 		order: 10
+]
+
+{ #category : #accessing }
+GtLSPModel >> gtLiveFor: aView [
+	<gtView>
+	^ aView explicit 
+		title: 'Live';
+		priority: 1;
+		stencil: [ GtLSPCoder new object: self ]
 ]
 
 { #category : #comparing }

@@ -92,6 +92,14 @@ GtLSPRustModel >> gtFieldSearch: aSearch [
 ]
 
 { #category : #accessing }
+GtLSPRustModel >> gtFilesFor: aView [
+	<gtView>
+	^ aView list 
+		title: 'Files';
+		items: [ self files ]
+]
+
+{ #category : #accessing }
 GtLSPRustModel >> gtFunctionSearch: aSearch [
 	<gtSearch>
 	| kind |
