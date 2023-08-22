@@ -27,9 +27,11 @@ GtLSPModel >> filename [
 
 { #category : #accessing }
 GtLSPModel >> gtDefaultInspectorTool [
-	^ GtPhlowValuableTool new
-		name: self gtDisplayString;
-		valuable: [ GtLSPCoder new object: self ]
+	^ GtPhlowCompositeTool new
+		addTool: (GtPhlowValuableTool new
+				name: self gtDisplayString;
+				valuable: [ GtLSPCoder new object: self ]);
+		addTool: super gtDefaultInspectorTool
 ]
 
 { #category : #actions }
