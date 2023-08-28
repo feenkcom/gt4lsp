@@ -70,7 +70,10 @@ GtLSPDirectoryModel class >> local [
 			extensions: self extensions;
 			lspClient: client;
 			styler: self styler.
-	client initializeIn: #() do: [ semaphore signal ].
+	client
+		initializeIn: #()
+		do: [ semaphore signal ]
+		onError: [ semaphore signal ].
 	semaphore wait.
 	self registry
 		add: model
@@ -94,7 +97,10 @@ GtLSPDirectoryModel class >> onDirectory: aDirectory [
 			extensions: self extensions;
 			lspClient: client;
 			styler: self styler.
-	client initializeIn: {dir} do: [ semaphore signal ].
+	client
+		initializeIn: {dir}
+		do: [ semaphore signal ]
+		onError: [ semaphore signal ].
 	semaphore wait.
 	self registry
 		add: model

@@ -33,7 +33,7 @@ GtLanguageServerProtocolStdioClient >> arguments: anObject [
 ]
 
 { #category : #completion }
-GtLanguageServerProtocolStdioClient >> completeFile: aFileName at: aPosition do: aBlock [
+GtLanguageServerProtocolStdioClient >> completeFile: aFileName at: aPosition do: aBlock onError: errorBlock [
 	| params file |
 	file := fileVersions
 			at: aFileName asFileReference
@@ -47,6 +47,7 @@ GtLanguageServerProtocolStdioClient >> completeFile: aFileName at: aPosition do:
 		sendMessage: 'textDocument/completion'
 		with: params
 		do: aBlock
+		onError: errorBlock
 ]
 
 { #category : #accessing }
@@ -206,7 +207,16 @@ GtLanguageServerProtocolStdioClient >> initialize [
 ]
 
 { #category : #lifecycle }
-GtLanguageServerProtocolStdioClient >> initialize: params do: aBlock [
+GtLanguageServerProtocolStdioClient >> initializeIn: directories do: aBlock onError: errorBlock [
+	| params |
+	params := self initializeParameters.
+	params
+		workspaceFolders: (directories asArray
+				collect: [ :each | 
+					GtLSPWorkspaceFolderStructure new
+						name: each asFileReference basename;
+						uri: each asFileReference asUrl printString;
+						asDictionary ]).
 	self
 		sendMessage: 'initialize'
 		with: params
@@ -217,34 +227,7 @@ GtLanguageServerProtocolStdioClient >> initialize: params do: aBlock [
 				sendNotification: 'initialized'
 				with: GtLSPInitializedParamsStructure create.
 			aBlock value ]
-]
-
-{ #category : #lifecycle }
-GtLanguageServerProtocolStdioClient >> initializeIn: directories [
-	| params |
-	params := self initializeParameters.
-	params
-		workspaceFolders: (directories asArray
-				collect: [ :each | 
-					GtLSPWorkspaceFolderStructure new
-						name: each asFileReference basename;
-						uri: each asFileReference asUrl printString;
-						asDictionary ]).
-	self initialize: params do: [  ]
-]
-
-{ #category : #lifecycle }
-GtLanguageServerProtocolStdioClient >> initializeIn: directories do: aBlock [
-	| params |
-	params := self initializeParameters.
-	params
-		workspaceFolders: (directories asArray
-				collect: [ :each | 
-					GtLSPWorkspaceFolderStructure new
-						name: each asFileReference basename;
-						uri: each asFileReference asUrl printString;
-						asDictionary ]).
-	self initialize: params do: aBlock
+		onError: errorBlock
 ]
 
 { #category : #lifecycle }
@@ -439,6 +422,10 @@ GtLanguageServerProtocolStdioClient >> requestDiagnosticsFor: aFileReference do:
 { #category : #messages }
 GtLanguageServerProtocolStdioClient >> send: aString with: aStructure id: id [
 	| string data jsonData dict |
+	(externalProcess isNil or: [ externalProcess isTerminated ])
+		ifTrue: [ (errorHandlers at: id ifAbsent: [ [  ] ]) cull: nil.
+			self terminate.
+			^ self ].
 	dict := Dictionary new
 			at: 'jsonrpc' put: '2.0';
 			at: 'id' put: id;
@@ -451,11 +438,6 @@ GtLanguageServerProtocolStdioClient >> send: aString with: aStructure id: id [
 	string := 'Content-Length: ' , jsonData utf8Encoded size printString
 			, String crlf , String crlf , jsonData.
 	mutex critical: [ stdin nextPutAll: string ]
-]
-
-{ #category : #lifecycle }
-GtLanguageServerProtocolStdioClient >> sendInitialize [
-	self initializeIn: '.' asFileReference
 ]
 
 { #category : #messages }
@@ -525,13 +507,14 @@ GtLanguageServerProtocolStdioClient >> sendMessage: aString with: aStructure whe
 { #category : #messages }
 GtLanguageServerProtocolStdioClient >> sendNotification: aString with: aStructure [
 	| string data jsonData dict |
+	(externalProcess isNil or: [ externalProcess isTerminated ])
+		ifTrue: [ self terminate.
+			^ self ].
 	dict := Dictionary new
 			at: 'jsonrpc' put: '2.0';
 			at: 'method' put: aString;
 			yourself.
-	aStructure
-		ifNotNil: [ dict
-				at: 'params' put: aStructure asDictionary ].
+	aStructure ifNotNil: [ dict at: 'params' put: aStructure asDictionary ].
 	data := GtJson forJsonObject: dict.
 	jsonData := data asJsonString.
 	string := 'Content-Length: ' , jsonData utf8Encoded size printString
