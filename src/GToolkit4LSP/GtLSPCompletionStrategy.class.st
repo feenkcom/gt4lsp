@@ -170,7 +170,8 @@ GtLSPCompletionStrategy >> completionResultFor: aText at: anInteger requested: a
 						ifNotNil: [ [ self
 								buildCompletionResultsFrom: results
 								for: aText
-								at: anInteger ] on: Error do: [ :ex | ex return: #() ] ]) ].
+								at: anInteger ] on: Error do: [ :ex | ex return: #() ] ]) ]
+		onError: [ stream completionResults: #() ].
 	^ GtStreamedCompletionResult onStream: stream
 ]
 
