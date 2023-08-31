@@ -182,6 +182,34 @@ GtLanguageServerProtocolStdioClient >> getNextId [
 	^ id
 ]
 
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> gtErrorsFor: aView [
+	<gtView>
+	^ aView textEditor
+		priority: 3;
+		title: 'Errors';
+		text: [ self stderr pollString ]
+]
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> gtProcessInvocationFor: aView [
+	<gtView>
+	^ aView textEditor
+		priority: 2;
+		title: 'Process invocation';
+		text: [ self program , ' ' , (' ' join: (self arguments collect: #printString)) ]
+]
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> gtProcessSummaryFor: aView [
+	<gtView>
+	^ aView forward
+		priority: 1;
+		title: 'Process summary';
+		object: [ externalProcess ];
+		view: #gtSummaryFor:
+]
+
 { #category : #running }
 GtLanguageServerProtocolStdioClient >> handleUnknownError: aDictionary [ 
 ]
@@ -210,6 +238,7 @@ GtLanguageServerProtocolStdioClient >> initialize [
 GtLanguageServerProtocolStdioClient >> initializeIn: directories do: aBlock onError: errorBlock [
 	| params |
 	params := self initializeParameters.
+	params processId: nil.
 	params
 		workspaceFolders: (directories asArray
 				collect: [ :each | 
