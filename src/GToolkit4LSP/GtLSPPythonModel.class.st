@@ -48,3 +48,59 @@ GtLSPPythonModel class >> styler [
 GtLSPPythonModel >> diffSplitter [
 	^ GtSmaCCDiffSplitter new scannerClass: PythonScanner
 ]
+
+{ #category : #accessing }
+GtLSPPythonModel >> gtClassSearch: aSearch [
+	<gtSearch>
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Class') value.
+	^ aSearch list
+		priority: 10;
+		title: 'Classes';
+		items: [ self allSymbolsStream select: [ :each | each kind = kind ] ];
+		itemName: [ :item | item symbolName ];
+		wantsToDisplayOnEmptyQuery: false;
+		filterBySubstring
+]
+
+{ #category : #accessing }
+GtLSPPythonModel >> gtFunctionSearch: aSearch [
+	<gtSearch>
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Function') value.
+	^ aSearch list
+		priority: 12;
+		title: 'Functions';
+		items: [ self allSymbolsStream select: [ :each | each kind = kind ] ];
+		itemName: [ :item | item symbolName ];
+		wantsToDisplayOnEmptyQuery: false;
+		filterBySubstring
+]
+
+{ #category : #accessing }
+GtLSPPythonModel >> gtMethodSearch: aSearch [
+	<gtSearch>
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Method') value.
+	^ aSearch list
+		priority: 11;
+		title: 'Methods';
+		items: [ self allSymbolsStream select: [ :each | each kind = kind ] ];
+		itemName: [ :item | item symbolName ];
+		wantsToDisplayOnEmptyQuery: false;
+		filterBySubstring
+]
+
+{ #category : #accessing }
+GtLSPPythonModel >> gtVariableSearch: aSearch [
+	<gtSearch>
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Variable') value.
+	^ aSearch list
+		priority: 13;
+		title: 'Variables';
+		items: [ self allSymbolsStream select: [ :each | each kind = kind ] ];
+		itemName: [ :item | item symbolName ];
+		wantsToDisplayOnEmptyQuery: false;
+		filterBySubstring
+]

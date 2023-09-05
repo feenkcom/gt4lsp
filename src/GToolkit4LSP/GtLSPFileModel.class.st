@@ -198,7 +198,7 @@ GtLSPFileModel >> startRenameAt: aPosition do: aBlock [
 						linkedEditingRangesFor: self filename
 						at: aPosition
 						do: [ :ranges | aBlock value: ranges ranges ]
-						onError: [ :error | (obj includesKey: 'start') ifTrue: [ aBlock value: {obj} ] ] ] ]
+						onError: [ (obj includesKey: 'start') ifTrue: [ aBlock value: {obj} ] ] ] ]
 ]
 
 { #category : #accessing }

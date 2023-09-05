@@ -119,6 +119,11 @@ GtLSPDirectoryModel class >> styler [
 ]
 
 { #category : #accessing }
+GtLSPDirectoryModel >> allSymbolsStream [
+	^ self files asAsyncStream flatCollect: [ :each | each symbolStream ]
+]
+
+{ #category : #accessing }
 GtLSPDirectoryModel >> createFile: aString [
 	| file fileRef |
 	fileRef := filename / aString.
