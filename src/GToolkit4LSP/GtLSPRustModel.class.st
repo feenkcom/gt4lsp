@@ -57,11 +57,6 @@ GtLSPRustModel class >> styler [
 ]
 
 { #category : #accessing }
-GtLSPRustModel >> allSymbolsStream [
-	^ self files asAsyncStream flatCollect: [ :each | each symbolStream ]
-]
-
-{ #category : #accessing }
 GtLSPRustModel >> build [
 	| process |
 	process := GtSubprocessWithInMemoryOutput new.

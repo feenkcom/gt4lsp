@@ -10,14 +10,14 @@ Class {
 		'externalProcess',
 		'messageHandler',
 		'nextId',
-		'capabilities',
 		'defaultLanguageType',
 		'fileVersions',
 		'isInitialized',
 		'resultHandlers',
 		'methodHandlers',
 		'errorHandlers',
-		'arguments'
+		'arguments',
+		'initializeResult'
 	],
 	#category : #'GToolkit4LSP-Client'
 }
@@ -127,6 +127,8 @@ GtLanguageServerProtocolStdioClient >> didSave: aFileReference [
 { #category : #symbols }
 GtLanguageServerProtocolStdioClient >> documentSymbolsIn: aFileReference do: aBlock [
 	| params |
+	initializeResult capabilities documentSymbolProvider isNil
+		ifTrue: [ ^ aBlock cull: nil ].
 	params := GtLSPDocumentSymbolParamsStructure create.
 	params textDocument uri: aFileReference asFileReference asUrl printString.
 	self
@@ -145,6 +147,8 @@ GtLanguageServerProtocolStdioClient >> documentSymbolsIn: aFileReference do: aBl
 { #category : #references }
 GtLanguageServerProtocolStdioClient >> findReferencesIn: aFilename at: aPosition do: aBlock [
 	| params file |
+	initializeResult capabilities referencesProvider isNil
+		ifTrue: [ ^ aBlock cull: nil ].
 	file := fileVersions
 			at: aFilename asFileReference
 			ifAbsent: [ ^ aBlock cull: nil ].
@@ -163,6 +167,8 @@ GtLanguageServerProtocolStdioClient >> findReferencesIn: aFilename at: aPosition
 { #category : #folding }
 GtLanguageServerProtocolStdioClient >> foldingRangesIn: aFileReference do: aBlock [
 	| params file |
+	initializeResult capabilities foldingRangeProvider isNil
+		ifTrue: [ ^ aBlock cull: nil ].
 	file := fileVersions
 			at: aFileReference asFileReference
 			ifAbsent: [ ^ aBlock cull: #() ].
@@ -251,7 +257,7 @@ GtLanguageServerProtocolStdioClient >> initializeIn: directories do: aBlock onEr
 		with: params
 		whenResult: GtLSPInitializeResultStructure
 		do: [ :each | 
-			capabilities := each capabilities.
+			initializeResult := each.
 			self
 				sendNotification: 'initialized'
 				with: GtLSPInitializedParamsStructure create.
@@ -267,6 +273,8 @@ GtLanguageServerProtocolStdioClient >> initializeParameters [
 { #category : #refactoring }
 GtLanguageServerProtocolStdioClient >> linkedEditingRangesFor: aFileReference at: aPosition do: aBlock onError: errorBlock [
 	| params |
+	initializeResult capabilities linkedEditingRangeProvider isNil
+		ifTrue: [ ^ errorBlock cull: nil ].
 	params := GtLSPLinkedEditingRangeParamsStructure create.
 	params textDocument uri: aFileReference asFileReference asUrl printString.
 	params position: aPosition.
@@ -332,6 +340,8 @@ GtLanguageServerProtocolStdioClient >> on: aString do: aBlock [
 { #category : #refactoring }
 GtLanguageServerProtocolStdioClient >> prepareRenameFor: aFileReference at: aPosition do: aBlock [
 	| params |
+	initializeResult capabilities renameProvider isNil
+		ifTrue: [ ^ aBlock cull: nil ].
 	params := GtLSPPrepareRenameParamsStructure create.
 	params textDocument uri: aFileReference asFileReference asUrl printString.
 	params position: aPosition.
@@ -417,6 +427,14 @@ GtLanguageServerProtocolStdioClient >> receiveHeadersFrom: aStream into: aDictio
 { #category : #refactoring }
 GtLanguageServerProtocolStdioClient >> renameFor: aFileReference at: aPosition to: aString do: aBlock onError: errorBlock [
 	| params |
+	initializeResult capabilities renameProvider isNil
+		ifTrue: [ ^ errorBlock
+				cull: (Dictionary new
+						at: 'error'
+							put: (Dictionary new
+									at: 'message' put: 'Rename not supported';
+									yourself);
+						yourself) ].
 	params := GtLSPRenameParamsStructure create.
 	params textDocument uri: aFileReference asFileReference asUrl printString.
 	params position: aPosition.
@@ -430,15 +448,13 @@ GtLanguageServerProtocolStdioClient >> renameFor: aFileReference at: aPosition t
 ]
 
 { #category : #diagnostics }
-GtLanguageServerProtocolStdioClient >> requestDiagnosticsFor: aFilename [
-]
-
-{ #category : #diagnostics }
-GtLanguageServerProtocolStdioClient >> requestDiagnosticsFor: aFileReference do: aBlock [
+GtLanguageServerProtocolStdioClient >> requestDiagnosticsFor: aFileReference do: aBlock onError: errorBlock [
 	| params file |
+	initializeResult capabilities diagnosticProvider
+		ifNil: [ ^ errorBlock cull: nil ].
 	file := fileVersions
 			at: aFileReference asFileReference
-			ifAbsent: [ ^ aBlock cull: nil ].
+			ifAbsent: [ ^ errorBlock cull: nil ].
 	params := GtLSPDocumentDiagnosticParamsStructure create.
 	params textDocument uri: file uri.
 	self
@@ -446,6 +462,7 @@ GtLanguageServerProtocolStdioClient >> requestDiagnosticsFor: aFileReference do:
 		with: params
 		whenResult: GtLSPRelatedFullDocumentDiagnosticReportStructure
 		do: aBlock
+		onError: errorBlock
 ]
 
 { #category : #messages }
