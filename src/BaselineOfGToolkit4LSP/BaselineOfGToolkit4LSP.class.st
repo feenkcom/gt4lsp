@@ -10,7 +10,7 @@ BaselineOfGToolkit4LSP >> baseline: spec [
 	spec for: #'common' do: [
 		spec
 			baseline: 'NeoJSON' with: [
-				spec repository: 'github://svenvc/NeoJSON:0033dbfb9d413abc8f4d6768ad3b87e8b3d2a2d0/repository' ].
+				spec repository: 'github://svenvc/NeoJSON:b05162a6e420b501a87c6fc9503745b69d51237a/repository' ].
 		spec
 			baseline: 'GToolkitPhlow' with: [
 				spec repository: 'github://feenkcom/gtoolkit-phlow:v0.8.1097/src' ].
