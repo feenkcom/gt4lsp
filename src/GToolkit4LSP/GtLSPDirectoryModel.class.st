@@ -173,7 +173,7 @@ GtLSPDirectoryModel >> fileDeleted: aFileReference [
 
 { #category : #accessing }
 GtLSPDirectoryModel >> fileFor: aFileReference [
-	^ files detect: [ :each | each filename = aFileReference ] ifNone: [  ]
+	^ self files detect: [ :each | each filename = aFileReference ] ifNone: [  ]
 ]
 
 { #category : #accessing }

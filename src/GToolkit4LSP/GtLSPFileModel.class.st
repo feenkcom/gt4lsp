@@ -139,6 +139,13 @@ GtLSPFileModel >> lspFile [
 	^ self
 ]
 
+{ #category : #accessing }
+GtLSPFileModel >> methodSymbols [
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Method') value.
+	^ self symbolStream select: [ :each | each kind = kind ]
+]
+
 { #category : #actions }
 GtLSPFileModel >> open [
 	isOpen ifTrue: [ ^ self ].
@@ -154,6 +161,28 @@ GtLSPFileModel >> originalSource [
 { #category : #accessing }
 GtLSPFileModel >> originalSource: aString [
 	originalSource := aString
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> referencesAt: aPosition [
+	| semaphore references |
+	semaphore := Semaphore new.
+	self lspClient
+		findReferencesIn: self lspFile filename
+		at: aPosition
+		do: [ :items | 
+			references := GtLSPReferenceList new
+					references: (((items ifNil: [ #() ])
+							collect: [ :each | 
+								(self lspDirectory fileForUri: each uri)
+									ifNotNil: [ :file | 
+										GtLSPFileLocation new
+											lspFile: file;
+											startPosition: each range start;
+											endPosition: each range end ] ]) select: #notNil).
+			semaphore signal ].
+	^ [ semaphore wait.
+	references ] asAsyncFuture
 ]
 
 { #category : #actions }
