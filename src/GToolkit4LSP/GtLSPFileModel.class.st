@@ -41,6 +41,24 @@ GtLSPFileModel class >> offsetForColumn: column in: aString [
 ]
 
 { #category : #accessing }
+GtLSPFileModel class >> positionForIndex: anInteger in: src [
+	| line |
+	line := 0.
+	src
+		lineIndicesDo: [ :start :endWithoutDelimiters :end | 
+			(anInteger between: start and: end)
+				ifTrue: [ ^ GtLSPPositionStructure create
+						line: line;
+						character: (self sizeForString: (src copyFrom: start to: anInteger - 1));
+						yourself ].
+			line := line + 1 ].
+	^ GtLSPPositionStructure create
+		line: 0;
+		character: 0;
+		yourself
+]
+
+{ #category : #accessing }
 GtLSPFileModel class >> sizeForString: aString [
 	^ aString inject: 0 into: [ :sum :each | sum + (self characterSizeOf: each) ]
 ]
@@ -205,20 +223,9 @@ GtLSPFileModel >> originalSource: aString [
 
 { #category : #accessing }
 GtLSPFileModel >> positionForIndex: anInteger [
-	| line src |
-	line := 0.
+	| src |
 	src := self source.
-	src
-		lineIndicesDo: [ :start :endWithoutDelimiters :end | 
-			anInteger <= end
-				ifTrue: [ ^ GtLSPPositionStructure create
-						line: line;
-						character: (self class sizeForString: (src copyFrom: start to: anInteger - 1));
-						yourself ] ].
-	^ GtLSPPositionStructure create
-		line: 0;
-		character: 0;
-		yourself
+	^ self class positionForIndex: anInteger in: src
 ]
 
 { #category : #accessing }

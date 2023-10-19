@@ -117,14 +117,16 @@ GtLSPEditorModel >> onTextsDeleted: aBlTextsDeleted [
 
 { #category : #accessing }
 GtLSPEditorModel >> positionFor: anInteger [
-	| line character |
+	^ [ | line character |
 	line := segmentCollector cachedSegmentIndexAt: anInteger.
 	character := 0.
 	(segmentCollector cachedAt: line) textStart + 1
 		to: (anInteger min: text size)
 		do: [ :i | character := character + (self characterSizeOf: (text at: i)) ].
-	^ GtLSPPositionStructure create
+	GtLSPPositionStructure create
 		line: line - 1;
 		character: character;
-		yourself
+		yourself ]
+		on: Error
+		do: [ :ex | ex return: (GtLSPFileModel positionForIndex: anInteger in: text asString) ]
 ]
