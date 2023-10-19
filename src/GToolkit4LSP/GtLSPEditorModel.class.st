@@ -38,16 +38,18 @@ GtLSPEditorModel >> endPositionFrom: position deleting: value [
 
 { #category : #accessing }
 GtLSPEditorModel >> indexForPosition: aDictionary [
-	| character segment index i char |
+	| character segment index str |
 	character := (aDictionary at: 'character') + 1.
-	segment := segmentCollector cachedAt: (aDictionary at: 'line') + 1.
+	[ segment := segmentCollector cachedAt: (aDictionary at: 'line') + 1.
 	index := segment textStart.
-	i := 1.
-	[ i < character ]
-		whileTrue: [ char := segment text at: i.
-			index := index + 1.
-			i := i + (self characterSizeOf: char) ].
-	^ index
+	str := segment text ]
+		on: Error
+		do: [ :ex | 
+			^ GtLSPFileModel
+				indexForLine: (aDictionary at: 'line') + 1
+				column: character
+				in: self text asString ].
+	^ index + (self offsetForColumn: character in: str)
 ]
 
 { #category : #accessing }
@@ -55,6 +57,18 @@ GtLSPEditorModel >> initialize [
 	super initialize.
 	encoder := ZnUTF16Encoder new.
 	defaultByteSize := 2
+]
+
+{ #category : #private }
+GtLSPEditorModel >> offsetForColumn: column in: aString [
+	| i char index |
+	i := 1.
+	index := 0.
+	[ i < column ]
+		whileTrue: [ char := aString at: i.
+			index := index + 1.
+			i := i + (self characterSizeOf: char) ].
+	^ index
 ]
 
 { #category : #accessing }

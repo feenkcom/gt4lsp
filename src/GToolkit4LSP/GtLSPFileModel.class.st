@@ -13,6 +13,38 @@ Class {
 	#category : #'GToolkit4LSP-Model'
 }
 
+{ #category : #accessing }
+GtLSPFileModel class >> characterSizeOf: aCharacter [
+	^ (ZnUTF16Encoder new encodedByteCountFor: aCharacter) // 2
+]
+
+{ #category : #accessing }
+GtLSPFileModel class >> indexForLine: line column: column in: aString [
+	| index |
+	index := aString gtIndexOfLineNumber: line.
+	index ifNil: [ index := aString gtIndexOfLineNumber: aString lineCount ].
+	^ index key
+		+ (self offsetForColumn: column in: (aString copyFrom: index key to: index value))
+		- 1
+]
+
+{ #category : #accessing }
+GtLSPFileModel class >> offsetForColumn: column in: aString [
+	| i char index |
+	i := 1.
+	index := 0.
+	[ i < column ]
+		whileTrue: [ char := aString at: i.
+			index := index + 1.
+			i := i + (self characterSizeOf: char) ].
+	^ index
+]
+
+{ #category : #accessing }
+GtLSPFileModel class >> sizeForString: aString [
+	^ aString inject: 0 into: [ :sum :each | sum + (self characterSizeOf: each) ]
+]
+
 { #category : #refactoring }
 GtLSPFileModel >> applyEdits: aCollection [
 	| editedSource |
@@ -108,6 +140,14 @@ GtLSPFileModel >> gtDisplayOn: stream [
 	stream << filename basename
 ]
 
+{ #category : #accessing }
+GtLSPFileModel >> indexForPosition: aPosition [
+	^ self class
+		indexForLine: (aPosition at: 'line') + 1
+		column: (aPosition at: 'character') + 1
+		in: self source
+]
+
 { #category : #initialization }
 GtLSPFileModel >> initialize [
 	super initialize.
@@ -161,6 +201,24 @@ GtLSPFileModel >> originalSource [
 { #category : #accessing }
 GtLSPFileModel >> originalSource: aString [
 	originalSource := aString
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> positionForIndex: anInteger [
+	| line src |
+	line := 0.
+	src := self source.
+	src
+		lineIndicesDo: [ :start :endWithoutDelimiters :end | 
+			anInteger <= end
+				ifTrue: [ ^ GtLSPPositionStructure create
+						line: line;
+						character: (self class sizeForString: (src copyFrom: start to: anInteger - 1));
+						yourself ] ].
+	^ GtLSPPositionStructure create
+		line: 0;
+		character: 0;
+		yourself
 ]
 
 { #category : #accessing }

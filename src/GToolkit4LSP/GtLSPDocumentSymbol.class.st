@@ -12,6 +12,13 @@ GtLSPDocumentSymbol >> kind [
 	^ symbolInformation ifNotNil: [ symbolInformation kind ]
 ]
 
+{ #category : #printing }
+GtLSPDocumentSymbol >> printOn: aStream [
+	aStream << lspFile gtDisplayString
+		<< (self symbolName ifNil: [ '' ] ifNotNil: [ :name | ' [' , name , ']' ])
+		<< ' ' << self positionString
+]
+
 { #category : #accessing }
 GtLSPDocumentSymbol >> symbolInformation [
 	^ symbolInformation
