@@ -64,6 +64,20 @@ GtLSPPythonModel >> gtClassSearch: aSearch [
 ]
 
 { #category : #accessing }
+GtLSPPythonModel >> gtFieldSearch: aSearch [
+	<gtSearch>
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Field') value.
+	^ aSearch list
+		priority: 14;
+		title: 'Fields';
+		items: [ self allSymbolsStream select: [ :each | each kind = kind ] ];
+		itemName: [ :item | item symbolName ];
+		wantsToDisplayOnEmptyQuery: false;
+		filterBySubstring
+]
+
+{ #category : #accessing }
 GtLSPPythonModel >> gtFunctionSearch: aSearch [
 	<gtSearch>
 	| kind |
