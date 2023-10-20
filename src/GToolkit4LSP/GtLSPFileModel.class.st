@@ -86,6 +86,13 @@ GtLSPFileModel >> cancel [
 	self updateServerSource
 ]
 
+{ #category : #accessing }
+GtLSPFileModel >> classSymbols [
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Class') value.
+	^ self symbolStream select: [ :each | each kind = kind ]
+]
+
 { #category : #actions }
 GtLSPFileModel >> close [
 	isOpen ifFalse: [ ^ self ].
@@ -131,6 +138,13 @@ GtLSPFileModel >> editor [
 	editor aptitude: aptitude.
 	editor editor text: self source asRopedText.
 	^ editor
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> fieldSymbols [
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Field') value.
+	^ self symbolStream select: [ :each | each kind = kind ]
 ]
 
 { #category : #actions }
@@ -327,4 +341,11 @@ GtLSPFileModel >> updateServerSource [
 		with: {Dictionary new
 					at: 'text' put: source;
 					yourself}
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> variableSymbols [
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Variable') value.
+	^ self symbolStream select: [ :each | each kind = kind ]
 ]
