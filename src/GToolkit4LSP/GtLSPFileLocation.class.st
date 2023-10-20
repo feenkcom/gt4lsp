@@ -74,10 +74,14 @@ GtLSPFileLocation >> lspFile: anObject [
 ]
 
 { #category : #accessing }
+GtLSPFileLocation >> positionString [
+	^ '(L' , (startPosition line + 1) printString , ':C'
+		, (startPosition character + 1) printString , ')'
+]
+
+{ #category : #printing }
 GtLSPFileLocation >> printOn: aStream [
-	aStream << lspFile gtDisplayString << ' (L'
-		<< (startPosition line + 1) printString << ':C'
-		<< (startPosition character + 1) printString << ')'
+	aStream << lspFile gtDisplayString << ' ' << self positionString
 ]
 
 { #category : #accessing }

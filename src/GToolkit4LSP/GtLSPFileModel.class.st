@@ -13,6 +13,56 @@ Class {
 	#category : #'GToolkit4LSP-Model'
 }
 
+{ #category : #accessing }
+GtLSPFileModel class >> characterSizeOf: aCharacter [
+	^ (ZnUTF16Encoder new encodedByteCountFor: aCharacter) // 2
+]
+
+{ #category : #accessing }
+GtLSPFileModel class >> indexForLine: line column: column in: aString [
+	| index |
+	index := aString gtIndexOfLineNumber: line.
+	index ifNil: [ index := aString gtIndexOfLineNumber: aString lineCount ].
+	^ index key
+		+ (self offsetForColumn: column in: (aString copyFrom: index key to: index value))
+		- 1
+]
+
+{ #category : #accessing }
+GtLSPFileModel class >> offsetForColumn: column in: aString [
+	| i char index |
+	i := 1.
+	index := 0.
+	[ i < column ]
+		whileTrue: [ char := aString at: i.
+			index := index + 1.
+			i := i + (self characterSizeOf: char) ].
+	^ index
+]
+
+{ #category : #accessing }
+GtLSPFileModel class >> positionForIndex: anInteger in: src [
+	| line |
+	line := 0.
+	src
+		lineIndicesDo: [ :start :endWithoutDelimiters :end | 
+			(anInteger between: start and: end)
+				ifTrue: [ ^ GtLSPPositionStructure create
+						line: line;
+						character: (self sizeForString: (src copyFrom: start to: anInteger - 1));
+						yourself ].
+			line := line + 1 ].
+	^ GtLSPPositionStructure create
+		line: 0;
+		character: 0;
+		yourself
+]
+
+{ #category : #accessing }
+GtLSPFileModel class >> sizeForString: aString [
+	^ aString inject: 0 into: [ :sum :each | sum + (self characterSizeOf: each) ]
+]
+
 { #category : #refactoring }
 GtLSPFileModel >> applyEdits: aCollection [
 	| editedSource |
@@ -108,6 +158,14 @@ GtLSPFileModel >> gtDisplayOn: stream [
 	stream << filename basename
 ]
 
+{ #category : #accessing }
+GtLSPFileModel >> indexForPosition: aPosition [
+	^ self class
+		indexForLine: (aPosition at: 'line') + 1
+		column: (aPosition at: 'character') + 1
+		in: self source
+]
+
 { #category : #initialization }
 GtLSPFileModel >> initialize [
 	super initialize.
@@ -139,6 +197,13 @@ GtLSPFileModel >> lspFile [
 	^ self
 ]
 
+{ #category : #accessing }
+GtLSPFileModel >> methodSymbols [
+	| kind |
+	kind := (GtLSPSymbolKindEnum enum: 'Method') value.
+	^ self symbolStream select: [ :each | each kind = kind ]
+]
+
 { #category : #actions }
 GtLSPFileModel >> open [
 	isOpen ifTrue: [ ^ self ].
@@ -154,6 +219,35 @@ GtLSPFileModel >> originalSource [
 { #category : #accessing }
 GtLSPFileModel >> originalSource: aString [
 	originalSource := aString
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> positionForIndex: anInteger [
+	| src |
+	src := self source.
+	^ self class positionForIndex: anInteger in: src
+]
+
+{ #category : #accessing }
+GtLSPFileModel >> referencesAt: aPosition [
+	| semaphore references |
+	semaphore := Semaphore new.
+	self lspClient
+		findReferencesIn: self lspFile filename
+		at: aPosition
+		do: [ :items | 
+			references := GtLSPReferenceList new
+					references: (((items ifNil: [ #() ])
+							collect: [ :each | 
+								(self lspDirectory fileForUri: each uri)
+									ifNotNil: [ :file | 
+										GtLSPFileLocation new
+											lspFile: file;
+											startPosition: each range start;
+											endPosition: each range end ] ]) select: #notNil).
+			semaphore signal ].
+	^ [ semaphore wait.
+	references ] asAsyncFuture
 ]
 
 { #category : #actions }
