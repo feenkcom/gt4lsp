@@ -10,13 +10,13 @@ BaselineOfGToolkit4LSP >> baseline: spec [
 	spec for: #'common' do: [
 		spec
 			baseline: 'NeoJSON' with: [
-				spec repository: 'github://svenvc/NeoJSON:b05162a6e420b501a87c6fc9503745b69d51237a/repository' ].
+				spec repository: 'github://svenvc/NeoJSON:45e63045f5830caec6ac76fdb637b3500540af97/repository' ].
 		spec
 			baseline: 'GToolkitPhlow' with: [
-				spec repository: 'github://feenkcom/gtoolkit-phlow:v0.8.1125/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-phlow:v0.8.1126/src' ].
 		spec
 			baseline: 'GToolkitAnnouncerUtility' with: [
-				spec repository: 'github://feenkcom/gtoolkit-utility:v0.8.234/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-utility:v0.8.235/src' ].
 		spec
 			baseline: 'JSONParser' with: [
 				spec repository: 'github://j-brant/SmaCC:v3.0.19' ].
