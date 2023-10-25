@@ -162,6 +162,7 @@ GtLanguageServerProtocolStdioClient >> findReferencesIn: aFilename at: aPosition
 		do: [ :refs | 
 			aBlock
 				cull: (refs ifNotNil: [ refs collect: [ :each | GtLSPLocationStructure on: each ] ]) ]
+		onError: [ :refs | aBlock cull: nil ]
 ]
 
 { #category : #folding }
