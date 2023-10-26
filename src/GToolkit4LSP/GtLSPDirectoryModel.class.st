@@ -178,11 +178,10 @@ GtLSPDirectoryModel >> fileFor: aFileReference [
 
 { #category : #accessing }
 GtLSPDirectoryModel >> fileForUri: aString [
-	^ self fileMappings
-		at: (self fileSystemIsCaseSensitive
-				ifTrue: [ aString ]
-				ifFalse: [ aString asLowercase ])
-		ifAbsent: [  ]
+	| uri |
+	uri := aString urlDecoded.
+	self fileSystemIsCaseSensitive ifFalse: [ uri := uri asLowercase ].
+	^ self fileMappings at: uri ifAbsent: [  ]
 ]
 
 { #category : #accessing }
