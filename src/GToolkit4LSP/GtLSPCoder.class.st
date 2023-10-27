@@ -109,7 +109,7 @@ GtLSPCoder >> editorChangedTo: aString [
 		ifFound: [ :editor | self lspFile source: aString asString ]
 ]
 
-{ #category : #updating }
+{ #category : #actions }
 GtLSPCoder >> findReferencesIn: textEditor [
 	| index |
 	textEditor editor cursors do: [ :each | index := each position ].
@@ -117,19 +117,40 @@ GtLSPCoder >> findReferencesIn: textEditor [
 	self lspClient
 		findReferencesIn: self lspFile filename
 		at: (textEditor editor positionFor: index)
-		do: [ :items | 
-			items
-				ifNotNil: [ textEditor
-						inUIProcessDo: [ textEditor phlow
-								spawnObject: (GtLSPReferenceList new
-										references: ((items
-												collect: [ :each | 
-													(self lspDirectory fileForUri: each uri)
-														ifNotNil: [ :file | 
-															GtLSPFileLocation new
-																lspFile: file;
-																startPosition: each range start;
-																endPosition: each range end ] ]) select: #notNil)) ] ] ]
+		do: [ :items | self showLocationItems: items from: textEditor ]
+]
+
+{ #category : #actions }
+GtLSPCoder >> gotoDeclarationIn: textEditor [
+	| index |
+	textEditor editor cursors do: [ :each | index := each position ].
+	index ifNil: [ ^ self ].
+	self lspClient
+		gotoDeclarationIn: self lspFile filename
+		at: (textEditor editor positionFor: index)
+		do: [ :items | self showLocationItems: items from: textEditor ]
+]
+
+{ #category : #actions }
+GtLSPCoder >> gotoDefinitionIn: textEditor [
+	| index |
+	textEditor editor cursors do: [ :each | index := each position ].
+	index ifNil: [ ^ self ].
+	self lspClient
+		gotoDefinitionIn: self lspFile filename
+		at: (textEditor editor positionFor: index)
+		do: [ :items | self showLocationItems: items from: textEditor ]
+]
+
+{ #category : #actions }
+GtLSPCoder >> gotoTypeDefinitionIn: textEditor [
+	| index |
+	textEditor editor cursors do: [ :each | index := each position ].
+	index ifNil: [ ^ self ].
+	self lspClient
+		gotoTypeDefinitionIn: self lspFile filename
+		at: (textEditor editor positionFor: index)
+		do: [ :items | self showLocationItems: items from: textEditor ]
 ]
 
 { #category : #initialization }
@@ -204,6 +225,25 @@ GtLSPCoder >> searchButtonFor: obj [
 			anActOnEvent beActed ]) asElement
 ]
 
+{ #category : #actions }
+GtLSPCoder >> showLocationItems: items from: textEditor [
+	| referenceItems |
+	items ifNil: [ ^ self ].
+	referenceItems := (items
+			collect: [ :each | 
+				(self lspDirectory fileForUri: each uri)
+					ifNotNil: [ :file | 
+						GtLSPFileLocation new
+							lspFile: file;
+							startPosition: each range start;
+							endPosition: each range end ] ]) select: #notNil.
+	textEditor
+		inUIProcessDo: [ textEditor phlow
+				spawnObject: (referenceItems size = 1
+						ifTrue: [ referenceItems first ]
+						ifFalse: [ GtLSPReferenceList new references: referenceItems ]) ]
+]
+
 { #category : #refactoring }
 GtLSPCoder >> startRenameIn: textEditor [
 	GtLSPRenameRefactoringController new
@@ -273,6 +313,15 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 		addShortcut: (BlShortcutWithAction new
 				combination: BlKeyCombination primaryN;
 				action: [ self findReferencesIn: textEditor ]);
+		addShortcut: (BlShortcutWithAction new
+				combination: BlKeyCombination primaryM;
+				action: [ self gotoDefinitionIn: textEditor ]);
+		addShortcut: (BlShortcutWithAction new
+				combination: BlKeyCombinationBuilder new primary shift m build;
+				action: [ self gotoDeclarationIn: textEditor ]);
+		addShortcut: (BlShortcutWithAction new
+				combination: BlKeyCombination primaryB;
+				action: [ self gotoTypeDefinitionIn: textEditor ]);
 		addShortcut: (BlShortcutWithAction new
 				combination: BlKeyCombination primaryR;
 				action: [ self startRenameIn: textEditor ]).

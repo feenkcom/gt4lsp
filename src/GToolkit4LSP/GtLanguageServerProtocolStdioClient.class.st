@@ -189,6 +189,66 @@ GtLanguageServerProtocolStdioClient >> getNextId [
 	^ id
 ]
 
+{ #category : #references }
+GtLanguageServerProtocolStdioClient >> gotoDeclarationIn: aFilename at: aPosition do: aBlock [
+	| params file |
+	initializeResult capabilities declarationProvider isNil
+		ifTrue: [ ^ aBlock cull: nil ].
+	file := fileVersions
+			at: aFilename asFileReference
+			ifAbsent: [ ^ aBlock cull: nil ].
+	params := GtLSPDefinitionParamsStructure create.
+	params textDocument uri: file uri.
+	params position: aPosition.
+	self
+		sendMessage: 'textDocument/declaration'
+		with: params
+		do: [ :refs | 
+			aBlock
+				cull: (refs ifNotNil: [ refs collect: [ :each | GtLSPLocationStructure on: each ] ]) ]
+		onError: [ :refs | aBlock cull: nil ]
+]
+
+{ #category : #references }
+GtLanguageServerProtocolStdioClient >> gotoDefinitionIn: aFilename at: aPosition do: aBlock [
+	| params file |
+	initializeResult capabilities definitionProvider isNil
+		ifTrue: [ ^ aBlock cull: nil ].
+	file := fileVersions
+			at: aFilename asFileReference
+			ifAbsent: [ ^ aBlock cull: nil ].
+	params := GtLSPDefinitionParamsStructure create.
+	params textDocument uri: file uri.
+	params position: aPosition.
+	self
+		sendMessage: 'textDocument/definition'
+		with: params
+		do: [ :refs | 
+			aBlock
+				cull: (refs ifNotNil: [ refs collect: [ :each | GtLSPLocationStructure on: each ] ]) ]
+		onError: [ :refs | aBlock cull: nil ]
+]
+
+{ #category : #references }
+GtLanguageServerProtocolStdioClient >> gotoTypeDefinitionIn: aFilename at: aPosition do: aBlock [
+	| params file |
+	initializeResult capabilities typeDefinitionProvider isNil
+		ifTrue: [ ^ aBlock cull: nil ].
+	file := fileVersions
+			at: aFilename asFileReference
+			ifAbsent: [ ^ aBlock cull: nil ].
+	params := GtLSPDefinitionParamsStructure create.
+	params textDocument uri: file uri.
+	params position: aPosition.
+	self
+		sendMessage: 'textDocument/typeDefinition'
+		with: params
+		do: [ :refs | 
+			aBlock
+				cull: (refs ifNotNil: [ refs collect: [ :each | GtLSPLocationStructure on: each ] ]) ]
+		onError: [ :refs | aBlock cull: nil ]
+]
+
 { #category : #accessing }
 GtLanguageServerProtocolStdioClient >> gtErrorsFor: aView [
 	<gtView>
