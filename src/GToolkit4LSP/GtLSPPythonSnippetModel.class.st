@@ -1,7 +1,7 @@
 Class {
 	#name : #GtLSPPythonSnippetModel,
 	#superclass : #GtLSPPythonModel,
-	#category : #'GToolkit4LSP-Model-Pyton'
+	#category : #'GToolkit4LSP-Model-Python'
 }
 
 { #category : #accessing }
