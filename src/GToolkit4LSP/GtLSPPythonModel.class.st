@@ -1,7 +1,7 @@
 Class {
 	#name : #GtLSPPythonModel,
 	#superclass : #GtLSPDirectoryModel,
-	#category : #'GToolkit4LSP-Model-Pyton'
+	#category : #'GToolkit4LSP-Model-Python'
 }
 
 { #category : #'class initialization' }
