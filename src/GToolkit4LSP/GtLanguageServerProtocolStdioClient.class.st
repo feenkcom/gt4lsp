@@ -127,7 +127,8 @@ GtLanguageServerProtocolStdioClient >> didSave: aFileReference [
 { #category : #symbols }
 GtLanguageServerProtocolStdioClient >> documentSymbolsIn: aFileReference do: aBlock [
 	| params |
-	initializeResult capabilities documentSymbolProvider isNil
+	(initializeResult isNil
+		or: [ initializeResult capabilities documentSymbolProvider isNil ])
 		ifTrue: [ ^ aBlock cull: nil ].
 	params := GtLSPDocumentSymbolParamsStructure create.
 	params textDocument uri: aFileReference asFileReference asUrl printString.
@@ -147,7 +148,8 @@ GtLanguageServerProtocolStdioClient >> documentSymbolsIn: aFileReference do: aBl
 { #category : #references }
 GtLanguageServerProtocolStdioClient >> findReferencesIn: aFilename at: aPosition do: aBlock [
 	| params file |
-	initializeResult capabilities referencesProvider isNil
+	(initializeResult isNil
+		or: [ initializeResult capabilities referencesProvider isNil ])
 		ifTrue: [ ^ aBlock cull: nil ].
 	file := fileVersions
 			at: aFilename asFileReference
@@ -168,7 +170,8 @@ GtLanguageServerProtocolStdioClient >> findReferencesIn: aFilename at: aPosition
 { #category : #folding }
 GtLanguageServerProtocolStdioClient >> foldingRangesIn: aFileReference do: aBlock [
 	| params file |
-	initializeResult capabilities foldingRangeProvider isNil
+	(initializeResult isNil
+		or: [ initializeResult capabilities foldingRangeProvider isNil ])
 		ifTrue: [ ^ aBlock cull: nil ].
 	file := fileVersions
 			at: aFileReference asFileReference
@@ -192,7 +195,8 @@ GtLanguageServerProtocolStdioClient >> getNextId [
 { #category : #references }
 GtLanguageServerProtocolStdioClient >> gotoDeclarationIn: aFilename at: aPosition do: aBlock [
 	| params file |
-	initializeResult capabilities declarationProvider isNil
+	(initializeResult isNil
+		or: [ initializeResult capabilities declarationProvider isNil ])
 		ifTrue: [ ^ aBlock cull: nil ].
 	file := fileVersions
 			at: aFilename asFileReference
@@ -212,7 +216,8 @@ GtLanguageServerProtocolStdioClient >> gotoDeclarationIn: aFilename at: aPositio
 { #category : #references }
 GtLanguageServerProtocolStdioClient >> gotoDefinitionIn: aFilename at: aPosition do: aBlock [
 	| params file |
-	initializeResult capabilities definitionProvider isNil
+	(initializeResult isNil
+		or: [ initializeResult capabilities definitionProvider isNil ])
 		ifTrue: [ ^ aBlock cull: nil ].
 	file := fileVersions
 			at: aFilename asFileReference
@@ -232,7 +237,8 @@ GtLanguageServerProtocolStdioClient >> gotoDefinitionIn: aFilename at: aPosition
 { #category : #references }
 GtLanguageServerProtocolStdioClient >> gotoTypeDefinitionIn: aFilename at: aPosition do: aBlock [
 	| params file |
-	initializeResult capabilities typeDefinitionProvider isNil
+	(initializeResult isNil
+		or: [ initializeResult capabilities typeDefinitionProvider isNil ])
 		ifTrue: [ ^ aBlock cull: nil ].
 	file := fileVersions
 			at: aFilename asFileReference
@@ -334,7 +340,8 @@ GtLanguageServerProtocolStdioClient >> initializeParameters [
 { #category : #refactoring }
 GtLanguageServerProtocolStdioClient >> linkedEditingRangesFor: aFileReference at: aPosition do: aBlock onError: errorBlock [
 	| params |
-	initializeResult capabilities linkedEditingRangeProvider isNil
+	(initializeResult isNil
+		or: [ initializeResult capabilities linkedEditingRangeProvider isNil ])
 		ifTrue: [ ^ errorBlock cull: nil ].
 	params := GtLSPLinkedEditingRangeParamsStructure create.
 	params textDocument uri: aFileReference asFileReference asUrl printString.
@@ -401,7 +408,8 @@ GtLanguageServerProtocolStdioClient >> on: aString do: aBlock [
 { #category : #refactoring }
 GtLanguageServerProtocolStdioClient >> prepareRenameFor: aFileReference at: aPosition do: aBlock [
 	| params |
-	initializeResult capabilities renameProvider isNil
+	(initializeResult isNil
+		or: [ initializeResult capabilities renameProvider isNil ])
 		ifTrue: [ ^ aBlock cull: nil ].
 	params := GtLSPPrepareRenameParamsStructure create.
 	params textDocument uri: aFileReference asFileReference asUrl printString.
@@ -488,7 +496,8 @@ GtLanguageServerProtocolStdioClient >> receiveHeadersFrom: aStream into: aDictio
 { #category : #refactoring }
 GtLanguageServerProtocolStdioClient >> renameFor: aFileReference at: aPosition to: aString do: aBlock onError: errorBlock [
 	| params |
-	initializeResult capabilities renameProvider isNil
+	(initializeResult isNil
+		or: [ initializeResult capabilities renameProvider isNil ])
 		ifTrue: [ ^ errorBlock
 				cull: (Dictionary new
 						at: 'error'
@@ -511,8 +520,9 @@ GtLanguageServerProtocolStdioClient >> renameFor: aFileReference at: aPosition t
 { #category : #diagnostics }
 GtLanguageServerProtocolStdioClient >> requestDiagnosticsFor: aFileReference do: aBlock onError: errorBlock [
 	| params file |
-	initializeResult capabilities diagnosticProvider
-		ifNil: [ ^ errorBlock cull: nil ].
+	(initializeResult isNil
+		or: [ initializeResult capabilities diagnosticProvider isNil ])
+		ifTrue: [ ^ errorBlock cull: nil ].
 	file := fileVersions
 			at: aFileReference asFileReference
 			ifAbsent: [ ^ errorBlock cull: nil ].
