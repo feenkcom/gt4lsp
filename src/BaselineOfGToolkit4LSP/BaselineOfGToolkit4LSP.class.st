@@ -19,10 +19,10 @@ BaselineOfGToolkit4LSP >> baseline: spec [
 				spec repository: 'github://feenkcom/gtoolkit-utility:v0.8.245/src' ].
 		spec
 			baseline: 'JSONParser' with: [
-				spec repository: 'github://j-brant/SmaCC:v3.0.26' ].
+				spec repository: 'github://j-brant/SmaCC:v3.0.27' ].
 		spec
 			baseline: 'RustParser' with: [
-				spec repository: 'github://j-brant/SmaCC:v3.0.26' ].
+				spec repository: 'github://j-brant/SmaCC:v3.0.27' ].
 
 		spec package: 'GToolkit4LSP' with: [
 			spec requires: #('NeoJSON') ].
