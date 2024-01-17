@@ -178,8 +178,8 @@ GtLSPCoder >> initializeSidebar [
 			background: BrGlamorousColors neutralBackgroundColor.
 	self
 		addAptitude: (GtPhlowToolDetailAptitude new
-				normal: [ :theInstance | sidebarElement hide ];
-				detailed: [ :theInstance | sidebarElement show ]).
+				normal: [ :aStyle | aStyle do: [ sidebarElement hide ] ];
+				detailed: [ :aStyle | aStyle do: [ sidebarElement show ] ]).
 	sidebarElement hide
 ]
 
