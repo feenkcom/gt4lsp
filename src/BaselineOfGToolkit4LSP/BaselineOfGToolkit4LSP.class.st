@@ -13,7 +13,7 @@ BaselineOfGToolkit4LSP >> baseline: spec [
 				spec repository: 'github://svenvc/NeoJSON:17efabc2fdb0c2469bb348e79b363c3f91441ac7/repository' ].
 		spec
 			baseline: 'GToolkitPhlow' with: [
-				spec repository: 'github://feenkcom/gtoolkit-phlow:v0.8.1308/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-phlow:v0.8.1309/src' ].
 		spec
 			baseline: 'GToolkitAnnouncerUtility' with: [
 				spec repository: 'github://feenkcom/gtoolkit-utility:v0.8.306/src' ].
