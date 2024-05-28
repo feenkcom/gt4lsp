@@ -77,7 +77,7 @@ GtLSPDirectoryModel class >> local [
 	semaphore wait.
 	self registry
 		add: model
-		executor: (ObjectFinalizer receiver: client selector: #terminate).
+		finalizer: (ObjectFinalizer receiver: client selector: #terminate).
 	^ model
 ]
 
@@ -104,7 +104,7 @@ GtLSPDirectoryModel class >> onDirectory: aDirectory [
 	semaphore wait.
 	self registry
 		add: model
-		executor: (ObjectFinalizer receiver: client selector: #terminate).
+		finalizer: (ObjectFinalizer receiver: client selector: #terminate).
 	^ model
 ]
 
