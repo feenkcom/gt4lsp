@@ -125,13 +125,15 @@ GtLSPDirectoryModel >> allSymbolsStream [
 
 { #category : #accessing }
 GtLSPDirectoryModel >> createFile: aString [
-	| file fileRef |
+	| file fileRef allFiles |
+	allFiles := self files.
 	fileRef := filename / aString.
 	fileRef writeStreamDo: [ :stream |  ].
 	file := GtLSPFileModel new
 			filename: fileRef;
 			directory: self;
 			yourself.
+	allFiles add: file.
 	fileMappings
 		ifNotNil: [ fileMappings
 				at: (self fileSystemIsCaseSensitive
@@ -198,7 +200,7 @@ GtLSPDirectoryModel >> fileMappings [
 					ifTrue: [ [ :each | each ] ]
 					ifFalse: [ [ :each | each asLowercase ] ].
 			fileMappings := Dictionary new.
-			self lspDirectory files
+			self files
 				do: [ :each | fileMappings at: (uriBlock value: each filename uri printString) put: each ].
 			fileMappings ]
 ]

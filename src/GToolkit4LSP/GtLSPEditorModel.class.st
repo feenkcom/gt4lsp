@@ -92,6 +92,16 @@ GtLSPEditorModel >> onStringsInserted: aBlTextStringsInserted [
 ]
 
 { #category : #accessing }
+GtLSPEditorModel >> onTextReplaced: oldText [
+	| events |
+	events := {Dictionary new
+				at: 'text' put: text asString;
+				yourself}.
+	self dispatchEvent: (GtLSPTextDocumentContentChange new events: events).
+	super onTextReplaced: oldText
+]
+
+{ #category : #accessing }
 GtLSPEditorModel >> onTextsDeleted: aBlTextsDeleted [
 	| events |
 	aBlTextsDeleted requestedIntervals size > 1
