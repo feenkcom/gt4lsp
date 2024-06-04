@@ -7,6 +7,6 @@ Class {
 { #category : #accessing }
 GtLSPPythonSnippetModel >> createSnippet [
 	| fileName |
-	fileName := UUID new printString.
+	fileName := UUID new printString , PythonParser fileExtension.
 	^ self createFile: fileName
 ]
