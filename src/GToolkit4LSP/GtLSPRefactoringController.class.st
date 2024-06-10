@@ -3,21 +3,26 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'originalSource',
-		'editor'
+		'editor',
+		'lspCoder'
 	],
 	#category : #'GToolkit4LSP-Refactoring'
 }
 
+{ #category : #accessing }
+GtLSPRefactoringController >> allowSave [
+	lspCoder ifNotNil: [ lspCoder allowSave ]
+]
+
 { #category : #refactoring }
 GtLSPRefactoringController >> cancelRefactoring [
-	self restoreText
+	self restoreText.
+	self cleanUp
 ]
 
 { #category : #refactoring }
 GtLSPRefactoringController >> cleanUp [
-	editor
-		inUIProcessDo: [ editor editor text
-				clearAttributes: [ :each | each class = GtRefactoringChangesAttribute ] ]
+	self removeRefactoringAttribute
 ]
 
 { #category : #accessing }
@@ -53,6 +58,21 @@ GtLSPRefactoringController >> execute [
 			ex return ]
 ]
 
+{ #category : #accessing }
+GtLSPRefactoringController >> lspCoder [
+	^ lspCoder
+]
+
+{ #category : #accessing }
+GtLSPRefactoringController >> lspCoder: anObject [
+	lspCoder := anObject
+]
+
+{ #category : #accessing }
+GtLSPRefactoringController >> preventSave [
+	lspCoder ifNotNil: [ lspCoder preventSave ]
+]
+
 { #category : #refactoring }
 GtLSPRefactoringController >> refactoring [
 	self subclassResponsibility
@@ -61,6 +81,13 @@ GtLSPRefactoringController >> refactoring [
 { #category : #accessing }
 GtLSPRefactoringController >> refactoringName [
 	^ self subclassResponsibility
+]
+
+{ #category : #refactoring }
+GtLSPRefactoringController >> removeRefactoringAttribute [
+	editor
+		inUIProcessDo: [ editor editor text
+				clearAttributes: [ :each | each class = GtRefactoringChangesAttribute ] ]
 ]
 
 { #category : #refactoring }
@@ -76,4 +103,12 @@ GtLSPRefactoringController >> safelyExecute [
 { #category : #private }
 GtLSPRefactoringController >> saveSource [
 	originalSource := editor editor text copy
+]
+
+{ #category : #accessing }
+GtLSPRefactoringController >> setText: aString [
+	editor deselecter
+		all;
+		deselect.
+	editor editor text: aString asRopedText
 ]

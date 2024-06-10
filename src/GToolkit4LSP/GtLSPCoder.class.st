@@ -5,7 +5,8 @@ Class {
 		'sidebarElement',
 		'contentElement',
 		'modified',
-		'lspObject'
+		'lspObject',
+		'preventUpdates'
 	],
 	#category : #'GToolkit4LSP-View'
 }
@@ -19,6 +20,14 @@ GtLSPCoder >> actionsFor: aLSPObject [
 			to: GtLSPModel.
 	^ (pragmas collect: [ :each | aLSPObject perform: each method selector ])
 		reject: #isNil
+]
+
+{ #category : #accessing }
+GtLSPCoder >> allowSave [
+	preventUpdates := false.
+	contentElement
+		childNamed: #saveAction
+		ifFound: [ :elmt | elmt inUIProcessDo: [ elmt enabled: self lspFile isModified ] ]
 ]
 
 { #category : #updating }
@@ -104,6 +113,7 @@ GtLSPCoder >> createFilesTreeFor: obj [
 
 { #category : #updating }
 GtLSPCoder >> editorChangedTo: aString [
+	preventUpdates ifTrue: [ ^ self ].
 	contentElement
 		childNamed: #editor
 		ifFound: [ :editor | self lspFile source: aString asString ]
@@ -156,6 +166,7 @@ GtLSPCoder >> gotoTypeDefinitionIn: textEditor [
 { #category : #initialization }
 GtLSPCoder >> initialize [
 	super initialize.
+	preventUpdates := false.
 	self matchParent.
 	self initializeSidebar.
 	self initializeContent.
@@ -213,6 +224,14 @@ GtLSPCoder >> object: anObject [
 	sidebarElement contentStencil: [ self buildSidebarFor: lspObject ]
 ]
 
+{ #category : #accessing }
+GtLSPCoder >> preventSave [
+	preventUpdates := true.
+	contentElement
+		childNamed: #saveAction
+		ifFound: [ :elmt | elmt inUIProcessDo: [ elmt enabled: false ] ]
+]
+
 { #category : #search }
 GtLSPCoder >> searchButtonFor: obj [
 	^ (GtSpotterDropdownButtonStencil new
@@ -260,10 +279,10 @@ GtLSPCoder >> updateChangeStatus [
 		childNamed: #modificationBar
 		ifFound: [ :elmt | elmt inUIProcessDo: [ elmt background: self modificationColor ] ].
 	contentElement
-		childNamed: #saveButton
+		childNamed: #saveAction
 		ifFound: [ :elmt | elmt inUIProcessDo: [ elmt enabled: self lspFile isModified ] ].
 	contentElement
-		childNamed: #cancelButton
+		childNamed: #cancelAction
 		ifFound: [ :elmt | elmt inUIProcessDo: [ elmt enabled: self lspFile isModified ] ].
 	sidebarElement
 		childNamed: #files
@@ -325,6 +344,7 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 		addShortcut: (BlShortcutWithAction new
 				combination: BlKeyCombination primaryR;
 				action: [ self startRenameIn: textEditor ]).
+	lspObject addShortcutsTo: textEditor inCoder: self.
 	textEditor editor
 		when: BrTextEditorInsertedEvent
 			do: [ :event | self editorChangedTo: event source text asString ];

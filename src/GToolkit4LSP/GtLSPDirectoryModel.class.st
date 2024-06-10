@@ -119,6 +119,10 @@ GtLSPDirectoryModel class >> styler [
 ]
 
 { #category : #accessing }
+GtLSPDirectoryModel >> addShortcutsTo: aTextEditor from: anLSPModel inCoder: aLSPCoder [
+]
+
+{ #category : #accessing }
 GtLSPDirectoryModel >> allSymbolsStream [
 	^ self files asAsyncStream flatCollect: [ :each | each symbolStream ]
 ]
