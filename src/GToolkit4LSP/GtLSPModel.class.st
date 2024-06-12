@@ -15,6 +15,14 @@ GtLSPModel >> = anObject [
 		or: [ self class = anObject class and: [ self filename = anObject filename ] ]
 ]
 
+{ #category : #accessing }
+GtLSPModel >> addShortcutsTo: aTextEditor inCoder: aLSPCoder [
+	self lspDirectory
+		addShortcutsTo: aTextEditor
+		from: self
+		inCoder: aLSPCoder
+]
+
 { #category : #announcer }
 GtLSPModel >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]

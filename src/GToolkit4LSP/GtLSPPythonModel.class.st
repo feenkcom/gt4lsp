@@ -45,6 +45,22 @@ GtLSPPythonModel class >> styler [
 ]
 
 { #category : #accessing }
+GtLSPPythonModel >> addShortcutsTo: aTextEditor from: aLSPObject inCoder: aLSPCoder [
+	super
+		addShortcutsTo: aTextEditor
+		from: aLSPObject
+		inCoder: aLSPCoder.
+	aTextEditor
+		addShortcut: (BlShortcutWithAction new
+				combination: BlKeyCombination primaryE;
+				action: [ GtPythonExtractMethodRefactoringController new
+						editor: aTextEditor;
+						lspFile: aLSPObject lspFile;
+						lspCoder: aLSPCoder;
+						execute ])
+]
+
+{ #category : #accessing }
 GtLSPPythonModel >> diffSplitter [
 	^ GtSmaCCDiffSplitter new scannerClass: PythonScanner
 ]

@@ -90,12 +90,6 @@ GtLSPRenameRefactoringController >> refactoringName [
 ]
 
 { #category : #accessing }
-GtLSPRenameRefactoringController >> removeRefactoringAttribute [
-	editor editor text
-		clearAttributes: [ :each | each class = GtRefactoringChangesAttribute ]
-]
-
-{ #category : #accessing }
 GtLSPRenameRefactoringController >> restoreText [
 	super restoreText.
 	lspFile updateServerSource
