@@ -45,10 +45,46 @@ GtPythonExtractMethodRefactoringController >> addRenamerFor: ref [
 ]
 
 { #category : #accessing }
+GtPythonExtractMethodRefactoringController >> addReorderParameters: ref [
+	| ast attribute |
+	self removeReorderParameters.
+	ref arguments size <= 1 ifTrue: [ ^ self ].
+	(ref isInsideClass and: [ ref arguments size <= 2 ]) ifTrue: [ ^ self ].
+	ast := PythonParser parseWithErrors: ref newSource.
+	(ast nodeAt: ref functionLocation)
+		ifNotNil: [ :func | 
+			| params |
+			params := OrderedCollection withAll: func parameters.
+			ref isInsideClass ifTrue: [ params removeFirst ].
+			params
+				keysAndValuesDo: [ :i :each | 
+					i > 1
+						ifTrue: [ attribute := GtReorderParametersAttribute
+									action: [ self
+											swapParameterWithNext: i - (ref isInsideClass ifTrue: [ 0 ] ifFalse: [ 1 ]) ]
+									icon: BrGlamorousVectorIcons left.
+							editor editor text
+								attribute: attribute
+								from: each startPosition - 1
+								to: each startPosition - 1 ].
+					i < params size
+						ifTrue: [ attribute := GtReorderParametersAttribute
+									action: [ self
+											swapParameterWithNext: i + (ref isInsideClass ifTrue: [ 1 ] ifFalse: [ 0 ]) ]
+									icon: BrGlamorousVectorIcons right.
+							editor editor text
+								attribute: attribute
+								from: each stopPosition
+								to: each stopPosition ] ] ]
+]
+
+{ #category : #accessing }
 GtPythonExtractMethodRefactoringController >> cleanUp [
-	self allowSave.
-	self uninstallRenamer.
-	super cleanUp
+	editor
+		inUIProcessDo: [ self allowSave.
+			self uninstallRenamer.
+			self removeReorderParameters.
+			super cleanUp ]
 ]
 
 { #category : #accessing }
@@ -88,11 +124,24 @@ GtPythonExtractMethodRefactoringController >> refactoringName [
 ]
 
 { #category : #accessing }
+GtPythonExtractMethodRefactoringController >> removeReorderParameters [
+	editor
+		inUIProcessDo: [ editor editor text
+				clearAttributes: [ :each | each class = GtReorderParametersAttribute ] ]
+]
+
+{ #category : #accessing }
 GtPythonExtractMethodRefactoringController >> safelyExecute [
 	| ref |
 	ref := self refactoring.
 	ref primitiveExecute.
 	self updateForRefactoring: ref
+]
+
+{ #category : #accessing }
+GtPythonExtractMethodRefactoringController >> swapParameterWithNext: anInteger [
+	arguments swap: anInteger with: anInteger + 1.
+	self safelyExecute
 ]
 
 { #category : #accessing }
@@ -109,5 +158,6 @@ GtPythonExtractMethodRefactoringController >> updateForRefactoring: ref [
 	self preventSave.
 	self setText: ref newSource.
 	self addRenamerFor: ref.
-	self addRefactoringPreview: ref
+	self addRefactoringPreview: ref.
+	self addReorderParameters: ref
 ]

@@ -15,6 +15,11 @@ GtLSPRenameAction >> processReturnFor: renameEditor in: anEditorElement [
 	^ super processReturnFor: renameEditor in: anEditorElement
 ]
 
+{ #category : #accessing }
+GtLSPRenameAction >> shouldCoordinateFocus [
+	^ true
+]
+
 { #category : #private }
 GtLSPRenameAction >> undoChanges [
 	self removeAttributes.

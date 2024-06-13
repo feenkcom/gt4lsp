@@ -100,6 +100,11 @@ GtPythonExtractMethodRefactoring >> ast [
 ]
 
 { #category : #accessing }
+GtPythonExtractMethodRefactoring >> ast: anObject [
+	ast := anObject
+]
+
+{ #category : #accessing }
 GtPythonExtractMethodRefactoring >> callLocation [
 	^ callLocation
 ]
@@ -135,6 +140,13 @@ GtPythonExtractMethodRefactoring >> checkNodeTypes [
 
 { #category : #preconditions }
 GtPythonExtractMethodRefactoring >> checkReturn [
+	self containsReturn
+		ifTrue: [ (self lastIsReturn or: [ self lastIsRaise ])
+				ifFalse: [ ^ self invalidInterval ] ]
+]
+
+{ #category : #preconditions }
+GtPythonExtractMethodRefactoring >> containsReturn [
 	| containsReturn |
 	containsReturn := false.
 	nodesToExtract
@@ -142,8 +154,7 @@ GtPythonExtractMethodRefactoring >> checkReturn [
 			each
 				withAllNodesOfType: PyReturnStatementNode
 				do: [ :n | containsReturn := true ] ].
-	containsReturn
-		ifTrue: [ self lastIsReturn ifFalse: [ ^ self invalidInterval ] ]
+	^ containsReturn
 ]
 
 { #category : #transforming }
@@ -247,6 +258,11 @@ GtPythonExtractMethodRefactoring >> isUsed: aNode [
 ]
 
 { #category : #preconditions }
+GtPythonExtractMethodRefactoring >> lastIsRaise [
+	^ nodesToExtract last isKindOf: PyRaiseStatementNode
+]
+
+{ #category : #preconditions }
 GtPythonExtractMethodRefactoring >> lastIsReturn [
 	^ nodesToExtract last isKindOf: PyReturnStatementNode
 ]
@@ -344,7 +360,7 @@ GtPythonExtractMethodRefactoring >> transform [
 	callLoc := (source
 			insert: (String
 					streamContents: [ :stream | 
-						self lastIsReturn
+						self containsReturn
 							ifTrue: [ stream << 'return '.
 								offset := 7 ].
 						self isInsideClass
