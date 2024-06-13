@@ -26,8 +26,9 @@ GtLSPCoder >> actionsFor: aLSPObject [
 GtLSPCoder >> allowSave [
 	preventUpdates := false.
 	contentElement
-		childNamed: #saveAction
-		ifFound: [ :elmt | elmt inUIProcessDo: [ elmt enabled: self lspFile isModified ] ]
+		inUIProcessDo: [ contentElement
+				childNamed: #saveAction
+				ifFound: [ :elmt | elmt enabled: self lspFile isModified ] ]
 ]
 
 { #category : #updating }
