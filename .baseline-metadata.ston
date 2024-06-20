@@ -1,8 +1,8 @@
 {
 	"repositories" : {
-		"github://feenkcom/gtoolkit-utility/src" : "v0.8.312",
-		"github://j-brant/SmaCC" : "v3.0.57",
-		"github://feenkcom/gtoolkit-phlow/src" : "v0.8.1324",
+		"github://feenkcom/gtoolkit-utility/src" : "v0.8.313",
+		"github://j-brant/SmaCC" : "v3.0.58",
+		"github://feenkcom/gtoolkit-phlow/src" : "v0.8.1325",
 		"github://svenvc/NeoJSON/repository" : "17efabc2fdb0c2469bb348e79b363c3f91441ac7"
 	}
 }
