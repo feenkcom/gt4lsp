@@ -85,6 +85,11 @@ GtLSPFileLocation >> printOn: aStream [
 ]
 
 { #category : #accessing }
+GtLSPFileLocation >> saveFile [
+	self lspFile saveFile
+]
+
+{ #category : #accessing }
 GtLSPFileLocation >> startPosition [
 	^ startPosition
 ]
