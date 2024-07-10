@@ -658,12 +658,17 @@ GtLanguageServerProtocolStdioClient >> shutdown [
 { #category : #running }
 GtLanguageServerProtocolStdioClient >> start [
 	| currentOutput previous |
-	externalProcess := (GtExternalProcessBuilder new: program)
+	externalProcess := [ 
+		(GtExternalProcessBuilder new: program)
 			args: self arguments;
 			pipeStdin;
 			pipeStdout;
 			pipeStderr;
-			spawn.
+			spawn ] 
+				on: GtExternalProcessFailedToStart
+				do: [ :exception |
+					"We want to be resilient against failures" 
+					exception child ].
 	stdout := externalProcess asynchronousStdout.
 	stderr := externalProcess asynchronousStderr.
 	stdin := externalProcess stdin.
