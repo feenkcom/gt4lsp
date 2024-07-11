@@ -22,7 +22,7 @@ GtLSPEditorAptitude >> initialize [
 					| completion |
 					widget editor
 						when: GtLSPTextDocumentContentChange
-						do: [ :evt | self updateServerWith: evt events ].
+						do: [ :evt | self updateServerWith: evt ].
 					styler
 						ifNotNil: [ widget editor styler: styler.
 							widget viewModel styler: styler ].
@@ -56,9 +56,16 @@ GtLSPEditorAptitude >> lspFile: aLSPFile [
 ]
 
 { #category : #initialization }
-GtLSPEditorAptitude >> updateServerWith: anArray [
+GtLSPEditorAptitude >> updateServerWith: lspTextDocumentContentChanged [
 	self lspClient
-		ifNotNil: [ :client | client didChange: self filename with: anArray ]
+		ifNotNil: [ :client | 
+			client supportsIncrementalUpdates
+				ifTrue: [ client didChange: self filename with: lspTextDocumentContentChanged events ]
+				ifFalse: [ client
+						didChange: self filename
+						with: {Dictionary new
+									at: 'text' put: lspTextDocumentContentChanged text asString;
+									yourself} ] ]
 ]
 
 { #category : #accessing }
