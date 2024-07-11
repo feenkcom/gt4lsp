@@ -87,7 +87,11 @@ GtLSPEditorModel >> onStringsInserted: aBlTextStringsInserted [
 								end: position;
 								yourself) asDictionary;
 					yourself ]) reversed.
-	self dispatchEvent: (GtLSPTextDocumentContentChange new events: events).
+	self
+		dispatchEvent: (GtLSPTextDocumentContentChange new
+				events: events;
+				text: text;
+				yourself).
 	super onStringsInserted: aBlTextStringsInserted
 ]
 
@@ -97,7 +101,11 @@ GtLSPEditorModel >> onTextReplaced: oldText [
 	events := {Dictionary new
 				at: 'text' put: text asString;
 				yourself}.
-	self dispatchEvent: (GtLSPTextDocumentContentChange new events: events).
+	self
+		dispatchEvent: (GtLSPTextDocumentContentChange new
+				events: events;
+				text: text;
+				yourself).
 	super onTextReplaced: oldText
 ]
 
@@ -121,7 +129,11 @@ GtLSPEditorModel >> onTextsDeleted: aBlTextsDeleted [
 										end: (self endPositionFrom: position deleting: value);
 										yourself) asDictionary;
 							yourself ]) reversed ].
-	self dispatchEvent: (GtLSPTextDocumentContentChange new events: events).
+	self
+		dispatchEvent: (GtLSPTextDocumentContentChange new
+				events: events;
+				text: text;
+				yourself).
 	super onTextsDeleted: aBlTextsDeleted
 ]
 

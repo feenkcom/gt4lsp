@@ -634,6 +634,7 @@ GtLanguageServerProtocolStdioClient >> sendNotification: aString with: aStructur
 	aStructure ifNotNil: [ dict at: 'params' put: aStructure asDictionary ].
 	data := GtJson forJsonObject: dict.
 	jsonData := data asJsonString.
+	(GtLSPServerInputSignal new message: jsonData) emit.
 	string := 'Content-Length: ' , jsonData utf8Encoded size printString
 			, String crlf , String crlf , jsonData.
 	mutex critical: [ stdin nextPutAll: string ]
@@ -709,6 +710,12 @@ GtLanguageServerProtocolStdioClient >> stdout [
 { #category : #accessing }
 GtLanguageServerProtocolStdioClient >> stdout: anObject [
 	^ stdout := anObject
+]
+
+{ #category : #accessing }
+GtLanguageServerProtocolStdioClient >> supportsIncrementalUpdates [
+	^ ((initializeResult capabilities ifNotNil: [ :cap | cap textDocumentSync ])
+		ifNil: [ 2 ]) = 2
 ]
 
 { #category : #accessing }
