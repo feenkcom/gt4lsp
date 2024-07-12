@@ -196,7 +196,13 @@ GtLSPCompletionStrategy >> editorModel: anObject [
 	editorModel := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
+GtLSPCompletionStrategy >> hasCompletionsAt: anInteger in: aText [
+	^ (anInteger between: 1 and: aText size)
+		and: [ (self isSeparatorCharacter: (aText at: anInteger)) not ]
+]
+
+{ #category : #testing }
 GtLSPCompletionStrategy >> isEdit: aTextEdit before: bTextEdit [
 	| aRange bRange aPos bPos aLine bLine |
 	aRange := aTextEdit at: 'range'.
@@ -208,6 +214,11 @@ GtLSPCompletionStrategy >> isEdit: aTextEdit before: bTextEdit [
 	aLine < bLine ifTrue: [ ^ true ].
 	bLine > aLine ifTrue: [ ^ false ].
 	^ (aPos at: 'character') <= (bPos at: 'character')
+]
+
+{ #category : #testing }
+GtLSPCompletionStrategy >> isSeparatorCharacter: aCharacter [
+	^ (aCharacter isLetter or: [ aCharacter isDigit or: [ aCharacter = $_ ] ]) not
 ]
 
 { #category : #accessing }
