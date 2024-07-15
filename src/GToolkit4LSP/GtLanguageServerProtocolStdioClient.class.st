@@ -714,6 +714,7 @@ GtLanguageServerProtocolStdioClient >> stdout: anObject [
 
 { #category : #accessing }
 GtLanguageServerProtocolStdioClient >> supportsIncrementalUpdates [
+	initializeResult ifNil: [ ^ true ].
 	^ ((initializeResult capabilities ifNotNil: [ :cap | cap textDocumentSync ])
 		ifNil: [ 2 ]) = 2
 ]
