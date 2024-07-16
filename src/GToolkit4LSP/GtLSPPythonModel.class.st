@@ -20,7 +20,10 @@ GtLSPPythonModel class >> initializePyright [
 
 	"npm install -g pyright"
 
-	self executable: 'pyright-langserver'.
+	self
+		executable: (Smalltalk os isWindows
+				ifTrue: [ 'pyright-langserver.cmd' ]
+				ifFalse: [ 'pyright-langserver' ]).
 	self arguments: #('--stdio')
 ]
 

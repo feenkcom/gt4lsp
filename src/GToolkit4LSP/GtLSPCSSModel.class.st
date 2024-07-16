@@ -15,7 +15,10 @@ GtLSPCSSModel class >> initialize [
 
 	"npm install --global vscode-css-languageserver-bin"
 
-	self executable: 'css-languageserver'.
+	self
+		executable: (Smalltalk os isWindows
+				ifTrue: [ 'css-languageserver.cmd' ]
+				ifFalse: [ 'css-languageserver' ]).
 	self arguments: #('--stdio')
 ]
 
