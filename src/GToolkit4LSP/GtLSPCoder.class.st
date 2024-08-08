@@ -386,6 +386,8 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 	content addChild: textEditor as: #editor.
 	fileToolbar := self buildToolbarFor: aLSPObject.
 	content addChild: fileToolbar as: #toolbar.
+	content
+		addAptitude: (BrGlamorousWithVerticalScrollbarAptitude new scrollableName: #editor).
 	contentElement addChild: content.
 	self updateChangeStatus.
 	self lspFile diagnostics
