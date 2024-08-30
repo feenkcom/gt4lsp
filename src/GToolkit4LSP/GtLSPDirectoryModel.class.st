@@ -119,25 +119,8 @@ GtLSPDirectoryModel class >> styler [
 ]
 
 { #category : #accessing }
-GtLSPDirectoryModel >> addShortcutsTo: aTextEditor from: anLSPModel inCoder: aLSPCoder [
-]
-
-{ #category : #accessing }
-GtLSPDirectoryModel >> allSymbolsStream [
-	^ self files asAsyncStream flatCollect: [ :each | each symbolStream ]
-]
-
-{ #category : #accessing }
-GtLSPDirectoryModel >> createFile: aString [
-	| file fileRef allFiles |
-	allFiles := self files.
-	fileRef := filename / aString.
-	fileRef writeStreamDo: [ :stream |  ].
-	file := GtLSPFileModel new
-			filename: fileRef;
-			directory: self;
-			yourself.
-	allFiles add: file.
+GtLSPDirectoryModel >> addFile: file [
+	self files add: file.
 	fileMappings
 		ifNotNil: [ fileMappings
 				at: (self fileSystemIsCaseSensitive
@@ -148,6 +131,28 @@ GtLSPDirectoryModel >> createFile: aString [
 ]
 
 { #category : #accessing }
+GtLSPDirectoryModel >> addShortcutsTo: aTextEditor from: anLSPModel inCoder: aLSPCoder [
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel >> allSymbolsStream [
+	^ self files asAsyncStream flatCollect: [ :each | each symbolStream ]
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel >> createFile: aString [
+	| file fileRef |
+	self files.
+	fileRef := filename / aString.
+	fileRef writeStreamDo: [ :stream |  ].
+	file := GtLSPFileModel new
+			filename: fileRef;
+			directory: self;
+			yourself.
+	^ self addFile: file
+]
+
+{ #category : #accessing }
 GtLSPDirectoryModel >> diffSplitter [
 	^ GtLineDiffSplitter new
 ]
@@ -155,6 +160,16 @@ GtLSPDirectoryModel >> diffSplitter [
 { #category : #accessing }
 GtLSPDirectoryModel >> diffStyler [
 	^ self styler ifNil: [ BlTextNullStyler new ]
+]
+
+{ #category : #accessing }
+GtLSPDirectoryModel >> existingOrCreatefileFor: aFileReference [
+	^ (self fileFor: aFileReference)
+		ifNil: [ self
+				addFile: (GtLSPFileModel new
+						filename: aFileReference;
+						directory: self;
+						yourself) ]
 ]
 
 { #category : #accessing }

@@ -3,17 +3,15 @@ Class {
 	#superclass : #GtLSPModel,
 	#instVars : [
 		'lspFile',
-		'startPosition',
-		'endPosition'
+		'start',
+		'end'
 	],
 	#category : #'GToolkit4LSP-Model'
 }
 
 { #category : #comparing }
 GtLSPFileLocation >> = anObject [
-	^ super = anObject
-		and: [ startPosition = anObject startPosition
-				and: [ endPosition = anObject endPosition ] ]
+	^ super = anObject and: [ start = anObject start and: [ end = anObject end ] ]
 ]
 
 { #category : #accessing }
@@ -21,26 +19,43 @@ GtLSPFileLocation >> editor [
 	| editor |
 	editor := lspFile editor.
 	editor
-		enqueueTask: [ | start end |
-			start := editor editor indexForPosition: startPosition.
-			end := editor editor indexForPosition: endPosition.
+		enqueueTask: [ | startIndex endIndex |
+			startIndex := self startIndexIn: editor.
+			endIndex := self endIndexIn: editor.
 			editor editor
-				moveCursorTo: start;
-				select: start to: end.
+				moveCursorTo: startIndex;
+				select: startIndex to: endIndex.
 			editor
-				scrollToPosition: (editor text asString lineNumberCorrespondingToIndex: start + 1) ]
+				scrollToPosition: (editor text asString lineNumberCorrespondingToIndex: startIndex + 1) ]
 				asBlTask.
 	^ editor
 ]
 
 { #category : #accessing }
+GtLSPFileLocation >> end [
+	^ end
+]
+
+{ #category : #accessing }
+GtLSPFileLocation >> end: anIntegerOrPosition [
+	end := anIntegerOrPosition
+]
+
+{ #category : #private }
+GtLSPFileLocation >> endIndexIn: editor [
+	^ end isInteger
+		ifTrue: [ end ]
+		ifFalse: [ editor editor indexForPosition: end ]
+]
+
+{ #category : #accessing }
 GtLSPFileLocation >> endPosition [
-	^ endPosition
+	^ end
 ]
 
 { #category : #accessing }
 GtLSPFileLocation >> endPosition: anObject [
-	endPosition := anObject
+	self end: anObject
 ]
 
 { #category : #accessing }
@@ -75,8 +90,17 @@ GtLSPFileLocation >> lspFile: anObject [
 
 { #category : #accessing }
 GtLSPFileLocation >> positionString [
-	^ '(L' , (startPosition line + 1) printString , ':C'
-		, (startPosition character + 1) printString , ')'
+	start isInteger
+		ifTrue: [ | line |
+			line := 0.
+			self lspFile source
+				lineIndicesDo: [ :s :e :wEol | 
+					line := line + 1.
+					(start between: s and: wEol)
+						ifTrue: [ ^ '(L' , line printString , ':C' , (start - s + 1) printString , ')' ] ].
+			^ '(' , start printString , ')' ].
+	^ '(L' , (start line + 1) printString , ':C'
+		, (start character + 1) printString , ')'
 ]
 
 { #category : #printing }
@@ -90,11 +114,28 @@ GtLSPFileLocation >> saveFile [
 ]
 
 { #category : #accessing }
+GtLSPFileLocation >> start [
+	^ start
+]
+
+{ #category : #accessing }
+GtLSPFileLocation >> start: anIntegerOrPosition [
+	start := anIntegerOrPosition
+]
+
+{ #category : #private }
+GtLSPFileLocation >> startIndexIn: editor [
+	^ start isInteger
+		ifTrue: [ start - 1 ]
+		ifFalse: [ editor editor indexForPosition: start ]
+]
+
+{ #category : #accessing }
 GtLSPFileLocation >> startPosition [
-	^ startPosition
+	^ self start
 ]
 
 { #category : #accessing }
 GtLSPFileLocation >> startPosition: anObject [
-	startPosition := anObject
+	self start: anObject
 ]
