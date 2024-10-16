@@ -40,7 +40,7 @@ GtLSPEditorModel >> endPositionFrom: position deleting: value [
 GtLSPEditorModel >> indexForPosition: aDictionary [
 	| character segment index str |
 	character := (aDictionary at: 'character') + 1.
-	[ segment := segmentCollector cachedAt: (aDictionary at: 'line') + 1.
+	[ segment := segmentCollector cachedSegmentAt: (aDictionary at: 'line') + 1.
 	index := segment textStart.
 	str := segment text ]
 		on: Error
@@ -140,9 +140,9 @@ GtLSPEditorModel >> onTextsDeleted: aBlTextsDeleted [
 { #category : #accessing }
 GtLSPEditorModel >> positionFor: anInteger [
 	^ [ | line character |
-	line := segmentCollector cachedSegmentIndexAt: anInteger.
+	line := segmentCollector privateFindCachedSegmentIndexForLetterAt: anInteger.
 	character := 0.
-	(segmentCollector cachedAt: line) textStart + 1
+	(segmentCollector cachedSegmentAt: line) textStart + 1
 		to: (anInteger min: text size)
 		do: [ :i | character := character + (self characterSizeOf: (text at: i)) ].
 	GtLSPPositionStructure create
