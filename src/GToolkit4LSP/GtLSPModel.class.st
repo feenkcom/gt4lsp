@@ -36,9 +36,9 @@ GtLSPModel >> filename [
 { #category : #accessing }
 GtLSPModel >> gtDefaultInspectorTool [
 	^ GtPhlowCompositeTool new
-		addTool: (GtPhlowValuableTool new
+		addTool: (GtPhlowExplicitTool new
 				name: self gtDisplayString;
-				valuable: [ GtLSPCoder new object: self ]);
+				stencil: [ GtLSPCoder new object: self ]);
 		addTool: super gtDefaultInspectorTool
 ]
 
