@@ -393,7 +393,7 @@ GtLSPCoder >> updateContentsTo: aLSPObject [
 	self lspFile diagnostics
 		ifNil: [ self lspClient
 				requestDiagnosticsFor: self lspFile filename
-				do: [ :diags | self lspFile diagnostics: diags ]
+				do: [ :diags | self lspFile diagnostics: diags items ]
 				onError: [ self lspFile diagnostics: #() ] ]
 		ifNotNil: [ self updateDiagnostics ]
 ]
