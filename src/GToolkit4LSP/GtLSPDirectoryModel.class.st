@@ -329,7 +329,10 @@ GtLSPDirectoryModel >> startFileWatcher [
 	self stopFileWatcher.
 	fileWatcher := GtFileWatcherEventLoop new.
 	fileWatcher watch: filename.
-	fileWatcher onEvent: [ :anEvent | self updateFileEvent: anEvent ].
+	fileWatcher announcer
+		when: GtFileWatcherChangeAnnouncement
+		send: #updateFileEvent:
+		to: self.
 	fileWatcher startLoop
 ]
 
