@@ -298,7 +298,7 @@ GtLanguageServerProtocolStdioClient >> handleUnknownResult: aDictionary [
 { #category : #accessing }
 GtLanguageServerProtocolStdioClient >> initialize [
 	super initialize.
-	mutex := Monitor new.
+	mutex := Mutex new.
 	nextId := 1.
 	resultHandlers := Dictionary new.
 	methodHandlers := Dictionary new.
