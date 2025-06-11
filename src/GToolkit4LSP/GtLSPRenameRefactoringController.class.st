@@ -47,7 +47,8 @@ GtLSPRenameRefactoringController >> installRenameAction: intervals [
 		do: [ :ann | 
 			(#(#textUpdated #accept) includes: ann eventType)
 				ifTrue: [ self addRefactoringPreview ].
-			ann eventType = #cancel ifTrue: [ self cancelRefactoring ] ].
+			ann eventType = #cancel ifTrue: [ self cancelRefactoring ] ]
+		for: self.
 	editor
 		inUIProcessDo: [ renameAction install.
 			self addRefactoringPreview ]
