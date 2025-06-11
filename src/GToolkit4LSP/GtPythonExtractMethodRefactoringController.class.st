@@ -40,7 +40,8 @@ GtPythonExtractMethodRefactoringController >> addRenamerFor: ref [
 			(#(#textUpdated #accept) includes: ann eventType)
 				ifTrue: [ functionName := ann renameAction newName.
 					self addRefactoringPreview: ref ].
-			ann eventType = #cancel ifTrue: [ self cancelRefactoring ] ].
+			ann eventType = #cancel ifTrue: [ self cancelRefactoring ] ]
+		for: self.
 	renameAction install
 ]
 
