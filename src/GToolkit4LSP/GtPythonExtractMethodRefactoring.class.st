@@ -363,7 +363,7 @@ GtPythonExtractMethodRefactoring >> preconditions [
 ]
 
 { #category : #transforming }
-GtPythonExtractMethodRefactoring >> privateTranform [
+GtPythonExtractMethodRefactoring >> privateTransform [
 	self basicTransform
 ]
 
