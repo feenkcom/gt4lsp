@@ -66,7 +66,7 @@ GtLSPRenameRefactoring >> preconditions [
 ]
 
 { #category : #transforming }
-GtLSPRenameRefactoring >> privateTranform [
+GtLSPRenameRefactoring >> privateTransform [
 	self basicTransform
 ]
 
