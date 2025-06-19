@@ -104,6 +104,69 @@ GtPythonExtractMethodRefactoring >> ast: anObject [
 	ast := anObject
 ]
 
+{ #category : #transforming }
+GtPythonExtractMethodRefactoring >> basicTransform [
+	| source isMoving position defLocation callLoc offset |
+	source := SmaCCString on: nodesToExtract first completeSource.
+	defLocation := (source
+			insert: (String
+					streamContents: [ :stream | 
+						stream << 'def ' << self functionName << '('.
+						self arguments
+							do: [ :each | stream << each ]
+							separatedBy: [ stream << ', ' ].
+						stream << '):' << String lf << self whitespaceBeforeFunction << '    '.
+						self variablesForGlobals notEmpty
+							ifTrue: [ stream << 'global '.
+								self variablesForGlobals
+									do: [ :each | stream << each ]
+									separatedBy: [ stream << ', ' ].
+								stream << String lf << self whitespaceBeforeFunction << '    ' ] ])
+			at: self positionForNewFunction) + 4.
+	isMoving := nodesToExtract first startPosition ~= self positionForNewFunction.
+	isMoving
+		ifTrue: [ position := self positionForNewFunction.
+			source
+				moveFrom: nodesToExtract first startPosition
+				to: nodesToExtract last stopPosition
+				before: position ]
+		ifFalse: [ position := nodesToExtract last stopPosition + 1 ].
+	self fixIndents: source.
+	nodesToExtract size = 1
+		ifTrue: [ (self isUsed: nodesToExtract first)
+				ifTrue: [ source insert: 'return ' at: nodesToExtract first startPosition ] ].
+	source insert: String lf at: position.
+	source insert: String lf at: position.
+	source insert: self whitespaceBeforeFunction at: position.
+	offset := 0.
+	callLoc := (source
+			insert: (String
+					streamContents: [ :stream | 
+						self containsReturn
+							ifTrue: [ stream << 'return '.
+								offset := 7 ].
+						self isInsideClass
+							ifTrue: [ stream << self selfArgument << '.'.
+								offset := offset + self selfArgument size + 1 ].
+						stream << self functionName << '('.
+						(self isInsideClass
+							ifTrue: [ self arguments allButFirst ]
+							ifFalse: [ self arguments ])
+							do: [ :each | stream << each ]
+							separatedBy: [ stream << ', ' ].
+						stream << ')' ])
+			at: nodesToExtract last stopPosition + 1) + offset.
+	functionLocation := source newPositionFor: defLocation.
+	callLocation := source newPositionFor: callLoc.
+	self changes
+		addChange: (GtLSPFileChange new
+				name: lspFile filename basename;
+				lspFile: lspFile;
+				newSource: source asString;
+				yourself).
+	newSource := source asString
+]
+
 { #category : #accessing }
 GtPythonExtractMethodRefactoring >> callLocation [
 	^ callLocation
@@ -300,6 +363,11 @@ GtPythonExtractMethodRefactoring >> preconditions [
 ]
 
 { #category : #transforming }
+GtPythonExtractMethodRefactoring >> privateTranform [
+	self basicTransform
+]
+
+{ #category : #transforming }
 GtPythonExtractMethodRefactoring >> replaceIndentsIn: source from: oldWS to: newWS at: index [
 	| offset |
 	offset := 0.
@@ -324,65 +392,7 @@ GtPythonExtractMethodRefactoring >> selfArgument [
 
 { #category : #transforming }
 GtPythonExtractMethodRefactoring >> transform [
-	| source isMoving position defLocation callLoc offset |
-	source := SmaCCString on: nodesToExtract first completeSource.
-	defLocation := (source
-			insert: (String
-					streamContents: [ :stream | 
-						stream << 'def ' << self functionName << '('.
-						self arguments
-							do: [ :each | stream << each ]
-							separatedBy: [ stream << ', ' ].
-						stream << '):' << String lf << self whitespaceBeforeFunction << '    '.
-						self variablesForGlobals notEmpty
-							ifTrue: [ stream << 'global '.
-								self variablesForGlobals
-									do: [ :each | stream << each ]
-									separatedBy: [ stream << ', ' ].
-								stream << String lf << self whitespaceBeforeFunction << '    ' ] ])
-			at: self positionForNewFunction) + 4.
-	isMoving := nodesToExtract first startPosition ~= self positionForNewFunction.
-	isMoving
-		ifTrue: [ position := self positionForNewFunction.
-			source
-				moveFrom: nodesToExtract first startPosition
-				to: nodesToExtract last stopPosition
-				before: position ]
-		ifFalse: [ position := nodesToExtract last stopPosition + 1 ].
-	self fixIndents: source.
-	nodesToExtract size = 1
-		ifTrue: [ (self isUsed: nodesToExtract first)
-				ifTrue: [ source insert: 'return ' at: nodesToExtract first startPosition ] ].
-	source insert: String lf at: position.
-	source insert: String lf at: position.
-	source insert: self whitespaceBeforeFunction at: position.
-	offset := 0.
-	callLoc := (source
-			insert: (String
-					streamContents: [ :stream | 
-						self containsReturn
-							ifTrue: [ stream << 'return '.
-								offset := 7 ].
-						self isInsideClass
-							ifTrue: [ stream << self selfArgument << '.'.
-								offset := offset + self selfArgument size + 1 ].
-						stream << self functionName << '('.
-						(self isInsideClass
-							ifTrue: [ self arguments allButFirst ]
-							ifFalse: [ self arguments ])
-							do: [ :each | stream << each ]
-							separatedBy: [ stream << ', ' ].
-						stream << ')' ])
-			at: nodesToExtract last stopPosition + 1) + offset.
-	functionLocation := source newPositionFor: defLocation.
-	callLocation := source newPositionFor: callLoc.
-	self changes
-		addChange: (GtLSPFileChange new
-				name: lspFile filename basename;
-				lspFile: lspFile;
-				newSource: source asString;
-				yourself).
-	newSource := source asString
+	self basicTransform
 ]
 
 { #category : #accessing }
