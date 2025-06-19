@@ -9,6 +9,27 @@ Class {
 	#category : #'GToolkit4LSP-Refactoring'
 }
 
+{ #category : #transforming }
+GtLSPRenameRefactoring >> basicTransform [
+	| semaphore errorMessage |
+	self changes name: 'Rename'.
+	semaphore := Semaphore new.
+	self lspClient
+		renameFor: self lspFile filename
+		at: location
+		to: newName
+		do: [ :changes | 
+			self applyChanges: changes documentChanges.
+			semaphore signal ]
+		onError: [ :error | 
+			errorMessage := (error at: 'error' ifAbsent: [ Dictionary new ])
+					at: 'message'
+					ifAbsent: [ 'Refactoring error' ].
+			semaphore signal ].
+	semaphore wait.
+	errorMessage ifNotNil: [ self refactoringError: errorMessage ]
+]
+
 { #category : #accessing }
 GtLSPRenameRefactoring >> location [
 	^ location
@@ -44,23 +65,12 @@ GtLSPRenameRefactoring >> preconditions [
 	^ RBCondition empty
 ]
 
-{ #category : #accessing }
+{ #category : #transforming }
+GtLSPRenameRefactoring >> privateTranform [
+	self basicTransform
+]
+
+{ #category : #transforming }
 GtLSPRenameRefactoring >> transform [
-	| semaphore errorMessage |
-	self changes name: 'Rename'.
-	semaphore := Semaphore new.
-	self lspClient
-		renameFor: self lspFile filename
-		at: location
-		to: newName
-		do: [ :changes | 
-			self applyChanges: changes documentChanges.
-			semaphore signal ]
-		onError: [ :error | 
-			errorMessage := (error at: 'error' ifAbsent: [ Dictionary new ])
-					at: 'message'
-					ifAbsent: [ 'Refactoring error' ].
-			semaphore signal ].
-	semaphore wait.
-	errorMessage ifNotNil: [ self refactoringError: errorMessage ]
+	self basicTransform
 ]
