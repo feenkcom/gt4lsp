@@ -62,7 +62,7 @@ GtLSPRenameRefactoring >> newName: aString [
 
 { #category : #accessing }
 GtLSPRenameRefactoring >> preconditions [
-	^ RBCondition empty
+	^ RBCondition true
 ]
 
 { #category : #transforming }
