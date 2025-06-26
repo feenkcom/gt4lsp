@@ -110,7 +110,7 @@ GtLSPDirectoryModel class >> onDirectory: aDirectory [
 
 { #category : #accessing }
 GtLSPDirectoryModel class >> registry [
-	^ Registry ifNil: [ Registry := WeakRegistry new ]
+	^ Registry ifNil: [ Registry := FinalizationRegistry new. ]
 ]
 
 { #category : #accessing }
