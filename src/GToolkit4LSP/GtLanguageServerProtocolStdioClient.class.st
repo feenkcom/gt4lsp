@@ -337,6 +337,11 @@ GtLanguageServerProtocolStdioClient >> initializeParameters [
 	^ GtLSPInitializeParamsStructure create
 ]
 
+{ #category : #'as yet unclassified' }
+GtLanguageServerProtocolStdioClient >> isRunning [
+	^ externalProcess isRunning
+]
+
 { #category : #refactoring }
 GtLanguageServerProtocolStdioClient >> linkedEditingRangesFor: aFileReference at: aPosition do: aBlock onError: errorBlock [
 	| params |
@@ -659,17 +664,16 @@ GtLanguageServerProtocolStdioClient >> shutdown [
 { #category : #running }
 GtLanguageServerProtocolStdioClient >> start [
 	| currentOutput previous |
-	externalProcess := [ 
-		(GtExternalProcessBuilder new: program)
+	externalProcess := [ (GtExternalProcessBuilder new: program)
 			args: self arguments;
 			pipeStdin;
 			pipeStdout;
 			pipeStderr;
-			spawn ] 
-				on: GtExternalProcessFailedToStart
-				do: [ :exception |
-					"We want to be resilient against failures" 
-					exception child ].
+			spawn ]
+			on: GtExternalProcessFailedToStart
+			do: [ :exception | 
+			 "We want to be resilient against failures"
+			 exception child ].
 	stdout := externalProcess asynchronousStdout.
 	stderr := externalProcess asynchronousStderr.
 	stdin := externalProcess stdin.
@@ -680,6 +684,8 @@ GtLanguageServerProtocolStdioClient >> start [
 				currentOutput := currentOutput , str.
 				[ currentOutput := self processMessagePart: currentOutput.
 				previous = currentOutput ] whileFalse: [ previous := currentOutput ] ]
+			onExit: [ errorHandlers do: [ :anErrorHandler | anErrorHandler cull: nil ].
+				self terminate ]
 ]
 
 { #category : #accessing }
@@ -737,7 +743,9 @@ GtLanguageServerProtocolStdioClient >> terminate [
 	stdin
 		ifNotNil: [ stdin release.
 			stdin := nil ].
-	resultHandlers := Dictionary new
+	resultHandlers := Dictionary new.
+	methodHandlers := Dictionary new.
+	errorHandlers := Dictionary new
 ]
 
 { #category : #'document synchronization' }
