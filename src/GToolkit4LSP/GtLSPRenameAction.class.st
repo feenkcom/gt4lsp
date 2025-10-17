@@ -11,7 +11,7 @@ GtLSPRenameAction >> lostFocus [
 { #category : #accessing }
 GtLSPRenameAction >> processReturnFor: renameEditor in: anEditorElement [
 	anEditorElement
-		allChildrenBreadthFirstDo: [ :each | (each isKindOf: GtRefactoringsPreviewButton) ifTrue: [ ^ each openPreview ] ].
+		allChildrenBreadthFirstDo: [ :each | ((each isKindOf: GtRefactoringsPreviewButton) or: [ each isKindOf: GtRefactoringsInDropdownPreviewElement ]) ifTrue: [ ^ each openPreview ] ].
 	^ super processReturnFor: renameEditor in: anEditorElement
 ]
 
