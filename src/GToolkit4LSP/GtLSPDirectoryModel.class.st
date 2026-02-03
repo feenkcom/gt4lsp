@@ -220,7 +220,7 @@ GtLSPDirectoryModel >> fileMappings [
 					ifFalse: [ [ :each | each asLowercase ] ].
 			fileMappings := Dictionary new.
 			self files
-				do: [ :each | fileMappings at: (uriBlock value: each filename uri printString) put: each ].
+				do: [ :each | fileMappings at: (uriBlock value: each filename uri printString urlDecoded) put: each ].
 			fileMappings ]
 ]
 
