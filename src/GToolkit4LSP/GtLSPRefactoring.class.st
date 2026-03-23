@@ -1,6 +1,6 @@
 Class {
 	#name : #GtLSPRefactoring,
-	#superclass : #RBRefactoring,
+	#superclass : #ReRefactoring,
 	#category : #'GToolkit4LSP-Refactoring'
 }
 
