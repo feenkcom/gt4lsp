@@ -89,7 +89,7 @@ GtLSPRustPlugInModel >> spawnImage [
 				runner port printString.
 				'--libraryDirectory'.
 				(self filename / 'target' / 'debug') fullName.
-				'--detachChangesFromFileSystem'.
+				'--detachChanges'.
 				'--noLepiterReload'.
 				'--noGtImageUpdate'}.
 	process runAndWait.
