@@ -23,7 +23,7 @@ GtLSPRustPlugInModel class >> commandLine [
 
 { #category : #accessing }
 GtLSPRustPlugInModel class >> commandLineCommand [
-	^ (ClapCommand id: #addOnTestImage)
+	^ (ClapCommandSpec id: #addOnTestImage)
 		description: 'Run the add-on test image';
 		add: ClapFlag forHelp;
 		add: ((ClapFlag id: #log) description: 'Enable logging to stdout');
