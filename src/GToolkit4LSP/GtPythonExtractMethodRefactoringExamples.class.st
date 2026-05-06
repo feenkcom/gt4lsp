@@ -16,14 +16,14 @@ GtPythonExtractMethodRefactoringExamples >> extractStatement [
 	change := refactoring model changes gtAllChanges
 			detect: [ :each | each class = GtLSPFileChange ].
 	self
-		assert: change newSource
+		assert: change newSource lines
 		equals: 'def statement2():
     print("Statement 2")
 
 def print_lines():
   print("Statement 1")
   statement2()
-  print("Statement 3")'.
+  print("Statement 3")' lines.
 	^ change
 ]
 
