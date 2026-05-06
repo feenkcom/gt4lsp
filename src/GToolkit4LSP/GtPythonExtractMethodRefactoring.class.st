@@ -26,6 +26,17 @@ GtPythonExtractMethodRefactoring class >> extract: anInterval from: aLSPFile [
 	^ ref
 ]
 
+{ #category : #preconditions }
+GtPythonExtractMethodRefactoring >> applicabilityPreconditions [
+	^ self
+		applicabilityPreconditionsFor: {RBCondition
+					withBlock: [ self verifyInterval.
+						self checkNodeTypes.
+						self checkReturn.
+						self checkAssignedLocals.
+						true ]}
+]
+
 { #category : #accessing }
 GtPythonExtractMethodRefactoring >> arguments [
 	^ arguments
@@ -350,16 +361,6 @@ GtPythonExtractMethodRefactoring >> positionForNewFunction [
 	^ ((nodesToExtract first parentOfType: PyFunctionDefinitionNode)
 		ifNil: [ nodesToExtract first lookupNode: [ :each | each parent parent isNil ] ])
 		startPosition
-]
-
-{ #category : #preconditions }
-GtPythonExtractMethodRefactoring >> preconditions [
-	^ RBCondition
-		withBlock: [ self verifyInterval.
-			self checkNodeTypes.
-			self checkReturn.
-			self checkAssignedLocals.
-			true ]
 ]
 
 { #category : #transforming }
