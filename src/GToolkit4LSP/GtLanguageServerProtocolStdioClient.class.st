@@ -475,6 +475,7 @@ GtLanguageServerProtocolStdioClient >> program: aString [
 GtLanguageServerProtocolStdioClient >> receiveContentFrom: aStream using: headers [
 	| bytes length data json |
 	length := (headers at: 'content-length' ifAbsent: [ 0 ]) asNumber.
+	aStream position + length > aStream size ifTrue: [ ^ false ].
 	bytes := aStream next: length.
 	bytes size = length ifFalse: [ ^ false ].
 	json := bytes utf8Decoded.
