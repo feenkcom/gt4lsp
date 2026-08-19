@@ -40,7 +40,15 @@ GtLSPRenameRefactoringController >> cleanUp [
 { #category : #accessing }
 GtLSPRenameRefactoringController >> installRenameAction: intervals [
 	locations := self locationsForRanges: intervals.
+	editor
+		selectedStringAndIntervalDo: [ :aSelectedString :aSelectedInterval :aTextSize :aDocumentId :aCaretOffset | self installRenameActionDocumentId: aDocumentId ]
+		orCursorPositionDo: [ :aStringPosition :aTextSize :aDocumentId :aCaretOffset | self installRenameActionDocumentId: aDocumentId ]
+]
+
+{ #category : #accessing }
+GtLSPRenameRefactoringController >> installRenameActionDocumentId: aDocumentId [
 	renameAction := GtLSPRenameAction locations: locations element: editor.
+	renameAction documentId: aDocumentId.
 	renameAction selectAll: true.
 	renameAction
 		when: GtRenameActionAnnouncement

@@ -29,10 +29,18 @@ GtPythonExtractMethodRefactoringController >> addRefactoringPreview: ref [
 { #category : #accessing }
 GtPythonExtractMethodRefactoringController >> addRenamerFor: ref [
 	self uninstallRenamer.
+	editor
+		selectedStringAndIntervalDo: [ :aSelectedString :aSelectedInterval :aTextSize :aDocumentId :aCaretOffset | self addRenamerFor: ref documentId: aDocumentId ]
+		orCursorPositionDo: [ :aStringPosition :aTextSize :aDocumentId :aCaretOffset | self addRenamerFor: ref documentId: aDocumentId ]
+]
+
+{ #category : #accessing }
+GtPythonExtractMethodRefactoringController >> addRenamerFor: ref documentId: aDocumentId [
 	renameAction := GtLSPRenameAction
 			locations: {ref functionLocation to: ref functionLocation + ref functionName size - 1.
 					ref callLocation to: ref callLocation + ref functionName size - 1}
 			element: editor.
+	renameAction documentId: aDocumentId.
 	renameAction selectAll: true.
 	renameAction
 		when: GtRenameActionAnnouncement
