@@ -2,7 +2,8 @@ Class {
 	#name : #GtLSPEditorAptitude,
 	#superclass : #BrGlamorousCodeEditorAptitude,
 	#instVars : [
-		'lspFile'
+		'lspFile',
+		'synchronizingText'
 	],
 	#category : #'GToolkit4LSP-Aptitudes'
 }
@@ -55,8 +56,9 @@ GtLSPEditorAptitude >> lspFile: aLSPFile [
 				to: self ]
 ]
 
-{ #category : #initialization }
+{ #category : #updating }
 GtLSPEditorAptitude >> updateServerWith: lspTextDocumentContentChanged [
+	synchronizingText == true ifTrue: [ ^ self ].
 	self lspClient
 		ifNotNil: [ :client | 
 			client supportsIncrementalUpdates
@@ -68,10 +70,12 @@ GtLSPEditorAptitude >> updateServerWith: lspTextDocumentContentChanged [
 									yourself} ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 GtLSPEditorAptitude >> updateText: anAnnouncement [
 	widget
 		ifNotNil: [ widget
 				inUIProcessDo: [ widget editor text asString ~= lspFile source
-						ifTrue: [ widget editor text: lspFile source asRopedText ] ] ]
+						ifTrue: [ synchronizingText := true.
+							[ widget editor text: lspFile source asRopedText ]
+								ensure: [ synchronizingText := false ] ] ] ]
 ]

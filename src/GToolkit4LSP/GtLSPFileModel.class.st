@@ -135,8 +135,11 @@ GtLSPFileModel >> editor [
 	aptitude := GtLSPEditorAptitude new.
 	aptitude lspFile: self.
 	self styler ifNotNil: [ :styler | aptitude styler: styler ].
-	editor aptitude: aptitude.
 	editor editor text: self source asRopedText.
+	editor aptitude: aptitude.
+	editor
+		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude
+				menu: [ self directory contextMenuFor: (GtLSPEditorContext file: self editor: editor) ]).
 	^ editor
 ]
 
