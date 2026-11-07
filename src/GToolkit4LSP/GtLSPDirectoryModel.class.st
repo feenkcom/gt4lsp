@@ -9,7 +9,8 @@ Class {
 		'files',
 		'styler',
 		'filename',
-		'fileMappings'
+		'fileMappings',
+		'editorIntegration'
 	],
 	#classVars : [
 		'Registry'
@@ -82,11 +83,16 @@ GtLSPDirectoryModel class >> local [
 ]
 
 { #category : #'instance creation' }
+GtLSPDirectoryModel class >> lspClientClass [
+	^ GtLanguageServerProtocolStdioClient
+]
+
+{ #category : #'instance creation' }
 GtLSPDirectoryModel class >> onDirectory: aDirectory [
 	| client dir semaphore model |
 	semaphore := Semaphore new.
 	dir := aDirectory asFileReference.
-	client := GtLanguageServerProtocolStdioClient new
+	client := self lspClientClass new
 			program: self executable;
 			arguments: self arguments;
 			defaultLanguageType: self languageType;
@@ -139,6 +145,31 @@ GtLSPDirectoryModel >> allSymbolsStream [
 	^ self files asAsyncStream flatCollect: [ :each | each symbolStream ]
 ]
 
+{ #category : #'editor extensions' }
+GtLSPDirectoryModel >> contextMenuFor: aContext [
+	| menu pragmas selectors |
+	menu := BrMenuItems new.
+	pragmas := Pragma
+			allNamed: #gtLSPContextMenuAddOns
+			from: self class
+			to: GtLSPDirectoryModel.
+	selectors := OrderedCollection new.
+	pragmas
+		do: [ :each | 
+			(selectors includes: each method selector)
+				ifFalse: [ selectors add: each method selector.
+					self
+						perform: each method selector
+						with: aContext
+						with: menu ] ].
+	^ menu
+]
+
+{ #category : #'editor extensions' }
+GtLSPDirectoryModel >> createEditorIntegration [
+	^ nil
+]
+
 { #category : #accessing }
 GtLSPDirectoryModel >> createFile: aString [
 	| file fileRef |
@@ -160,6 +191,12 @@ GtLSPDirectoryModel >> diffSplitter [
 { #category : #accessing }
 GtLSPDirectoryModel >> diffStyler [
 	^ self styler ifNil: [ BlTextNullStyler new ]
+]
+
+{ #category : #'editor extensions' }
+GtLSPDirectoryModel >> editorIntegration [
+	^ editorIntegration
+		ifNil: [ editorIntegration := self createEditorIntegration ]
 ]
 
 { #category : #accessing }
