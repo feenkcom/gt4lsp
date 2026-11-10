@@ -41,8 +41,9 @@ GtLSPRenameRefactoringController >> cleanUp [
 GtLSPRenameRefactoringController >> installRenameAction: intervals [
 	locations := self locationsForRanges: intervals.
 	editor
-		selectedStringAndIntervalDo: [ :aSelectedString :aSelectedInterval :aTextSize :aDocumentId :aCaretOffset | self installRenameActionDocumentId: aDocumentId ]
-		orCursorPositionDo: [ :aStringPosition :aTextSize :aDocumentId :aCaretOffset | self installRenameActionDocumentId: aDocumentId ]
+		inUIProcessDo: [ editor
+				selectedStringAndIntervalDo: [ :aSelectedString :aSelectedInterval :aTextSize :aDocumentId :aCaretOffset | self installRenameActionDocumentId: aDocumentId ]
+				orCursorPositionDo: [ :aStringPosition :aTextSize :aDocumentId :aCaretOffset | self installRenameActionDocumentId: aDocumentId ] ]
 ]
 
 { #category : #accessing }

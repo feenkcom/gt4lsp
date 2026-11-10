@@ -6,13 +6,7 @@ Class {
 
 { #category : #accessing }
 GtLSPRustModel class >> downloadExecutable [
-	| downloadFile programName tags downloaded executableFile |
-	downloadFile := 'rust-analyzer-' , Smalltalk vm architectureName
-			, (Smalltalk os isMacOS
-					ifTrue: [ '-apple-darwin.gz' ]
-					ifFalse: [ Smalltalk os isWindows
-							ifTrue: [ '-pc-windows-msvc.gz' ]
-							ifFalse: [ '-unknown-linux-gnu.gz' ] ]).
+	| programName tags downloaded executableFile |
 	programName := 'rust-analyzer'
 			, (Smalltalk os isWindows ifTrue: [ '.exe' ] ifFalse: [ '' ]).
 	executableFile := '.' asFileReference / programName.
@@ -29,7 +23,7 @@ GtLSPRustModel class >> downloadExecutable [
 			ZnOptions globalDefault clone
 				at: #queryKeyValueSafeSet put: ZnOptions queryKeyValueSafeSet \ '/;';
 				during: [ ('https://github.com/rust-lang/rust-analyzer/releases/download/' , each , '/'
-						, downloadFile) asUrl saveContentsToFile: downloaded.
+						, self downloadFile) asUrl saveContentsToFile: downloaded.
 					true ] ] on: Error do: [ :ex | ex return: false ] ].
 	GZipReadStream unzip: downloaded.
 	downloaded ensureDelete.
@@ -39,6 +33,22 @@ GtLSPRustModel class >> downloadExecutable [
 						streamContents: [ :stream | stream << 'chmod +x "' << executableFile pathString << '"' ]);
 				runAndWait ].
 	self executable: executableFile pathString
+]
+
+{ #category : #accessing }
+GtLSPRustModel class >> downloadFile [
+	^ 'rust-analyzer-' , Smalltalk vm architectureName
+		, (Smalltalk os isMacOS
+				ifTrue: [ '-apple-darwin.gz' ]
+				ifFalse: [ Smalltalk os isWindows
+						ifTrue: [ '-pc-windows-msvc.gz' ]
+						ifFalse: [ '-unknown-linux-gnu.gz' ] ])
+]
+
+{ #category : #accessing }
+GtLSPRustModel class >> downloadOptions [
+	^ {{'Download rust-analyzer from https://github.com/rust-lang/rust-analyzer/releases/download/'.
+			[ self downloadExecutable ]}}
 ]
 
 { #category : #accessing }

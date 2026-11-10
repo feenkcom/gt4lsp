@@ -89,11 +89,15 @@ GtLSPDirectoryModel class >> lspClientClass [
 
 { #category : #'instance creation' }
 GtLSPDirectoryModel class >> onDirectory: aDirectory [
-	| client dir semaphore model |
+	| client dir semaphore model program |
+	program := self executable.
+	program
+		ifNil: [ GtLSPNoProgramSpecifiedError signal: 'No LSP program specified'.
+			^ self onDirectory: aDirectory ].
 	semaphore := Semaphore new.
 	dir := aDirectory asFileReference.
 	client := self lspClientClass new
-			program: self executable;
+			program: program;
 			arguments: self arguments;
 			defaultLanguageType: self languageType;
 			start;
