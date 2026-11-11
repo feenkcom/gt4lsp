@@ -134,8 +134,8 @@ GtLSPDirectoryModel >> addFile: file [
 	fileMappings
 		ifNotNil: [ fileMappings
 				at: (self fileSystemIsCaseSensitive
-						ifTrue: [ file filename uri ]
-						ifFalse: [ file filename uri asLowercase ])
+						ifTrue: [ file filename uri printString urlDecoded ]
+						ifFalse: [ file filename uri printString urlDecoded asLowercase ])
 				put: file ].
 	^ file
 ]
@@ -235,13 +235,11 @@ GtLSPDirectoryModel >> fileDeleted: aFileReference [
 
 { #category : #accessing }
 GtLSPDirectoryModel >> fileFor: aFileReference [
-	^ self files
-		detect: [ :each | 
-			each filename fileSystem isCaseSensitive
-				ifTrue: [ each filename = aFileReference ]
-				ifFalse: [ each filename absolutePath pathString
-						sameAs: aFileReference absolutePath pathString ] ]
-		ifNone: [  ]
+	^ self fileMappings
+		at: (self fileSystemIsCaseSensitive
+				ifTrue: [ aFileReference uri printString urlDecoded ]
+				ifFalse: [ aFileReference uri printString urlDecoded asLowercase ])
+		ifAbsent: [  ]
 ]
 
 { #category : #accessing }

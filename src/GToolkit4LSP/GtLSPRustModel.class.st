@@ -18,10 +18,11 @@ GtLSPRustModel class >> downloadExecutable [
 	((tags collect: [ :each | each name jsonObject ])
 		asSortedCollection: [ :a :b | a > b ])
 		detect: [ :each | 
-			[ Date fromString: each.
+			[ Date readFrom: each readStream pattern: 'yyyy-mm-dd'.
 			downloaded ensureDelete.
 			ZnOptions globalDefault clone
 				at: #queryKeyValueSafeSet put: ZnOptions queryKeyValueSafeSet \ '/;';
+				at: #maximumLineLength put: 1 << 14;
 				during: [ ('https://github.com/rust-lang/rust-analyzer/releases/download/' , each , '/'
 						, self downloadFile) asUrl saveContentsToFile: downloaded.
 					true ] ] on: Error do: [ :ex | ex return: false ] ].
